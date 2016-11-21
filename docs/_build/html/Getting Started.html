@@ -1,0 +1,255 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Getting Started &mdash; cobra 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="cobra 0.1 documentation" href="index.html" />
+    <link rel="next" title="IO" href="IO.html" />
+    <link rel="prev" title="Welcome to cobra’s documentation!" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="getting-started">
+<h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
+<p>The Cobra package is intended for Constraint Based Analysis.
+The package includes methods to read and write models, methods for simulation such as flux balanace analysis and gene deletion and methods
+to modify the model, such as changing reaction bounds, adding reactions or reducing the model</p>
+<ul>
+<li><dl class="first docutils">
+<dt><a class="reference internal" href="#installation"><span class="std std-ref">Installation</span></a></dt>
+<dd><ul class="first last simple">
+<li><a class="reference internal" href="#windows"><span class="std std-ref">Windows</span></a></li>
+<li><a class="reference internal" href="#linux"><span class="std std-ref">Linux</span></a></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p class="first"><a class="reference internal" href="#cobrasetup"><span class="std std-ref">Cobra Setup</span></a></p>
+</li>
+<li><p class="first"><a class="reference internal" href="#firstrun"><span class="std std-ref">First Run</span></a></p>
+</li>
+</ul>
+<div class="section" id="installation">
+<span id="id1"></span><h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>Firsty, you&#8217;ll need to install <a class="reference external" href="http://julialang.org/downloads/platform.html">Julia</a> (version 0.5 or above).</p>
+<p>In addition to Julia, you will also want to install a <strong>optimization solver</strong>.  Free solvers are available and Cobra supports both GLPK and Clp.
+Supported proprietery solvers are CPLEX and Gurobi</p>
+<div class="section" id="windows">
+<span id="id2"></span><h3>Windows<a class="headerlink" href="#windows" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="linux">
+<span id="id3"></span><h3>Linux<a class="headerlink" href="#linux" title="Permalink to this headline">¶</a></h3>
+<p>Ubuntu</p>
+<p>To install Julia, run:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">add</span><span class="o">-</span><span class="n">apt</span><span class="o">-</span><span class="n">repository</span> <span class="n">ppa</span><span class="p">:</span><span class="n">staticfloat</span><span class="o">/</span><span class="n">juliareleases</span>
+<span class="n">sudo</span> <span class="n">add</span><span class="o">-</span><span class="n">apt</span><span class="o">-</span><span class="n">repository</span> <span class="n">ppa</span><span class="p">:</span><span class="n">staticfloat</span><span class="o">/</span><span class="n">julia</span><span class="o">-</span><span class="n">deps</span>
+<span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">update</span>
+<span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">julia</span>
+</pre></div>
+</div>
+<p>In addition you may need to run:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">hdf5</span><span class="o">-</span><span class="n">tools</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="cobra-setup">
+<span id="cobrasetup"></span><h2>Cobra Setup<a class="headerlink" href="#cobra-setup" title="Permalink to this headline">¶</a></h2>
+<p>Wheter you are on Windows, Linux or MacOS, once you&#8217;re in the <strong>Julia REPL</strong> your interface will look something similar to this:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>david@david ~ $ julia
+               _
+   _       _ _(_)_     |  A fresh approach to technical computing
+  (_)     | (_) (_)    |  Documentation: http://docs.julialang.org
+   _ _   _| |_  __ _   |  Type &quot;?help&quot; for help.
+  | | | | | | |/ _` |  |
+  | | |_| | | | (_| |  |  Version 0.5.0 (2016-09-19 18:14 UTC)
+ _/ |\__&#39;_|_|_|\__&#39;_|  |
+|__/                   |  x86_64-linux-gnu
+
+julia&gt;
+</pre></div>
+</div>
+<p>There are a few packages necessary for Cobra to function properly. These can all be installed easily through the Julia REPL using the function <code class="docutils literal"><span class="pre">Pkg.add(&quot;package</span> <span class="pre">name&quot;)</span></code>, fx</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">Pkg</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;JSON&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You will need one of the following solvers.</p>
+<ul class="simple">
+<li>GLPK</li>
+<li>CPLEX</li>
+<li>Gurobi</li>
+<li>Clp</li>
+</ul>
+<p>And these packages</p>
+<ul class="simple">
+<li>JSON</li>
+<li>ProgressMeter</li>
+<li>JuMP</li>
+<li>MAT</li>
+<li>HDF5</li>
+<li>Combinatorics</li>
+</ul>
+<p>And then do:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">Pkg</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;Cobra&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>When Cobra finishes installation, call:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">using</span> <span class="n">Cobra</span>
+</pre></div>
+</div>
+<p>Now the toolbox is setup and ready for use!</p>
+</div>
+<div class="section" id="first-run">
+<span id="firstrun"></span><h2>First Run<a class="headerlink" href="#first-run" title="Permalink to this headline">¶</a></h2>
+<p>You can load the example model, <code class="docutils literal"><span class="pre">e_coli_core</span></code> which comes with the package by calling:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">using</span> <span class="n">Cobra</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">load_json</span><span class="p">(</span><span class="n">Pkg</span><span class="o">.</span><span class="n">dir</span><span class="p">()</span> <span class="o">*</span> <span class="s2">&quot;/Cobra/Models/e_coli_core.json&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>So your screen should read something like:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>               _
+   _       _ _(_)_     |  A fresh approach to technical computing
+  (_)     | (_) (_)    |  Documentation: http://docs.julialang.org
+   _ _   _| |_  __ _   |  Type &quot;?help&quot; for help.
+  | | | | | | |/ _` |  |
+  | | |_| | | | (_| |  |  Version 0.5.0 (2016-09-19 18:14 UTC)
+ _/ |\__&#39;_|_|_|\__&#39;_|  |
+|__/                   |  x86_64-linux-gnu
+
+julia&gt; using Cobra
+julia&gt; model = load_json(Pkg.dir() * &quot;/Cobra/Models/e_coli_core.json&quot;)
+
+           rxns :     95 Array{String,1}
+           mets :     72 Array{String,1}
+          genes :    137 Array{String,1}
+              S :   6840 SparseMatrixCSC{Float64,Int64}
+             lb :     95 Array{Float64,1}
+             ub :     95 Array{Float64,1}
+              c :     95 Array{Float64,1}
+              b :     72 Array{Float64,1}
+         csense :      3 Dict{String,Array{Any,1}}
+   rxn_gene_mat :  13015 SparseMatrixCSC{Float64,Int64}
+       rxn_name :     95 Array{String,1}
+      rxn_rules :     95 Array{String,1}
+  rxn_subsystem :     95 Array{String,1}
+      rxn_extra :      3 Dict{String,Array{Any,1}}
+    met_formula :     72 Array{String,1}
+       met_name :     72 Array{String,1}
+      met_extra :      2 Dict{String,Array{Any,1}}
+      gene_name :    137 Array{String,1}
+     gene_extra :      1 Dict{String,Array{Any,1}}
+    description :     11     String
+</pre></div>
+</div>
+<p>and to run flux balance analysis:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">fba</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>will return:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x</span><span class="p">::</span><span class="n">Array</span><span class="p">{</span><span class="n">Float64</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+<span class="n">y</span><span class="p">::</span><span class="n">Array</span><span class="p">{</span><span class="n">Float64</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+<span class="n">w</span><span class="p">::</span><span class="n">Array</span><span class="p">{</span><span class="n">Float64</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+<span class="n">f</span><span class="p">::</span><span class="mf">0.8739215069684305</span>
+<span class="n">status</span><span class="p">::</span><span class="n">Optimal</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Getting Started</a><ul>
+<li><a class="reference internal" href="#installation">Installation</a><ul>
+<li><a class="reference internal" href="#windows">Windows</a></li>
+<li><a class="reference internal" href="#linux">Linux</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#cobra-setup">Cobra Setup</a></li>
+<li><a class="reference internal" href="#first-run">First Run</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to cobra&#8217;s documentation!</a></li>
+      <li>Next: <a href="IO.html" title="next chapter">IO</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/Getting Started.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Davíð Isebarn & Steinn Guðmundsson.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="_sources/Getting Started.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,435 @@
+Analysis
+========
+
+Cobra offers many methods inteded for model analysis
+
+* :ref:`FBA`
+* :ref:`FVA`
+* :ref:`Robustness Analysis`
+* :ref:`Blocked Reactions`
+* :ref:`Dead end Metabolites`
+* :ref:`Exchange Reactions`
+* :ref:`Find reactions from genes`
+* :ref:`Find reactions from metabolites`
+* :ref:`Gene Deletion`
+* :ref:`Reaction Info`
+
+.. _FBA:
+
+FBA (Flux Balance Analysis)
+---------------------------
+
+``FBA(model; direction = "max", solver = "GLPK")``
+
+FBA calculates the flow of metabolites through a metabolic network, helping us predict the flow of metabolites, such as the growth of the organism\n
+
+The method is called as::
+
+	>>solution = FBA(model)
+		x::95
+		y::72
+		w::95
+		f::0.8739215069684305
+		status::Optimal
+
+
+FBASolution type
+""""""""""""""""
+
+As shown above, the **FBA(model)** method returns a **FBASolution** object, which has the fields::
+
+	>>fieldnames(FBASolution)
+	5-element Array{Symbol,1}:
+		:x     
+		:y     
+		:w     
+		:f     
+		:status
+
+Which can be called like regular objects::
+
+	>>solution.f
+		0.8739215069684305
+
+Where:
+
+* ``x`` is the primal solution
+* ``y`` is the slack
+* ``w`` is the reduced cost
+* ``f`` is the objective value
+* ``status`` is the status of the solution
+
+Optional arguements
+"""""""""""""""""""
+
+The method can be called having only the **model** as its parameter, but the method also accepts:
+
+* **direction**: "max" or "min" depending whether to maximize or minimize the objective. **max** is default
+* **solver**: Currently "GLPK", "CPLEX" and "Gurobi" are accepted. "GLPK" is the default solver
+
+The method can be equivaneltly called as::
+
+	solution = FBA(model)
+	solution = FBA(model, "max", "GLPK")
+
+
+.. _FVA:
+
+FVA (Flux Variability Analysis)
+-------------------------------
+
+``FVA(model; optPercentage = 100, solver = "GLPK",tol = 1e-6)``
+
+FVA finds the **minimum** and **maximum** flux of every reaction in the model
+
+The method returns an array for all **minimum** fluxes, **maximum** fluxes, and a matrix representing the system's flux both for the **minimum** and **maximum** calculations.::
+
+	minFlux, maxFlux, min, max = FVA(model)
+
+
+Optional arguements
+"""""""""""""""""""
+
+The method can be called having only the **model** as its parameter, but the method also accepts:
+
+* **optPercentage**. This parameter fixes the default objective growth to a minimum number between 0-100
+* **solver**: Currently "GLPK", "CPLEX" and "Gurobi" are accepted. "GLPK" is the default solver
+
+
+The method can be equivaneltly called as::
+
+	minFlux, maxFlux, min, max = FBA(model)
+	minFlux, maxFlux, min, max = FVA(model, 100, "GLPK")
+
+
+.. _RobustnessAnalysis:
+
+Robustness Analysis
+-------------------------------
+
+``robustness_analysis(model, reaction; objective = 0, numpoints = 20, direction = "max", draw = true)``
+
+``robustness_analysis(model, reaction_index; objective = 0, numpoints = 20, direction = "max", draw = true)``
+
+Robustness analysis is used to see how one reaction, the **objective reaction** is dependant on another reaction's flow, a **control reaction** (reaction_index)
+    
+The method finds the **minimum** and **maximum** fluxes of the **control reaction**, sets the models objective ``model.r.c`` to the supplied objective index
+    
+Then it fixes the control reaction to evenly spaced values, the number of which are decided by num_points (default 20 points) and performs a flux balance analysis for the objective reaction for every fixed value of the control reaction
+
+There are **two** types of robustness analysis, robustness-analysis and double robustness-analysis
+
+robustness_analysis
+"""""""""""""""""""
+
+Call the method by typing::
+
+    flux_values = robustness_analysis(model, reaction)
+
+This returns a vector with the FBA objective results for every step of the robustness analysis, and plots the vector to a 2-D graph
+
+Optional arguements
+"""""""""""""""""""
+
+* **objective**. This parameter allows you to temporarily set the objective. The default value usually being biomass growth. This parameter can be either a string or the integer index of the desired objective
+* **numpoints**. This parameter sets the number of points to plot, i.e the resolution of the graph. Default is 20
+* **direction**. Default is to maximize the objective. Accepts "min" or "max"
+* **draw**. Boolean. Default is true, which plots the resulting flux vector
+
+The method can be equicanetly called as::
+
+	flux_values = robustness_analysis(model, reaction)
+	flux_values = robustness_analysis(model, reaction, "", 20, "max", true)
+
+double_robustness_analysis
+""""""""""""""""""""""""""
+
+Similar to robustness_analysis, but instead of one **reaction** there are now two reactions, and a 3-D plot
+is drawn::
+
+	flux_values = robustness_analysis(model, reaction_A, reaction_B)
+
+
+.. _Blocked Reactions:
+
+Find Blocked Reactions
+-------------------------------
+
+``find_blocked_reactions(model; tolerance = 1e-10)``
+
+
+A simple method to identify the reactions whos minimum **and** maximum flow is **0.0**
+
+Call the method by typing::
+
+	blocked_reactions = find_blocked_reactions(model)
+	8-element Array{Any,1}:
+	 "EX_fru_e"   
+	 "EX_fum_e"   
+	 "EX_gln__L_e"
+	 "EX_mal__L_e"
+	 "FRUpts2"    
+	 "FUMt2_2"    
+	 "GLNabc"     
+	 "MALt2_2"
+
+Which returns the names of the blocked reactions
+
+Optional arguements
+"""""""""""""""""""
+
+The method may be called with a **tolerance** arguement, the default being **1e-10**
+
+The method can be equicanetly called as::
+
+	blocked_reactions = find_blocked_reactions(model, 1e-10)
+	blocked_reactions = find_blocked_reactions(model, tolerance = 1e-10)
+
+.. _Dead end Metabolites:
+
+Find Dead end Metabolites
+-------------------------------
+
+``find_deadend_metabolites(model::Model, lbfilter::Bool = true)``
+
+A method to find those metabolites that are **only produced** or **only consumed**.
+
+By default, those metabolites with a positive lower bound are filtered out of the results
+
+Call the method by typing::
+
+	find_deadend_metabolites(model)
+	5-element Array{Int64,1}:
+	 30
+	 32
+	 37
+	 49
+	 60
+
+Optional arguements
+"""""""""""""""""""
+
+The lbfilter may be set as either **true** or **false**
+
+.. _Exchange Reactions:
+
+Find Exchange Reactions
+------------------
+
+``find_exchange_reactions(model, output = "index")``
+
+A simple tool to find the exchange reactions in the model. 
+
+Call the method by typing::
+
+	find_exchange_reactions(model)
+	20-element Array{AbstractString,1}:
+	 20
+	 21
+	 22
+	 23
+	 24
+	 25
+	 26
+	 27
+	 28
+	 29
+	 30
+	 31
+	 32
+	 33
+	 34
+	 35
+	 36
+	 37
+	 38
+	 39
+
+Optional arguements
+"""""""""""""""""""
+
+By default the method returns the indices of the exchange reactions, to get the reaction names, call::
+
+	find_exchange_reactions(model, output = "name")
+	find_exchange_reactions(model, "name")
+
+.. _Find reactions from genes:
+
+Find Reactions from Genes
+-------------------------
+
+``find_reactions_from_gene(model, gene, output = "index")``
+
+``find_reactions_from_gene(model, gene_index; output = "index")``
+
+This method finds, given a gene name or the index of a gene, all the reactions that gene has an effect on
+
+Call the method by typing::
+
+	find_reactions_from_gene(model,"b1241")
+	2-element Array{Int64,1}:
+	  1
+	 10
+
+or equivalently (gene b1241 is number 2 in ``model.genes``)::
+
+	find_reactions_from_gene(model,2)
+	2-element Array{Int64,1}:
+	  1
+	 10
+
+Optional arguements
+"""""""""""""""""""
+
+* **output** can be set to **index/name**/**formula** to print out the reaction names/formulas 
+
+The method can be caled equivalently as::
+
+	find_reactions_from_gene(model,"b1241", output = "index")
+	find_reactions_from_gene(model,"b1241", "index")
+
+
+.. _Find reactions from metabolites:
+
+Find Reactions from Metabolites
+-------------------------------
+
+``find_reactions_from_metabolite(model::Model, metabolite::Int64; output::AbstractString = "index")``
+
+``find_reactions_from_metabolite(model::Model, metabolite::AbstractString; output::AbstractString = "index")``
+
+This method finds, fiven a metabolite name or the index of a metabolite, all the reactions that metabolite appears in
+
+Call the method by typing::
+
+	find_reactions_from_metabolite(model,"nh4_c")
+	4-element Array{Int64,1}:
+	 51
+	 53
+	 54
+	 69
+
+or equivalently (nh4_c being number 54 in ``model.mets``)::
+
+	find_reactions_from_metabolite(model,54)
+	4-element Array{AbstractString,1}:
+	 51
+	 53
+	 54
+	 69
+
+
+Optional arguements
+"""""""""""""""""""
+
+* **output** can be set to **index/name**/**formula** to print out the reaction names/formulas 
+
+The method can be caled equivalently as::
+
+	find_reactions_from_metabolite(model,"nh4_c", output = "index")
+	find_reactions_from_metabolite(model,"nh4_c", "index")
+
+.. _Gene Deletion:
+
+Gene Deletion 
+-------------
+
+``gene_deletion(model::Model, n::Number; solver::AbstractString = "glpk")``
+``parallel_dene_deletion(model::Model,n:Number; cores::Number = CPU_CORES, solver::AbstractString = "glpk")``
+
+Find the result of deleting any **combination** of genes from **1 -> n**
+
+
+
+gene_deletion
+"""""""""""""
+
+Call the method by typing::
+	result = gene_deletion(model,1,"glpk")
+	 pairs::Dictionary of deleted genes
+	 wild_type FBA
+
+This returns a ``GeneDeletion`` object
+
+The ``gene_deletion`` method returns a ``GeneDeletion`` object with fields::
+
+	fieldnames(GeneDeletion)
+	2-element Array{Symbol,1}:
+	 :pairs    
+	 :wild_type
+
+Where ``pairs`` is a dictionary, with keys for every combination of genes from **1 -> n**
+
+So calling::
+
+	res.pairs[["b2975","b0723"]]
+	0.9318
+
+Returns the growth as a ratio of the ``wild_type``, so knocking out *"b2975"* and *"b0723"* would
+result in the organism's growth reduced to 93% of its original growth
+
+The field ``wild_type`` is the results of claling ``FBA(model)``, simply for reference
+
+**Note:** This method is best suited for small models/small values of **n**, (n < 2), but can be used for any model, and any value of **n**, if you are prepared to wait
+
+parallel_gene_deletion
+""""""""""""""""""""""
+
+This method is intended for:
+* large models
+* high order of **n** (n > 2)
+
+
+.. _Reaction Info:
+
+Reaction Info
+-------------
+
+``reaction_info(model::Model, reaction)``
+``reaction_info(model::Model, reaction_index)``
+
+A simple method to print out all the information for a reaction
+
+Call the method by typing::
+
+	reaction_info(model,11)
+
+
+
+	 Reaction Name:     ATP maintenance requirement
+	   Reaction ID:                            ATPM
+	   Lower Bound:                            8.39
+	   Upper Bound:                          1000.0
+	     Subsystem:       Oxidative Phosphorylation
+	-----------------------------------------------
+	     Metabolite    Coefficient
+	          adp_c            1.0
+	          atp_c           -1.0
+	          h2o_c           -1.0
+	            h_c            1.0
+	           pi_c            1.0
+
+	-----------------------------------------------------------------------
+	b0118 || b1276
+
+or equivalently ( ATPM being number 11 in ``model.rxns``)::
+
+	reaction_info(model,"ATPM")
+
+
+
+	 Reaction Name:     ATP maintenance requirement
+	   Reaction ID:                            ATPM
+	   Lower Bound:                            8.39
+	   Upper Bound:                          1000.0
+	     Subsystem:       Oxidative Phosphorylation
+	-----------------------------------------------
+	     Metabolite    Coefficient
+	          adp_c            1.0
+	          atp_c           -1.0
+	          h2o_c           -1.0
+	            h_c            1.0
+	           pi_c            1.0
+
+	-----------------------------------------------------------------------
+	b0118 || b1276

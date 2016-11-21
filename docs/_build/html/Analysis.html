@@ -1,0 +1,517 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Analysis &mdash; cobra 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="cobra 0.1 documentation" href="index.html" />
+    <link rel="next" title="Modification" href="Modification.html" />
+    <link rel="prev" title="Model Structure" href="ModelStructure.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="analysis">
+<h1>Analysis<a class="headerlink" href="#analysis" title="Permalink to this headline">¶</a></h1>
+<p>Cobra offers many methods inteded for model analysis</p>
+<ul class="simple">
+<li><a class="reference internal" href="#fba"><span class="std std-ref">FBA (Flux Balance Analysis)</span></a></li>
+<li><a class="reference internal" href="#fva"><span class="std std-ref">FVA (Flux Variability Analysis)</span></a></li>
+<li><span class="xref std std-ref">Robustness Analysis</span></li>
+<li><a class="reference internal" href="#blocked-reactions"><span class="std std-ref">Find Blocked Reactions</span></a></li>
+<li><a class="reference internal" href="#dead-end-metabolites"><span class="std std-ref">Find Dead end Metabolites</span></a></li>
+<li><a class="reference internal" href="#exchange-reactions"><span class="std std-ref">Find Exchange Reactions</span></a></li>
+<li><a class="reference internal" href="#find-reactions-from-genes"><span class="std std-ref">Find Reactions from Genes</span></a></li>
+<li><a class="reference internal" href="#find-reactions-from-metabolites"><span class="std std-ref">Find Reactions from Metabolites</span></a></li>
+<li><a class="reference internal" href="#gene-deletion"><span class="std std-ref">Gene Deletion</span></a></li>
+<li><a class="reference internal" href="#reaction-info"><span class="std std-ref">Reaction Info</span></a></li>
+</ul>
+<div class="section" id="fba-flux-balance-analysis">
+<span id="fba"></span><h2>FBA (Flux Balance Analysis)<a class="headerlink" href="#fba-flux-balance-analysis" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal"><span class="pre">FBA(model;</span> <span class="pre">direction</span> <span class="pre">=</span> <span class="pre">&quot;max&quot;,</span> <span class="pre">solver</span> <span class="pre">=</span> <span class="pre">&quot;GLPK&quot;)</span></code></p>
+<p>FBA calculates the flow of metabolites through a metabolic network, helping us predict the flow of metabolites, such as the growth of the organismn</p>
+<p>The method is called as:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span><span class="n">solution</span> <span class="o">=</span> <span class="n">FBA</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+        <span class="n">x</span><span class="p">::</span><span class="mi">95</span>
+        <span class="n">y</span><span class="p">::</span><span class="mi">72</span>
+        <span class="n">w</span><span class="p">::</span><span class="mi">95</span>
+        <span class="n">f</span><span class="p">::</span><span class="mf">0.8739215069684305</span>
+        <span class="n">status</span><span class="p">::</span><span class="n">Optimal</span>
+</pre></div>
+</div>
+<div class="section" id="fbasolution-type">
+<h3>FBASolution type<a class="headerlink" href="#fbasolution-type" title="Permalink to this headline">¶</a></h3>
+<p>As shown above, the <strong>FBA(model)</strong> method returns a <strong>FBASolution</strong> object, which has the fields:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span><span class="n">fieldnames</span><span class="p">(</span><span class="n">FBASolution</span><span class="p">)</span>
+<span class="mi">5</span><span class="o">-</span><span class="n">element</span> <span class="n">Array</span><span class="p">{</span><span class="n">Symbol</span><span class="p">,</span><span class="mi">1</span><span class="p">}:</span>
+        <span class="p">:</span><span class="n">x</span>
+        <span class="p">:</span><span class="n">y</span>
+        <span class="p">:</span><span class="n">w</span>
+        <span class="p">:</span><span class="n">f</span>
+        <span class="p">:</span><span class="n">status</span>
+</pre></div>
+</div>
+<p>Which can be called like regular objects:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span><span class="n">solution</span><span class="o">.</span><span class="n">f</span>
+        <span class="mf">0.8739215069684305</span>
+</pre></div>
+</div>
+<p>Where:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">x</span></code> is the primal solution</li>
+<li><code class="docutils literal"><span class="pre">y</span></code> is the slack</li>
+<li><code class="docutils literal"><span class="pre">w</span></code> is the reduced cost</li>
+<li><code class="docutils literal"><span class="pre">f</span></code> is the objective value</li>
+<li><code class="docutils literal"><span class="pre">status</span></code> is the status of the solution</li>
+</ul>
+</div>
+<div class="section" id="optional-arguements">
+<h3>Optional arguements<a class="headerlink" href="#optional-arguements" title="Permalink to this headline">¶</a></h3>
+<p>The method can be called having only the <strong>model</strong> as its parameter, but the method also accepts:</p>
+<ul class="simple">
+<li><strong>direction</strong>: &#8220;max&#8221; or &#8220;min&#8221; depending whether to maximize or minimize the objective. <strong>max</strong> is default</li>
+<li><strong>solver</strong>: Currently &#8220;GLPK&#8221;, &#8220;CPLEX&#8221; and &#8220;Gurobi&#8221; are accepted. &#8220;GLPK&#8221; is the default solver</li>
+</ul>
+<p>The method can be equivaneltly called as:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">solution</span> <span class="o">=</span> <span class="n">FBA</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="n">solution</span> <span class="o">=</span> <span class="n">FBA</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s2">&quot;max&quot;</span><span class="p">,</span> <span class="s2">&quot;GLPK&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="fva-flux-variability-analysis">
+<span id="fva"></span><h2>FVA (Flux Variability Analysis)<a class="headerlink" href="#fva-flux-variability-analysis" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal"><span class="pre">FVA(model;</span> <span class="pre">optPercentage</span> <span class="pre">=</span> <span class="pre">100,</span> <span class="pre">solver</span> <span class="pre">=</span> <span class="pre">&quot;GLPK&quot;,tol</span> <span class="pre">=</span> <span class="pre">1e-6)</span></code></p>
+<p>FVA finds the <strong>minimum</strong> and <strong>maximum</strong> flux of every reaction in the model</p>
+<p>The method returns an array for all <strong>minimum</strong> fluxes, <strong>maximum</strong> fluxes, and a matrix representing the system&#8217;s flux both for the <strong>minimum</strong> and <strong>maximum</strong> calculations.:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">minFlux</span><span class="p">,</span> <span class="n">maxFlux</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span> <span class="nb">max</span> <span class="o">=</span> <span class="n">FVA</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="section" id="id1">
+<h3>Optional arguements<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>The method can be called having only the <strong>model</strong> as its parameter, but the method also accepts:</p>
+<ul class="simple">
+<li><strong>optPercentage</strong>. This parameter fixes the default objective growth to a minimum number between 0-100</li>
+<li><strong>solver</strong>: Currently &#8220;GLPK&#8221;, &#8220;CPLEX&#8221; and &#8220;Gurobi&#8221; are accepted. &#8220;GLPK&#8221; is the default solver</li>
+</ul>
+<p>The method can be equivaneltly called as:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">minFlux</span><span class="p">,</span> <span class="n">maxFlux</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span> <span class="nb">max</span> <span class="o">=</span> <span class="n">FBA</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="n">minFlux</span><span class="p">,</span> <span class="n">maxFlux</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span> <span class="nb">max</span> <span class="o">=</span> <span class="n">FVA</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="s2">&quot;GLPK&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="robustness-analysis">
+<span id="robustnessanalysis"></span><h2>Robustness Analysis<a class="headerlink" href="#robustness-analysis" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal"><span class="pre">robustness_analysis(model,</span> <span class="pre">reaction;</span> <span class="pre">objective</span> <span class="pre">=</span> <span class="pre">0,</span> <span class="pre">numpoints</span> <span class="pre">=</span> <span class="pre">20,</span> <span class="pre">direction</span> <span class="pre">=</span> <span class="pre">&quot;max&quot;,</span> <span class="pre">draw</span> <span class="pre">=</span> <span class="pre">true)</span></code></p>
+<p><code class="docutils literal"><span class="pre">robustness_analysis(model,</span> <span class="pre">reaction_index;</span> <span class="pre">objective</span> <span class="pre">=</span> <span class="pre">0,</span> <span class="pre">numpoints</span> <span class="pre">=</span> <span class="pre">20,</span> <span class="pre">direction</span> <span class="pre">=</span> <span class="pre">&quot;max&quot;,</span> <span class="pre">draw</span> <span class="pre">=</span> <span class="pre">true)</span></code></p>
+<p>Robustness analysis is used to see how one reaction, the <strong>objective reaction</strong> is dependant on another reaction&#8217;s flow, a <strong>control reaction</strong> (reaction_index)</p>
+<p>The method finds the <strong>minimum</strong> and <strong>maximum</strong> fluxes of the <strong>control reaction</strong>, sets the models objective <code class="docutils literal"><span class="pre">model.r.c</span></code> to the supplied objective index</p>
+<p>Then it fixes the control reaction to evenly spaced values, the number of which are decided by num_points (default 20 points) and performs a flux balance analysis for the objective reaction for every fixed value of the control reaction</p>
+<p>There are <strong>two</strong> types of robustness analysis, robustness-analysis and double robustness-analysis</p>
+<div class="section" id="id2">
+<h3>robustness_analysis<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>Call the method by typing:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">flux_values</span> <span class="o">=</span> <span class="n">robustness_analysis</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">reaction</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This returns a vector with the FBA objective results for every step of the robustness analysis, and plots the vector to a 2-D graph</p>
+</div>
+<div class="section" id="id3">
+<h3>Optional arguements<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>objective</strong>. This parameter allows you to temporarily set the objective. The default value usually being biomass growth. This parameter can be either a string or the integer index of the desired objective</li>
+<li><strong>numpoints</strong>. This parameter sets the number of points to plot, i.e the resolution of the graph. Default is 20</li>
+<li><strong>direction</strong>. Default is to maximize the objective. Accepts &#8220;min&#8221; or &#8220;max&#8221;</li>
+<li><strong>draw</strong>. Boolean. Default is true, which plots the resulting flux vector</li>
+</ul>
+<p>The method can be equicanetly called as:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">flux_values</span> <span class="o">=</span> <span class="n">robustness_analysis</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">reaction</span><span class="p">)</span>
+<span class="n">flux_values</span> <span class="o">=</span> <span class="n">robustness_analysis</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">reaction</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="s2">&quot;max&quot;</span><span class="p">,</span> <span class="n">true</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="double-robustness-analysis">
+<h3>double_robustness_analysis<a class="headerlink" href="#double-robustness-analysis" title="Permalink to this headline">¶</a></h3>
+<p>Similar to robustness_analysis, but instead of one <strong>reaction</strong> there are now two reactions, and a 3-D plot
+is drawn:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">flux_values</span> <span class="o">=</span> <span class="n">robustness_analysis</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">reaction_A</span><span class="p">,</span> <span class="n">reaction_B</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="find-blocked-reactions">
+<span id="blocked-reactions"></span><h2>Find Blocked Reactions<a class="headerlink" href="#find-blocked-reactions" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal"><span class="pre">find_blocked_reactions(model;</span> <span class="pre">tolerance</span> <span class="pre">=</span> <span class="pre">1e-10)</span></code></p>
+<p>A simple method to identify the reactions whos minimum <strong>and</strong> maximum flow is <strong>0.0</strong></p>
+<p>Call the method by typing:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">blocked_reactions</span> <span class="o">=</span> <span class="n">find_blocked_reactions</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="mi">8</span><span class="o">-</span><span class="n">element</span> <span class="n">Array</span><span class="p">{</span><span class="n">Any</span><span class="p">,</span><span class="mi">1</span><span class="p">}:</span>
+ <span class="s2">&quot;EX_fru_e&quot;</span>
+ <span class="s2">&quot;EX_fum_e&quot;</span>
+ <span class="s2">&quot;EX_gln__L_e&quot;</span>
+ <span class="s2">&quot;EX_mal__L_e&quot;</span>
+ <span class="s2">&quot;FRUpts2&quot;</span>
+ <span class="s2">&quot;FUMt2_2&quot;</span>
+ <span class="s2">&quot;GLNabc&quot;</span>
+ <span class="s2">&quot;MALt2_2&quot;</span>
+</pre></div>
+</div>
+<p>Which returns the names of the blocked reactions</p>
+<div class="section" id="id4">
+<h3>Optional arguements<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>The method may be called with a <strong>tolerance</strong> arguement, the default being <strong>1e-10</strong></p>
+<p>The method can be equicanetly called as:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">blocked_reactions</span> <span class="o">=</span> <span class="n">find_blocked_reactions</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="mi">1</span><span class="n">e</span><span class="o">-</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">blocked_reactions</span> <span class="o">=</span> <span class="n">find_blocked_reactions</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">tolerance</span> <span class="o">=</span> <span class="mi">1</span><span class="n">e</span><span class="o">-</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="find-dead-end-metabolites">
+<span id="dead-end-metabolites"></span><h2>Find Dead end Metabolites<a class="headerlink" href="#find-dead-end-metabolites" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal"><span class="pre">find_deadend_metabolites(model::Model,</span> <span class="pre">lbfilter::Bool</span> <span class="pre">=</span> <span class="pre">true)</span></code></p>
+<p>A method to find those metabolites that are <strong>only produced</strong> or <strong>only consumed</strong>.</p>
+<p>By default, those metabolites with a positive lower bound are filtered out of the results</p>
+<p>Call the method by typing:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">find_deadend_metabolites</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="mi">5</span><span class="o">-</span><span class="n">element</span> <span class="n">Array</span><span class="p">{</span><span class="n">Int64</span><span class="p">,</span><span class="mi">1</span><span class="p">}:</span>
+ <span class="mi">30</span>
+ <span class="mi">32</span>
+ <span class="mi">37</span>
+ <span class="mi">49</span>
+ <span class="mi">60</span>
+</pre></div>
+</div>
+<div class="section" id="id5">
+<h3>Optional arguements<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<p>The lbfilter may be set as either <strong>true</strong> or <strong>false</strong></p>
+</div>
+</div>
+<div class="section" id="find-exchange-reactions">
+<span id="exchange-reactions"></span><h2>Find Exchange Reactions<a class="headerlink" href="#find-exchange-reactions" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal"><span class="pre">find_exchange_reactions(model,</span> <span class="pre">output</span> <span class="pre">=</span> <span class="pre">&quot;index&quot;)</span></code></p>
+<p>A simple tool to find the exchange reactions in the model.</p>
+<p>Call the method by typing:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">find_exchange_reactions</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="mi">20</span><span class="o">-</span><span class="n">element</span> <span class="n">Array</span><span class="p">{</span><span class="n">AbstractString</span><span class="p">,</span><span class="mi">1</span><span class="p">}:</span>
+ <span class="mi">20</span>
+ <span class="mi">21</span>
+ <span class="mi">22</span>
+ <span class="mi">23</span>
+ <span class="mi">24</span>
+ <span class="mi">25</span>
+ <span class="mi">26</span>
+ <span class="mi">27</span>
+ <span class="mi">28</span>
+ <span class="mi">29</span>
+ <span class="mi">30</span>
+ <span class="mi">31</span>
+ <span class="mi">32</span>
+ <span class="mi">33</span>
+ <span class="mi">34</span>
+ <span class="mi">35</span>
+ <span class="mi">36</span>
+ <span class="mi">37</span>
+ <span class="mi">38</span>
+ <span class="mi">39</span>
+</pre></div>
+</div>
+<div class="section" id="id6">
+<h3>Optional arguements<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<p>By default the method returns the indices of the exchange reactions, to get the reaction names, call:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">find_exchange_reactions</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">output</span> <span class="o">=</span> <span class="s2">&quot;name&quot;</span><span class="p">)</span>
+<span class="n">find_exchange_reactions</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="find-reactions-from-genes">
+<span id="id7"></span><h2>Find Reactions from Genes<a class="headerlink" href="#find-reactions-from-genes" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal"><span class="pre">find_reactions_from_gene(model,</span> <span class="pre">gene,</span> <span class="pre">output</span> <span class="pre">=</span> <span class="pre">&quot;index&quot;)</span></code></p>
+<p><code class="docutils literal"><span class="pre">find_reactions_from_gene(model,</span> <span class="pre">gene_index;</span> <span class="pre">output</span> <span class="pre">=</span> <span class="pre">&quot;index&quot;)</span></code></p>
+<p>This method finds, given a gene name or the index of a gene, all the reactions that gene has an effect on</p>
+<p>Call the method by typing:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">find_reactions_from_gene</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="s2">&quot;b1241&quot;</span><span class="p">)</span>
+<span class="mi">2</span><span class="o">-</span><span class="n">element</span> <span class="n">Array</span><span class="p">{</span><span class="n">Int64</span><span class="p">,</span><span class="mi">1</span><span class="p">}:</span>
+  <span class="mi">1</span>
+ <span class="mi">10</span>
+</pre></div>
+</div>
+<p>or equivalently (gene b1241 is number 2 in <code class="docutils literal"><span class="pre">model.genes</span></code>):</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">find_reactions_from_gene</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="mi">2</span><span class="o">-</span><span class="n">element</span> <span class="n">Array</span><span class="p">{</span><span class="n">Int64</span><span class="p">,</span><span class="mi">1</span><span class="p">}:</span>
+  <span class="mi">1</span>
+ <span class="mi">10</span>
+</pre></div>
+</div>
+<div class="section" id="id8">
+<h3>Optional arguements<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>output</strong> can be set to <strong>index/name</strong>/<strong>formula</strong> to print out the reaction names/formulas</li>
+</ul>
+<p>The method can be caled equivalently as:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">find_reactions_from_gene</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="s2">&quot;b1241&quot;</span><span class="p">,</span> <span class="n">output</span> <span class="o">=</span> <span class="s2">&quot;index&quot;</span><span class="p">)</span>
+<span class="n">find_reactions_from_gene</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="s2">&quot;b1241&quot;</span><span class="p">,</span> <span class="s2">&quot;index&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="find-reactions-from-metabolites">
+<span id="id9"></span><h2>Find Reactions from Metabolites<a class="headerlink" href="#find-reactions-from-metabolites" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal"><span class="pre">find_reactions_from_metabolite(model::Model,</span> <span class="pre">metabolite::Int64;</span> <span class="pre">output::AbstractString</span> <span class="pre">=</span> <span class="pre">&quot;index&quot;)</span></code></p>
+<p><code class="docutils literal"><span class="pre">find_reactions_from_metabolite(model::Model,</span> <span class="pre">metabolite::AbstractString;</span> <span class="pre">output::AbstractString</span> <span class="pre">=</span> <span class="pre">&quot;index&quot;)</span></code></p>
+<p>This method finds, fiven a metabolite name or the index of a metabolite, all the reactions that metabolite appears in</p>
+<p>Call the method by typing:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">find_reactions_from_metabolite</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="s2">&quot;nh4_c&quot;</span><span class="p">)</span>
+<span class="mi">4</span><span class="o">-</span><span class="n">element</span> <span class="n">Array</span><span class="p">{</span><span class="n">Int64</span><span class="p">,</span><span class="mi">1</span><span class="p">}:</span>
+ <span class="mi">51</span>
+ <span class="mi">53</span>
+ <span class="mi">54</span>
+ <span class="mi">69</span>
+</pre></div>
+</div>
+<p>or equivalently (nh4_c being number 54 in <code class="docutils literal"><span class="pre">model.mets</span></code>):</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">find_reactions_from_metabolite</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="mi">54</span><span class="p">)</span>
+<span class="mi">4</span><span class="o">-</span><span class="n">element</span> <span class="n">Array</span><span class="p">{</span><span class="n">AbstractString</span><span class="p">,</span><span class="mi">1</span><span class="p">}:</span>
+ <span class="mi">51</span>
+ <span class="mi">53</span>
+ <span class="mi">54</span>
+ <span class="mi">69</span>
+</pre></div>
+</div>
+<div class="section" id="id10">
+<h3>Optional arguements<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>output</strong> can be set to <strong>index/name</strong>/<strong>formula</strong> to print out the reaction names/formulas</li>
+</ul>
+<p>The method can be caled equivalently as:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">find_reactions_from_metabolite</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="s2">&quot;nh4_c&quot;</span><span class="p">,</span> <span class="n">output</span> <span class="o">=</span> <span class="s2">&quot;index&quot;</span><span class="p">)</span>
+<span class="n">find_reactions_from_metabolite</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="s2">&quot;nh4_c&quot;</span><span class="p">,</span> <span class="s2">&quot;index&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="gene-deletion">
+<span id="id11"></span><h2>Gene Deletion<a class="headerlink" href="#gene-deletion" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal"><span class="pre">gene_deletion(model::Model,</span> <span class="pre">n::Number;</span> <span class="pre">solver::AbstractString</span> <span class="pre">=</span> <span class="pre">&quot;glpk&quot;)</span></code>
+<code class="docutils literal"><span class="pre">parallel_dene_deletion(model::Model,n:Number;</span> <span class="pre">cores::Number</span> <span class="pre">=</span> <span class="pre">CPU_CORES,</span> <span class="pre">solver::AbstractString</span> <span class="pre">=</span> <span class="pre">&quot;glpk&quot;)</span></code></p>
+<p>Find the result of deleting any <strong>combination</strong> of genes from <strong>1 -&gt; n</strong></p>
+<div class="section" id="id12">
+<h3>gene_deletion<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt>Call the method by typing::</dt>
+<dd><dl class="first last docutils">
+<dt>result = gene_deletion(model,1,&#8221;glpk&#8221;)</dt>
+<dd>pairs::Dictionary of deleted genes
+wild_type FBA</dd>
+</dl>
+</dd>
+</dl>
+<p>This returns a <code class="docutils literal"><span class="pre">GeneDeletion</span></code> object</p>
+<p>The <code class="docutils literal"><span class="pre">gene_deletion</span></code> method returns a <code class="docutils literal"><span class="pre">GeneDeletion</span></code> object with fields:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">fieldnames</span><span class="p">(</span><span class="n">GeneDeletion</span><span class="p">)</span>
+<span class="mi">2</span><span class="o">-</span><span class="n">element</span> <span class="n">Array</span><span class="p">{</span><span class="n">Symbol</span><span class="p">,</span><span class="mi">1</span><span class="p">}:</span>
+ <span class="p">:</span><span class="n">pairs</span>
+ <span class="p">:</span><span class="n">wild_type</span>
+</pre></div>
+</div>
+<p>Where <code class="docutils literal"><span class="pre">pairs</span></code> is a dictionary, with keys for every combination of genes from <strong>1 -&gt; n</strong></p>
+<p>So calling:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">res</span><span class="o">.</span><span class="n">pairs</span><span class="p">[[</span><span class="s2">&quot;b2975&quot;</span><span class="p">,</span><span class="s2">&quot;b0723&quot;</span><span class="p">]]</span>
+<span class="mf">0.9318</span>
+</pre></div>
+</div>
+<p>Returns the growth as a ratio of the <code class="docutils literal"><span class="pre">wild_type</span></code>, so knocking out <em>&#8220;b2975&#8221;</em> and <em>&#8220;b0723&#8221;</em> would
+result in the organism&#8217;s growth reduced to 93% of its original growth</p>
+<p>The field <code class="docutils literal"><span class="pre">wild_type</span></code> is the results of claling <code class="docutils literal"><span class="pre">FBA(model)</span></code>, simply for reference</p>
+<p><strong>Note:</strong> This method is best suited for small models/small values of <strong>n</strong>, (n &lt; 2), but can be used for any model, and any value of <strong>n</strong>, if you are prepared to wait</p>
+</div>
+<div class="section" id="parallel-gene-deletion">
+<h3>parallel_gene_deletion<a class="headerlink" href="#parallel-gene-deletion" title="Permalink to this headline">¶</a></h3>
+<p>This method is intended for:
+* large models
+* high order of <strong>n</strong> (n &gt; 2)</p>
+</div>
+</div>
+<div class="section" id="reaction-info">
+<span id="id13"></span><h2>Reaction Info<a class="headerlink" href="#reaction-info" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal"><span class="pre">reaction_info(model::Model,</span> <span class="pre">reaction)</span></code>
+<code class="docutils literal"><span class="pre">reaction_info(model::Model,</span> <span class="pre">reaction_index)</span></code></p>
+<p>A simple method to print out all the information for a reaction</p>
+<p>Call the method by typing:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">reaction_info</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="mi">11</span><span class="p">)</span>
+
+
+
+ <span class="n">Reaction</span> <span class="n">Name</span><span class="p">:</span>     <span class="n">ATP</span> <span class="n">maintenance</span> <span class="n">requirement</span>
+   <span class="n">Reaction</span> <span class="n">ID</span><span class="p">:</span>                            <span class="n">ATPM</span>
+   <span class="n">Lower</span> <span class="n">Bound</span><span class="p">:</span>                            <span class="mf">8.39</span>
+   <span class="n">Upper</span> <span class="n">Bound</span><span class="p">:</span>                          <span class="mf">1000.0</span>
+     <span class="n">Subsystem</span><span class="p">:</span>       <span class="n">Oxidative</span> <span class="n">Phosphorylation</span>
+<span class="o">-----------------------------------------------</span>
+     <span class="n">Metabolite</span>    <span class="n">Coefficient</span>
+          <span class="n">adp_c</span>            <span class="mf">1.0</span>
+          <span class="n">atp_c</span>           <span class="o">-</span><span class="mf">1.0</span>
+          <span class="n">h2o_c</span>           <span class="o">-</span><span class="mf">1.0</span>
+            <span class="n">h_c</span>            <span class="mf">1.0</span>
+           <span class="n">pi_c</span>            <span class="mf">1.0</span>
+
+<span class="o">-----------------------------------------------------------------------</span>
+<span class="n">b0118</span> <span class="o">||</span> <span class="n">b1276</span>
+</pre></div>
+</div>
+<p>or equivalently ( ATPM being number 11 in <code class="docutils literal"><span class="pre">model.rxns</span></code>):</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">reaction_info</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="s2">&quot;ATPM&quot;</span><span class="p">)</span>
+
+
+
+ <span class="n">Reaction</span> <span class="n">Name</span><span class="p">:</span>     <span class="n">ATP</span> <span class="n">maintenance</span> <span class="n">requirement</span>
+   <span class="n">Reaction</span> <span class="n">ID</span><span class="p">:</span>                            <span class="n">ATPM</span>
+   <span class="n">Lower</span> <span class="n">Bound</span><span class="p">:</span>                            <span class="mf">8.39</span>
+   <span class="n">Upper</span> <span class="n">Bound</span><span class="p">:</span>                          <span class="mf">1000.0</span>
+     <span class="n">Subsystem</span><span class="p">:</span>       <span class="n">Oxidative</span> <span class="n">Phosphorylation</span>
+<span class="o">-----------------------------------------------</span>
+     <span class="n">Metabolite</span>    <span class="n">Coefficient</span>
+          <span class="n">adp_c</span>            <span class="mf">1.0</span>
+          <span class="n">atp_c</span>           <span class="o">-</span><span class="mf">1.0</span>
+          <span class="n">h2o_c</span>           <span class="o">-</span><span class="mf">1.0</span>
+            <span class="n">h_c</span>            <span class="mf">1.0</span>
+           <span class="n">pi_c</span>            <span class="mf">1.0</span>
+
+<span class="o">-----------------------------------------------------------------------</span>
+<span class="n">b0118</span> <span class="o">||</span> <span class="n">b1276</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Analysis</a><ul>
+<li><a class="reference internal" href="#fba-flux-balance-analysis">FBA (Flux Balance Analysis)</a><ul>
+<li><a class="reference internal" href="#fbasolution-type">FBASolution type</a></li>
+<li><a class="reference internal" href="#optional-arguements">Optional arguements</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#fva-flux-variability-analysis">FVA (Flux Variability Analysis)</a><ul>
+<li><a class="reference internal" href="#id1">Optional arguements</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#robustness-analysis">Robustness Analysis</a><ul>
+<li><a class="reference internal" href="#id2">robustness_analysis</a></li>
+<li><a class="reference internal" href="#id3">Optional arguements</a></li>
+<li><a class="reference internal" href="#double-robustness-analysis">double_robustness_analysis</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#find-blocked-reactions">Find Blocked Reactions</a><ul>
+<li><a class="reference internal" href="#id4">Optional arguements</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#find-dead-end-metabolites">Find Dead end Metabolites</a><ul>
+<li><a class="reference internal" href="#id5">Optional arguements</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#find-exchange-reactions">Find Exchange Reactions</a><ul>
+<li><a class="reference internal" href="#id6">Optional arguements</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#find-reactions-from-genes">Find Reactions from Genes</a><ul>
+<li><a class="reference internal" href="#id8">Optional arguements</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#find-reactions-from-metabolites">Find Reactions from Metabolites</a><ul>
+<li><a class="reference internal" href="#id10">Optional arguements</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#gene-deletion">Gene Deletion</a><ul>
+<li><a class="reference internal" href="#id12">gene_deletion</a></li>
+<li><a class="reference internal" href="#parallel-gene-deletion">parallel_gene_deletion</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#reaction-info">Reaction Info</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="ModelStructure.html" title="previous chapter">Model Structure</a></li>
+      <li>Next: <a href="Modification.html" title="next chapter">Modification</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/Analysis.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Davíð Isebarn & Steinn Guðmundsson.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="_sources/Analysis.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

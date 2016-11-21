@@ -1,0 +1,349 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Solvers &mdash; cobra 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="cobra 0.1 documentation" href="index.html" />
+    <link rel="next" title="Julia Tips" href="JuliaTips.html" />
+    <link rel="prev" title="Modification" href="Modification.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="solvers">
+<h1>Solvers<a class="headerlink" href="#solvers" title="Permalink to this headline">¶</a></h1>
+<ul>
+<li><p class="first"><a class="reference internal" href="#supported-solvers"><span class="std std-ref">Supported Solvers</span></a></p>
+</li>
+<li><dl class="first docutils">
+<dt><a class="reference internal" href="#methods"><span class="std std-ref">Methods</span></a></dt>
+<dd><ul class="first last simple">
+<li><a class="reference internal" href="#change-objective"><span class="std std-ref">change objective</span></a></li>
+<li><a class="reference internal" href="#get-variable-bounds"><span class="std std-ref">get_variable_bounds</span></a></li>
+<li><a class="reference internal" href="#get-constraint-bounds"><span class="std std-ref">get_constraint_bounds</span></a></li>
+<li><a class="reference internal" href="#get-constraint-matrix"><span class="std std-ref">get_constraint_matrix</span></a></li>
+<li><a class="reference internal" href="#get-direction"><span class="std std-ref">get_direction</span></a></li>
+<li><a class="reference internal" href="#get-objective-value"><span class="std std-ref">get_objective_value</span></a></li>
+<li><a class="reference internal" href="#get-reduced-costs"><span class="std std-ref">get_reduced_costs</span></a></li>
+<li><a class="reference internal" href="#get-solution"><span class="std std-ref">get_solution</span></a></li>
+<li><a class="reference internal" href="#get-solution-status"><span class="std std-ref">get_solution_status</span></a></li>
+<li><a class="reference internal" href="#get-solution-status-code"><span class="std std-ref">get_solution_status_code</span></a></li>
+<li><a class="reference internal" href="#get-slack"><span class="std std-ref">get_slack</span></a></li>
+<li><a class="reference internal" href="#get-objective"><span class="std std-ref">get_objective</span></a></li>
+<li><a class="reference internal" href="#set-direction"><span class="std std-ref">set_direction</span></a></li>
+<li><a class="reference internal" href="#set-col-bounds"><span class="std std-ref">set_col_bounds</span></a></li>
+<li><a class="reference internal" href="#set-objective"><span class="std std-ref">set_objective</span></a></li>
+<li><a class="reference internal" href="#solve"><span class="std std-ref">solve</span></a></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<div class="section" id="supported-solvers">
+<span id="id1"></span><h2>Supported Solvers<a class="headerlink" href="#supported-solvers" title="Permalink to this headline">¶</a></h2>
+<p>Currently, Cobra has support for</p>
+<ul class="simple">
+<li>GLPK</li>
+<li>CPLEX</li>
+<li>Gurobi (<strong>Does not support parallel functions</strong>)</li>
+</ul>
+<p>All methods that have an optional arguement <code class="docutils literal"><span class="pre">solver</span></code> will accept GLPK, Gurobi or CPLEX, but GLPK is the default</p>
+</div>
+<div class="section" id="methods">
+<span id="id2"></span><h2>Methods<a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h2>
+<p>In the descriptions for all methods, LPProb stands for one of the following:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">GLPK.Prob</span></code></li>
+<li><code class="docutils literal"><span class="pre">CPLEX.Model</span></code></li>
+<li><code class="docutils literal"><span class="pre">Gurobi.Model</span></code></li>
+<li><code class="docutils literal"><span class="pre">ClpModel</span></code></li>
+</ul>
+<div class="section" id="change-objective">
+<span id="id3"></span><h3>change objective<a class="headerlink" href="#change-objective" title="Permalink to this headline">¶</a></h3>
+<p>Change the objective value for a single/multiple reactions.</p>
+<p>If not specified, the value/s for the chosen reaction/s will be set to 1.0</p>
+<p>Usage:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">change_objective</span><span class="p">(</span><span class="n">lp</span><span class="p">::</span><span class="n">LPPRob</span><span class="p">,</span> <span class="n">objective</span><span class="p">::</span><span class="n">Number</span><span class="p">,</span> <span class="n">value</span><span class="p">::</span><span class="n">Number</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="n">change_objective</span><span class="p">(</span><span class="n">lp</span><span class="p">::</span><span class="n">LPPRob</span><span class="p">,</span> <span class="n">objective</span><span class="p">::</span><span class="n">Array</span><span class="p">{</span><span class="n">Number</span><span class="p">},</span> <span class="n">value</span><span class="p">::</span><span class="n">Array</span><span class="o">=</span><span class="p">[])</span>
+</pre></div>
+</div>
+<p><strong>Example</strong>
+Create a lp for e_coli core, where reaction 13 is the biomass reaction. And change
+the lp so that the objective reaction is reaction 11 instead of 13:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">lp</span> <span class="o">=</span> <span class="n">setup_lp</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="n">change_objective</span><span class="p">(</span><span class="n">lp</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Note</strong> that now the objective for reaction 13 is 0.0.</p>
+<p>To <strong>add</strong> an objective, see <strong>set_objective()</strong></p>
+</div>
+<div class="section" id="get-variable-bounds">
+<span id="id4"></span><h3>get_variable_bounds<a class="headerlink" href="#get-variable-bounds" title="Permalink to this headline">¶</a></h3>
+<p>Return the lower and upper bounds for all reactions or a single reaction from a LPProb:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">lb</span><span class="p">,</span> <span class="n">ub</span> <span class="o">=</span> <span class="n">get_variable_bounds</span><span class="p">(</span><span class="n">lp</span><span class="p">::</span><span class="n">LPProb</span><span class="p">)</span>
+<span class="n">lb</span><span class="p">,</span> <span class="n">ub</span> <span class="o">=</span> <span class="n">get_variable_bounds</span><span class="p">(</span><span class="n">lp</span><span class="p">::</span><span class="n">LPProb</span><span class="p">,</span> <span class="n">index</span><span class="p">::</span><span class="n">Number</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Example</strong>
+Get the bonds for reaction 13, the biomass function (in e_coli_core):</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span> <span class="o">=</span> <span class="n">get_variable_bounds</span><span class="p">(</span><span class="n">lp</span><span class="p">,</span> <span class="mi">13</span><span class="p">)</span>
+<span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">1000.0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="get-constraint-bounds">
+<span id="id5"></span><h3>get_constraint_bounds<a class="headerlink" href="#get-constraint-bounds" title="Permalink to this headline">¶</a></h3>
+<p>Return the variable bounds for all reactions or a single reaction from a LPProb:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">b</span> <span class="o">=</span> <span class="n">get_constraint_bounds</span><span class="p">(</span><span class="n">lp</span><span class="p">::</span><span class="n">LPProb</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="get-constraint-matrix">
+<span id="id6"></span><h3>get_constraint_matrix<a class="headerlink" href="#get-constraint-matrix" title="Permalink to this headline">¶</a></h3>
+<p>Return the coefficient matrix, S from the lp:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">S</span> <span class="o">=</span> <span class="n">get_constraint_matrix</span><span class="p">(</span><span class="n">lp</span><span class="p">::</span><span class="n">LPProb</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="get-direction">
+<span id="id7"></span><h3>get_direction<a class="headerlink" href="#get-direction" title="Permalink to this headline">¶</a></h3>
+<p>Return the optimization direction for a LPProb:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">direction</span> <span class="o">=</span> <span class="n">get_direction</span><span class="p">(</span><span class="n">lp</span><span class="p">::</span><span class="n">LPProb</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Returns either <code class="docutils literal"><span class="pre">maximize</span></code> or <code class="docutils literal"><span class="pre">minimize</span></code></p>
+</div>
+<div class="section" id="get-objective-value">
+<span id="id8"></span><h3>get_objective_value<a class="headerlink" href="#get-objective-value" title="Permalink to this headline">¶</a></h3>
+<p>Return the objective value for a <strong>solved</strong> LPProb:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">objective</span> <span class="o">=</span> <span class="n">get_objective_value</span><span class="p">(</span><span class="n">lp</span><span class="p">::</span><span class="n">LPProb</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Example</strong></p>
+<p>Lets get the biomass growth for a e_coli_core model:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">lp</span> <span class="o">=</span> <span class="n">setup_lp</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+                <span class="n">GLPK</span> <span class="n">Model</span>
+                   <span class="n">sense</span>           <span class="p">:</span>   <span class="n">maximize</span>
+                   <span class="n">variables</span>       <span class="o">=</span>         <span class="mi">95</span>
+                   <span class="n">constraints</span>     <span class="o">=</span>         <span class="mi">72</span>
+                   <span class="n">coefficients</span>    <span class="o">=</span>        <span class="mi">360</span>
+
+        <span class="n">solve</span><span class="p">(</span><span class="n">lp</span><span class="p">);</span>
+        <span class="n">get_objective_value</span><span class="p">(</span><span class="n">lp</span><span class="p">)</span>
+        <span class="mf">0.8739215069684305</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="get-reduced-costs">
+<span id="id9"></span><h3>get_reduced_costs<a class="headerlink" href="#get-reduced-costs" title="Permalink to this headline">¶</a></h3>
+<p>Return the reduced costs for a <strong>solved</strong> LPProb:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">reduced_costs</span> <span class="o">=</span> <span class="n">get_reduced_costs</span><span class="p">(</span><span class="n">lp</span><span class="p">::</span><span class="n">LPProb</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="get-solution">
+<span id="id10"></span><h3>get_solution<a class="headerlink" href="#get-solution" title="Permalink to this headline">¶</a></h3>
+<p>Return the entire solution vector for a <strong>solved</strong> LPProb:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">solution</span> <span class="o">=</span> <span class="n">get_solution</span><span class="p">(</span><span class="n">lp</span><span class="p">::</span><span class="n">LPPro</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="get-solution-status">
+<span id="id11"></span><h3>get_solution_status<a class="headerlink" href="#get-solution-status" title="Permalink to this headline">¶</a></h3>
+<p>Return the solution status. The status can be one of the following</p>
+<ol class="arabic simple">
+<li>Optimal</li>
+<li>No feasible solution</li>
+<li>Infeasible</li>
+<li>Feasible</li>
+<li>Unbound</li>
+<li>Undefined</li>
+</ol>
+<p><strong>Example</strong></p>
+<p>Lets see the solution status code for the ecoli core model:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">lp</span> <span class="o">=</span> <span class="n">setup_lp</span><span class="p">(</span><span class="n">model</span><span class="p">);</span>
+
+<span class="n">solve</span><span class="p">(</span><span class="n">lp</span><span class="p">);</span>
+
+<span class="n">get_objective_value</span><span class="p">(</span><span class="n">lp</span><span class="p">)</span>
+<span class="mf">0.8739215069684305</span>
+
+<span class="n">get_solution_status</span><span class="p">(</span><span class="n">lp</span><span class="p">)</span>
+<span class="s2">&quot;Optimal&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="get-solution-status-code">
+<span id="id12"></span><h3>get_solution_status_code<a class="headerlink" href="#get-solution-status-code" title="Permalink to this headline">¶</a></h3>
+<p>Return solver-specific status code of a <strong>solved</strong> problem</p>
+<p>Different solvers return different status codes. Fx for GLPK, the status code 5 means
+that the problem has an optimal solution, while for CPLEX, 1 is returned if a problem has an optimal solution:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">status_code</span> <span class="o">=</span> <span class="n">get_solution_status_code</span><span class="p">(</span><span class="n">lp</span><span class="p">::</span><span class="n">LPProb</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="get-slack">
+<span id="id13"></span><h3>get_slack<a class="headerlink" href="#get-slack" title="Permalink to this headline">¶</a></h3>
+<p>Return the slack for a <strong>solved</strong> LPProb:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">slack</span> <span class="o">=</span> <span class="n">get_slack</span><span class="p">(</span><span class="n">lp</span><span class="p">::</span><span class="n">LPProb</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="get-objective">
+<span id="id14"></span><h3>get_objective<a class="headerlink" href="#get-objective" title="Permalink to this headline">¶</a></h3>
+<p>Returns the objective vector from a LPProb, the same vector as is in model.c:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">objective</span> <span class="o">=</span> <span class="n">get_objective</span><span class="p">(</span><span class="n">lp</span><span class="p">::</span><span class="n">LPProb</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="set-direction">
+<span id="id15"></span><h3>set_direction<a class="headerlink" href="#set-direction" title="Permalink to this headline">¶</a></h3>
+<p>Set the optimization direction for a LPProb:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">set_direction</span><span class="p">(</span><span class="n">lp</span><span class="p">::</span><span class="n">GLPK</span><span class="o">.</span><span class="n">Prob</span><span class="p">,</span> <span class="n">direction</span><span class="p">::</span><span class="n">AbstractString</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">direction</span></code> can only be <code class="docutils literal"><span class="pre">max</span></code> or <code class="docutils literal"><span class="pre">min</span></code></p>
+</div>
+<div class="section" id="set-col-bounds">
+<span id="id16"></span><h3>set_col_bounds<a class="headerlink" href="#set-col-bounds" title="Permalink to this headline">¶</a></h3>
+<p>Set lower and upper bounds for a reaction:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">set_col_bounds</span><span class="p">(</span><span class="n">lp</span><span class="p">::</span><span class="n">GLPK</span><span class="o">.</span><span class="n">Prob</span><span class="p">,</span> <span class="n">index</span><span class="p">::</span><span class="n">Number</span><span class="p">,</span> <span class="n">lb</span><span class="p">::</span><span class="n">Number</span><span class="p">,</span> <span class="n">ub</span><span class="p">::</span><span class="n">Number</span><span class="p">)</span>
+<span class="n">set_col_bounds</span><span class="p">(</span><span class="n">lp</span><span class="p">::</span><span class="n">GLPK</span><span class="o">.</span><span class="n">Prob</span><span class="p">,</span> <span class="n">index</span><span class="p">::</span><span class="n">Number</span><span class="p">,</span> <span class="n">fixed_value</span><span class="p">::</span><span class="n">Number</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The second method is used to fix a reaction to a particular value, commonly used to disable a reaction by fixing in to 0.0.</p>
+</div>
+<div class="section" id="set-objective">
+<span id="id17"></span><h3>set_objective<a class="headerlink" href="#set-objective" title="Permalink to this headline">¶</a></h3>
+<p>Add another objective to the LPPRob:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">set_objective</span><span class="p">(</span><span class="n">lp</span><span class="p">::</span><span class="n">GLPK</span><span class="o">.</span><span class="n">Prob</span><span class="p">,</span> <span class="n">objective</span><span class="p">::</span><span class="n">Number</span><span class="p">,</span> <span class="n">value</span><span class="p">::</span><span class="n">Number</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="solve">
+<span id="id18"></span><h3>solve<a class="headerlink" href="#solve" title="Permalink to this headline">¶</a></h3>
+<p>Optimize the LPPRob:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">lp</span> <span class="o">=</span> <span class="n">setup_lp</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+        <span class="n">GLPK</span> <span class="n">Model</span>
+           <span class="n">sense</span>           <span class="p">:</span>   <span class="n">maximize</span>
+           <span class="n">variables</span>       <span class="o">=</span>         <span class="mi">95</span>
+           <span class="n">constraints</span>     <span class="o">=</span>         <span class="mi">72</span>
+           <span class="n">coefficients</span>    <span class="o">=</span>        <span class="mi">360</span>
+
+<span class="n">solve</span><span class="p">(</span><span class="n">lp</span><span class="p">)</span>
+<span class="mi">0</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Solvers</a><ul>
+<li><a class="reference internal" href="#supported-solvers">Supported Solvers</a></li>
+<li><a class="reference internal" href="#methods">Methods</a><ul>
+<li><a class="reference internal" href="#change-objective">change objective</a></li>
+<li><a class="reference internal" href="#get-variable-bounds">get_variable_bounds</a></li>
+<li><a class="reference internal" href="#get-constraint-bounds">get_constraint_bounds</a></li>
+<li><a class="reference internal" href="#get-constraint-matrix">get_constraint_matrix</a></li>
+<li><a class="reference internal" href="#get-direction">get_direction</a></li>
+<li><a class="reference internal" href="#get-objective-value">get_objective_value</a></li>
+<li><a class="reference internal" href="#get-reduced-costs">get_reduced_costs</a></li>
+<li><a class="reference internal" href="#get-solution">get_solution</a></li>
+<li><a class="reference internal" href="#get-solution-status">get_solution_status</a></li>
+<li><a class="reference internal" href="#get-solution-status-code">get_solution_status_code</a></li>
+<li><a class="reference internal" href="#get-slack">get_slack</a></li>
+<li><a class="reference internal" href="#get-objective">get_objective</a></li>
+<li><a class="reference internal" href="#set-direction">set_direction</a></li>
+<li><a class="reference internal" href="#set-col-bounds">set_col_bounds</a></li>
+<li><a class="reference internal" href="#set-objective">set_objective</a></li>
+<li><a class="reference internal" href="#solve">solve</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="Modification.html" title="previous chapter">Modification</a></li>
+      <li>Next: <a href="JuliaTips.html" title="next chapter">Julia Tips</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/Solvers.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Davíð Isebarn & Steinn Guðmundsson.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="_sources/Solvers.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

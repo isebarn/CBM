@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Welcome to cobra’s documentation! &mdash; cobra 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="cobra 0.1 documentation" href="#" />
+    <link rel="next" title="Getting Started" href="Getting Started.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="welcome-to-cobra-s-documentation">
+<h1>Welcome to cobra&#8217;s documentation!<a class="headerlink" href="#welcome-to-cobra-s-documentation" title="Permalink to this headline">¶</a></h1>
+<p>Contents:</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Getting Started.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Getting Started.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Getting Started.html#cobra-setup">Cobra Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Getting Started.html#first-run">First Run</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="IO.html">IO</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="IO.html#loading-a-model">Loading a model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="IO.html#exporting-a-model">Exporting a model</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Simulations.html">Simulations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Simulations.html#flux-balance-analysis">Flux Balance Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Simulations.html#flux-variability-analysis">Flux Variability Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Simulations.html#find-blocked-reactions">Find blocked reactions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Simulations.html#synthetic-lethal-genes">Synthetic Lethal Genes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Simulations.html#robustness-analysis">Robustness Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Simulations.html#find-dead-end-metabolites">Find Dead End Metabolites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Simulations.html#find-essential-genes">Find Essential Genes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Simulations.html#find-exchange-reactions">Find Exchange Reactions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Simulations.html#find-reactions-from-gene">Find Reactions From Gene</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Simulations.html#find-reactions-from-metabolite">Find Reactions From Metabolite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Simulations.html#gene-deletion">Gene Deletion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Simulations.html#knockout-genes">Knockout Genes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Simulations.html#knockout-reactions">Knockout Reactions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Simulations.html#print-reaction-formula">Print Reaction Formula</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Simulations.html#reaction-info">Reaction Info</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Modification.html">Modification</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Modification.html#adding-a-metabolite">Adding a Metabolite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Modification.html#adding-a-reaction">Adding a Reaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Modification.html#change-the-objective-reaction">Change the Objective Reaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Modification.html#change-reaction-bounds">Change Reaction Bounds</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Modification.html#convert-to-irreversible">Convert To Irreversible</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Modification.html#find-reversible-reactions">Find Reversible Reactions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Modification.html#convert-to-reversible">Convert To Reversible</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Modification.html#reduce-model">Reduce Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Modification.html#remove-gene">Remove Gene</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Modification.html#remove-reaction">Remove Reaction</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Solvers.html">Solvers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Solvers.html#supported-solvers">Supported Solvers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Solvers.html#methods">Methods</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="JuliaTips.html">Julia Tips</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="JuliaTips.html#packages">Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="JuliaTips.html#function-names">Function names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="JuliaTips.html#getting-help">Getting help</a></li>
+<li class="toctree-l2"><a class="reference internal" href="JuliaTips.html#methods">Methods</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="#">Documentation overview</a><ul>
+      <li>Next: <a href="Getting Started.html" title="next chapter">Getting Started</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/index.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Davíð Isebarn & Steinn Guðmundsson.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="_sources/index.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

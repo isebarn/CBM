@@ -1,0 +1,376 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Modification &mdash; cobra 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="cobra 0.1 documentation" href="index.html" />
+    <link rel="next" title="Solvers" href="Solvers.html" />
+    <link rel="prev" title="Simulations" href="Simulations.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="modification">
+<h1>Modification<a class="headerlink" href="#modification" title="Permalink to this headline">¶</a></h1>
+<p>Cobra offers many methods intended for model modification</p>
+<ul class="simple">
+<li><a class="reference internal" href="#add-metabolite"><span class="std std-ref">Adding a Metabolite</span></a></li>
+<li><a class="reference internal" href="#add-reaction"><span class="std std-ref">Adding a Reaction</span></a></li>
+<li><a class="reference internal" href="#change-objective"><span class="std std-ref">Change the Objective Reaction</span></a></li>
+<li><a class="reference internal" href="#change-reaction-bounds"><span class="std std-ref">Change Reaction Bounds</span></a></li>
+<li><a class="reference internal" href="#convert-to-irreversible"><span class="std std-ref">Convert To Irreversible</span></a></li>
+<li><a class="reference internal" href="#find-reversible"><span class="std std-ref">Find Reversible Reactions</span></a></li>
+<li><a class="reference internal" href="#convert-to-reversible"><span class="std std-ref">Convert To Reversible</span></a></li>
+<li><a class="reference internal" href="#reduce-model"><span class="std std-ref">Reduce Model</span></a></li>
+<li><a class="reference internal" href="#remove-gene"><span class="std std-ref">Remove Gene</span></a></li>
+<li><a class="reference internal" href="#remove-reaction"><span class="std std-ref">Remove Reaction</span></a></li>
+</ul>
+<div class="section" id="adding-a-metabolite">
+<span id="add-metabolite"></span><h2>Adding a Metabolite<a class="headerlink" href="#adding-a-metabolite" title="Permalink to this headline">¶</a></h2>
+<p>Add a metabolite to the network.:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>function add_metabolite!(model, metabolite, b = 0, csense = &quot;=&quot;)
+</pre></div>
+</div>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">b</span></code> stands for the <strong>accumulation</strong> or <strong>release</strong> of the metabolite, where the value 0.0 stands for conservation.</li>
+<li><code class="docutils literal"><span class="pre">csense</span></code> relates to the chosen value of <code class="docutils literal"><span class="pre">b</span></code>, only <code class="docutils literal"><span class="pre">&lt;=</span></code>, <code class="docutils literal"><span class="pre">=</span></code> and <code class="docutils literal"><span class="pre">&gt;=</span></code> are allowed values</li>
+</ul>
+<p>To add a metabolite simply call:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>add_metabolite!(model,&quot;new_metabolite&quot;)
+</pre></div>
+</div>
+<p>Note that adding a metabolite wont have any <em>real effect</em> unless the metabolite appears in a reaction</p>
+</div>
+<div class="section" id="adding-a-reaction">
+<span id="add-reaction"></span><h2>Adding a Reaction<a class="headerlink" href="#adding-a-reaction" title="Permalink to this headline">¶</a></h2>
+<p>Add a new reaction to the model:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>add_reaction!(model, reaction_name, reaction; [, lb = -1000.0, ub = 1000.0])
+new_model = add_reaction(model, reaction_name, reaction; [, lb = -1000.0, ub = 1000.0])
+</pre></div>
+</div>
+<p>To add a reaction you must supply a valid <strong>reaction</strong> formula.</p>
+<p>Optionally, choose</p>
+<ul class="simple">
+<li>A name for the reaction</li>
+<li>lower- and upper-bounds</li>
+</ul>
+<p>Those metabolites that appear in the reaction formula that arent already present in the model will be added. The method will print out the names of <strong>new</strong> metabolites, so if the name of a metabolite gets printed out that was already present in the model, see if you wrote the correct metabolite id as it appears in <code class="docutils literal"><span class="pre">model.mets</span></code></p>
+<p>Create a new reaction by typing:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">new_model</span> <span class="o">=</span> <span class="n">add_reaction</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s2">&quot;new_reaction&quot;</span><span class="p">,</span> <span class="s2">&quot;met_A =&gt; met_B&quot;</span><span class="p">)</span>
+<span class="n">Note</span><span class="p">:</span> <span class="n">met_B</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">new</span> <span class="n">metabolite</span>
+<span class="n">Note</span><span class="p">:</span> <span class="n">met_A</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">new</span> <span class="n">metabolite</span>
+           <span class="n">rxns</span> <span class="p">:</span>     <span class="mi">96</span> <span class="n">Array</span><span class="p">{</span><span class="n">Any</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+           <span class="n">mets</span> <span class="p">:</span>     <span class="mi">74</span> <span class="n">Array</span><span class="p">{</span><span class="n">Any</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+          <span class="n">genes</span> <span class="p">:</span>    <span class="mi">137</span> <span class="n">Array</span><span class="p">{</span><span class="n">Any</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+              <span class="n">S</span> <span class="p">:</span>   <span class="mi">7104</span> <span class="n">SparseMatrixCSC</span><span class="p">{</span><span class="n">Float64</span><span class="p">,</span><span class="n">Int64</span><span class="p">}</span>
+             <span class="n">lb</span> <span class="p">:</span>     <span class="mi">96</span> <span class="n">Array</span><span class="p">{</span><span class="n">Float64</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+             <span class="n">ub</span> <span class="p">:</span>     <span class="mi">96</span> <span class="n">Array</span><span class="p">{</span><span class="n">Float64</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+              <span class="n">c</span> <span class="p">:</span>     <span class="mi">96</span> <span class="n">Array</span><span class="p">{</span><span class="n">Float64</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+              <span class="n">b</span> <span class="p">:</span>     <span class="mi">74</span> <span class="n">Array</span><span class="p">{</span><span class="n">Float64</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+         <span class="n">csense</span> <span class="p">:</span>      <span class="mi">3</span> <span class="n">Dict</span><span class="p">{</span><span class="n">String</span><span class="p">,</span><span class="n">Array</span><span class="p">{</span><span class="n">Any</span><span class="p">,</span><span class="mi">1</span><span class="p">}}</span>
+   <span class="n">rxn_gene_mat</span> <span class="p">:</span>  <span class="mi">13015</span> <span class="n">SparseVector</span><span class="p">{</span><span class="n">Float64</span><span class="p">,</span><span class="n">Int64</span><span class="p">}</span>
+       <span class="n">rxn_name</span> <span class="p">:</span>     <span class="mi">96</span> <span class="n">Array</span><span class="p">{</span><span class="n">Any</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+      <span class="n">rxn_rules</span> <span class="p">:</span>     <span class="mi">96</span> <span class="n">Array</span><span class="p">{</span><span class="n">Any</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+  <span class="n">rxn_subsystem</span> <span class="p">:</span>     <span class="mi">96</span> <span class="n">Array</span><span class="p">{</span><span class="n">Any</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+      <span class="n">rxn_extra</span> <span class="p">:</span>      <span class="mi">6</span> <span class="n">Dict</span><span class="p">{</span><span class="n">Any</span><span class="p">,</span><span class="n">Any</span><span class="p">}</span>
+    <span class="n">met_formula</span> <span class="p">:</span>     <span class="mi">74</span> <span class="n">Array</span><span class="p">{</span><span class="n">Any</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+       <span class="n">met_name</span> <span class="p">:</span>     <span class="mi">74</span> <span class="n">Array</span><span class="p">{</span><span class="n">Any</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+      <span class="n">met_extra</span> <span class="p">:</span>      <span class="mi">5</span> <span class="n">Dict</span><span class="p">{</span><span class="n">Any</span><span class="p">,</span><span class="n">Any</span><span class="p">}</span>
+      <span class="n">gene_name</span> <span class="p">:</span>      <span class="mi">0</span> <span class="n">Array</span><span class="p">{</span><span class="n">Any</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+     <span class="n">gene_extra</span> <span class="p">:</span>      <span class="mi">0</span> <span class="n">Dict</span><span class="p">{</span><span class="n">Any</span><span class="p">,</span><span class="n">Any</span><span class="p">}</span>
+    <span class="n">description</span> <span class="p">:</span>     <span class="mi">16</span>     <span class="n">String</span>
+</pre></div>
+</div>
+<p><strong>Note</strong> that the difference between <code class="docutils literal"><span class="pre">add_reaction!()</span></code> and <code class="docutils literal"><span class="pre">add_reaction()</span></code> is that the <code class="docutils literal"><span class="pre">!</span></code> means that the original <code class="docutils literal"><span class="pre">model</span></code> will be altered, but the <code class="docutils literal"><span class="pre">add_reaction()</span></code> method will return a copy of the original <code class="docutils literal"><span class="pre">model</span></code></p>
+</div>
+<div class="section" id="change-the-objective-reaction">
+<span id="change-objective"></span><h2>Change the Objective Reaction<a class="headerlink" href="#change-the-objective-reaction" title="Permalink to this headline">¶</a></h2>
+<p>Change the objective of the model:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>change_objective!(model, reaction; [objective = 1.0])
+new_model = change_objective(model, reaction; [objective = 1.0])
+</pre></div>
+</div>
+<p>Here, <code class="docutils literal"><span class="pre">reaction</span></code> and <code class="docutils literal"><span class="pre">objective</span></code> may be</p>
+<ul class="simple">
+<li>The name of a reaction and an specified objective value for that reaction</li>
+<li>The names of reaction and specified objective values for these reactions</li>
+<li>The index of a reaction and a specified objective value for that reaction</li>
+<li>The indices of reaction and specified objective values for these reactions</li>
+</ul>
+<p><strong>Note</strong> that if the <code class="docutils literal"><span class="pre">objective</span></code> is left blank, if will default to <code class="docutils literal"><span class="pre">1.0</span></code></p>
+<p>When performing analysis functions like <code class="docutils literal"><span class="pre">fba()</span></code>, usually the default objective reaction will be <em>biomass growth</em></p>
+<p>To find a models objective reaction, call:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">objective</span> <span class="o">=</span> <span class="n">find</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">c</span><span class="p">)</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">rxns</span><span class="p">[</span><span class="n">objective</span><span class="p">]</span>
+
+<span class="mi">1</span><span class="o">-</span><span class="n">element</span> <span class="n">Array</span><span class="p">{</span><span class="n">AbstractString</span><span class="p">,</span><span class="mi">1</span><span class="p">}:</span>
+ <span class="s2">&quot;BIOMASS_Ecoli_core_w_GAM&quot;</span>
+</pre></div>
+</div>
+<p>So calling <code class="docutils literal"><span class="pre">fba(model,&quot;max&quot;)</span></code> will result in maximizing
+the flow of the reaction <em>BIOMASS_Ecoli_core_w_GAM</em>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">println</span><span class="p">(</span><span class="n">fba</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="s2">&quot;max&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">f</span><span class="p">)</span>
+<span class="mf">0.8739215069684305</span>
+</pre></div>
+</div>
+<p>Use either of these to change the objective by supplying the index of the reaction. You can also supply multiple indices if there are <strong>multiple</strong> reactions whose flow you&#8217;d like to maximize, this will maximize their <strong>sum of flows</strong>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>change_objectives!(model, reaction_index; objective = 1.0)
+new_model = change_objective(model, reaction_index; objective = 1.0)
+</pre></div>
+</div>
+<p><strong>Note</strong>: Keep in mind that methods with names ending with <code class="docutils literal"><span class="pre">!</span></code>, like <code class="docutils literal"><span class="pre">change_objective!()</span></code> <strong>alter</strong> the original model, but those without will return a copy of the model with an altered objective</p>
+<p>Try calling:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>change_objective!(model,5)
+
+println(fba(model,&quot;max&quot;).f)
+[20.000000000000004]
+</pre></div>
+</div>
+<p>The value changes as we are now maximizing reaction 5 in <code class="docutils literal"><span class="pre">model.rxns</span></code>, <strong>ACONTb</strong></p>
+</div>
+<div class="section" id="change-reaction-bounds">
+<span id="id1"></span><h2>Change Reaction Bounds<a class="headerlink" href="#change-reaction-bounds" title="Permalink to this headline">¶</a></h2>
+<p>Alter the lower- and upper-bounds of a reaction:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>change_reaction_bounds!(model, reaction_index, value, bound = &quot;both&quot;)
+new_model = change_reaction_bounds(model, reaction_index, value, bound = &quot;both&quot;)
+</pre></div>
+</div>
+<p>where <code class="docutils literal"><span class="pre">bound</span></code> should be chosen as <code class="docutils literal"><span class="pre">l</span></code>, <code class="docutils literal"><span class="pre">u</span></code> or <code class="docutils literal"><span class="pre">both</span></code> to set either the lower bound, upper bound or both bounds to <code class="docutils literal"><span class="pre">value</span></code></p>
+<p>or:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">change_reaction_bounds</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">reaction_index</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span><span class="p">,</span> <span class="n">bound</span> <span class="o">=</span> <span class="s2">&quot;both&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To set both bounds</p>
+<p>When performing analysis functions like <cite>fba()</cite>, the result will depend heavily on reaction <strong>upper/lower bounds</strong></p>
+<p>See as an example the result of <code class="docutils literal"><span class="pre">Flux</span> <span class="pre">Balance</span> <span class="pre">Analysis</span></code> focused on biomass growth (reaction 13 in ecoli_core):</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">println</span><span class="p">(</span><span class="n">fba</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="s2">&quot;max&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">f</span><span class="p">)</span>
+<span class="mf">0.8739215069684305</span>
+</pre></div>
+</div>
+<p>If we were to call:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>change_reaction_bounds!(model, 4, 0.0, 3.0)
+</pre></div>
+</div>
+<p>The lower bound would be changed to 0.0, and the upper bound to 3.0 and performing <strong>fba</strong> would yield</p>
+<blockquote>
+<div>println(fba(model,&#8221;max&#8221;).f)
+0.8518912912634845</div></blockquote>
+<p>A slightly lower value</p>
+<p>To change by reaction index, call either:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>change_reaction_bounds!(model, reaction_index; lb = 0.0, ub = 0.0)
+new_model = change_reaction_bounds(model, reaction_index; lb = 0.0, ub = 0.0)
+</pre></div>
+</div>
+<p>To change by reaction name, call either:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>change_reaction_bounds!(model, reaction; lb = 0.0, ub = 0.0)
+new_model = change_reaction_bounds(model, reaction; lb = 0.0, ub = 0.0)
+</pre></div>
+</div>
+<p>To change only either <em>lower</em> or <em>upper</em> but not both, you can call:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>change_reaction_bounds!(model, reaction_index; lb = 0.0, ub = 0.0, bound   = &quot;both&quot;)
+new_model = change_reaction_bounds(model, reaction_index; lb = 0.0, ub = 0.0, bound   = &quot;both&quot;)
+</pre></div>
+</div>
+<p>This method has the <strong>optional arguement</strong> <code class="docutils literal"><span class="pre">bound</span></code> which may be set as <strong>both</strong> or as <strong>l</strong> for <strong>lower</strong> or <strong>u</strong> for <strong>upper</strong>, so:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>change_reaction_bounds!(model, 5, ub = 20.0, &quot;u&quot;)
+</pre></div>
+</div>
+<p>Will change reaction 5 upper bound to 20.0</p>
+<p><strong>Note</strong>: Keep in mind that methods with names ending with <code class="docutils literal"><span class="pre">!</span></code>, like <code class="docutils literal"><span class="pre">change_reaction_bounds!()</span></code> <strong>alter</strong> the original model, but those without will return a copy of the model with an altered lower and upper bounds</p>
+</div>
+<div class="section" id="convert-to-irreversible">
+<span id="id2"></span><h2>Convert To Irreversible<a class="headerlink" href="#convert-to-irreversible" title="Permalink to this headline">¶</a></h2>
+<p>Convert the model to its irreversible form, such that no reaction is <strong>bi-directional</strong>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>convert_to_irreversible!(model)
+new_model = convert_to_irreversible(model)
+</pre></div>
+</div>
+<p>This simple method simply finds the reactions in the model who have <strong>negative lower bounds</strong> and <strong>positive upper bounds</strong> and splits them into <strong>two new reactions</strong></p>
+<ol class="arabic simple">
+<li>One reaction with a negative lower bound and upper bound fixed at 0.0</li>
+<li>One reaction with a positive upper bound and lower bound fixed at 0.0</li>
+</ol>
+</div>
+<div class="section" id="find-reversible-reactions">
+<span id="find-reversible"></span><h2>Find Reversible Reactions<a class="headerlink" href="#find-reversible-reactions" title="Permalink to this headline">¶</a></h2>
+<p>Returns the indices of all reversible reactions:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">find_reversible</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="convert-to-reversible">
+<span id="id3"></span><h2>Convert To Reversible<a class="headerlink" href="#convert-to-reversible" title="Permalink to this headline">¶</a></h2>
+<p>Convert the model so that duplicate reactions, but with <strong>opposite</strong> direction (or flow), will be joined and bounds merged</p>
+<blockquote>
+<div>convert_to_reversible!(model)
+new_model = convert_to_reversible(model)</div></blockquote>
+<p>This simple method finds the reactions that have only both <strong>negative</strong> and <strong>positive</strong> bounds and are the &#8220;same&#8221; reaction, and merges the lower lower-bound and the higher upper-bound</p>
+</div>
+<div class="section" id="reduce-model">
+<span id="id4"></span><h2>Reduce Model<a class="headerlink" href="#reduce-model" title="Permalink to this headline">¶</a></h2>
+<p>Remove from the model those reaction that dont affect the organism&#8217;s objective reaction (biomass growth), i.e those reactions that
+exhibit zero flux:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>new_model = reduce_model(model)
+reduce_model!(model)
+</pre></div>
+</div>
+</div>
+<div class="section" id="remove-gene">
+<span id="id5"></span><h2>Remove Gene<a class="headerlink" href="#remove-gene" title="Permalink to this headline">¶</a></h2>
+<p>Remove a gene from the model:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>remove_gene!(model gene)
+new_model = remove_gene(model gene)
+</pre></div>
+</div>
+<p>Where <code class="docutils literal"><span class="pre">gene</span></code> may be</p>
+<ul class="simple">
+<li>the string name of the gene, such as <code class="docutils literal"><span class="pre">&quot;s0001&quot;</span></code></li>
+<li>its index</li>
+<li>an array of gene names, eg <code class="docutils literal"><span class="pre">[&quot;s0001&quot;,</span> <span class="pre">&quot;b0019&quot;]</span></code></li>
+<li>an array of indices, [1,5,6]</li>
+</ul>
+<p>This method is intended to emulate the effect of knocking out genes and thus (possibly) deactivating the reactions that depend on them</p>
+<p>Lets try running:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">println</span><span class="p">(</span><span class="n">fba</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="s2">&quot;max&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">f</span><span class="p">)</span>
+<span class="mf">0.8739215069684305</span>
+</pre></div>
+</div>
+<p>And then we try:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">remove_gene</span><span class="p">(</span><span class="n">model</span><span class="p">,[</span><span class="s2">&quot;b0118&quot;</span><span class="p">,</span><span class="s2">&quot;b1276&quot;</span><span class="p">])</span>
+<span class="n">fba</span><span class="p">(</span><span class="n">model</span><span class="p">)</span><span class="o">.</span><span class="n">f</span>
+<span class="mi">1</span><span class="o">-</span><span class="n">element</span> <span class="n">Array</span><span class="p">{</span><span class="n">Float64</span><span class="p">,</span><span class="mi">1</span><span class="p">}:</span>
+ <span class="o">-</span><span class="mf">6.38977e-29</span>
+</pre></div>
+</div>
+<p>So these two genes appear to be essential.</p>
+</div>
+<div class="section" id="remove-reaction">
+<span id="id6"></span><h2>Remove Reaction<a class="headerlink" href="#remove-reaction" title="Permalink to this headline">¶</a></h2>
+<p>Remove one or more reactions from the model:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>remove_reaction!(model, reaction)
+new_model = remove_reaction(model, reaction)
+</pre></div>
+</div>
+<p>Where <code class="docutils literal"><span class="pre">reaction</span></code> may be:</p>
+<ul class="simple">
+<li>the name of a single reaction as they appear in model.rxns</li>
+<li>the index of a single reaction</li>
+<li>an array of reaction names</li>
+<li>an array of reaction indices</li>
+</ul>
+<p>Lets try running:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">println</span><span class="p">(</span><span class="n">fba</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="s2">&quot;max&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">f</span><span class="p">)</span>
+<span class="mf">0.8739215069684305</span>
+</pre></div>
+</div>
+<p>And then we try:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">remove_reaction</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">fba</span><span class="p">(</span><span class="n">model</span><span class="p">)</span><span class="o">.</span><span class="n">f</span>
+<span class="mi">1</span><span class="o">-</span><span class="n">element</span> <span class="n">Array</span><span class="p">{</span><span class="n">Float64</span><span class="p">,</span><span class="mi">1</span><span class="p">}:</span>
+ <span class="mf">0.858307</span>
+</pre></div>
+</div>
+<p>So removing reaction 8, <strong>AKGDH</strong>, makes a tiny difference in the flow of the biomass growth reaction</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Modification</a><ul>
+<li><a class="reference internal" href="#adding-a-metabolite">Adding a Metabolite</a></li>
+<li><a class="reference internal" href="#adding-a-reaction">Adding a Reaction</a></li>
+<li><a class="reference internal" href="#change-the-objective-reaction">Change the Objective Reaction</a></li>
+<li><a class="reference internal" href="#change-reaction-bounds">Change Reaction Bounds</a></li>
+<li><a class="reference internal" href="#convert-to-irreversible">Convert To Irreversible</a></li>
+<li><a class="reference internal" href="#find-reversible-reactions">Find Reversible Reactions</a></li>
+<li><a class="reference internal" href="#convert-to-reversible">Convert To Reversible</a></li>
+<li><a class="reference internal" href="#reduce-model">Reduce Model</a></li>
+<li><a class="reference internal" href="#remove-gene">Remove Gene</a></li>
+<li><a class="reference internal" href="#remove-reaction">Remove Reaction</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="Simulations.html" title="previous chapter">Simulations</a></li>
+      <li>Next: <a href="Solvers.html" title="next chapter">Solvers</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/Modification.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Davíð Isebarn & Steinn Guðmundsson.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="_sources/Modification.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

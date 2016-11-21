@@ -1,0 +1,568 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Simulations &mdash; cobra 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="cobra 0.1 documentation" href="index.html" />
+    <link rel="next" title="Modification" href="Modification.html" />
+    <link rel="prev" title="IO" href="IO.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="simulations">
+<h1>Simulations<a class="headerlink" href="#simulations" title="Permalink to this headline">¶</a></h1>
+<p>Cobra offers many methods inteded for model analysis</p>
+<ul class="simple">
+<li><a class="reference internal" href="#fba"><span class="std std-ref">Flux Balance Analysis</span></a></li>
+<li><a class="reference internal" href="#fva"><span class="std std-ref">Flux Variability Analysis</span></a></li>
+<li><a class="reference internal" href="#find-blocked-reactions"><span class="std std-ref">Find blocked reactions</span></a></li>
+<li><a class="reference internal" href="#synthetic-lethal-genes"><span class="std std-ref">Synthetic Lethal Genes</span></a></li>
+<li><a class="reference internal" href="#robustness-analysis"><span class="std std-ref">Robustness Analysis</span></a></li>
+<li><a class="reference internal" href="#find-deadend-metabolites"><span class="std std-ref">Find Dead End Metabolites</span></a></li>
+<li><a class="reference internal" href="#find-essential-genes"><span class="std std-ref">Find Essential Genes</span></a></li>
+<li><a class="reference internal" href="#find-exchange-reactions"><span class="std std-ref">Find Exchange Reactions</span></a></li>
+<li><a class="reference internal" href="#find-reactions-from-gene"><span class="std std-ref">Find Reactions From Gene</span></a></li>
+<li><a class="reference internal" href="#find-reactions-from-metabolite"><span class="std std-ref">Find Reactions From Metabolite</span></a></li>
+<li><a class="reference internal" href="#gene-deletion"><span class="std std-ref">Gene Deletion</span></a></li>
+<li><a class="reference internal" href="#knockout-genes"><span class="std std-ref">Knockout Genes</span></a></li>
+<li><a class="reference internal" href="#knockout-reactions"><span class="std std-ref">Knockout Reactions</span></a></li>
+<li><a class="reference internal" href="#print-reaction-formula"><span class="std std-ref">Print Reaction Formula</span></a></li>
+<li><a class="reference internal" href="#reaction-info"><span class="std std-ref">Reaction Info</span></a></li>
+</ul>
+<div class="section" id="flux-balance-analysis">
+<span id="fba"></span><h2>Flux Balance Analysis<a class="headerlink" href="#flux-balance-analysis" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal"><span class="pre">fba()</span></code> is a mathematical method for simulating metabolism in genome-scale reconstructions of metabolic networks, by optimizing the network w.r.t (usually) the reactions responsible for the organisms growth:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">fba</span><span class="p">(</span><span class="n">model</span><span class="p">;</span> <span class="p">[</span><span class="n">direction</span> <span class="o">=</span> <span class="s2">&quot;max&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Where <code class="docutils literal"><span class="pre">direction</span></code> may be either <code class="docutils literal"><span class="pre">max</span></code> or <code class="docutils literal"><span class="pre">min</span></code></p>
+<p><strong>Example</strong></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">sol</span> <span class="o">=</span> <span class="n">fba</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="n">x</span><span class="p">::</span><span class="n">Array</span><span class="p">{</span><span class="n">Float64</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+<span class="n">y</span><span class="p">::</span><span class="n">Array</span><span class="p">{</span><span class="n">Float64</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+<span class="n">w</span><span class="p">::</span><span class="n">Array</span><span class="p">{</span><span class="n">Float64</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+<span class="n">f</span><span class="p">::</span><span class="mf">0.8739215069684305</span>
+<span class="n">status</span><span class="p">::</span><span class="n">Optimal</span>
+</pre></div>
+</div>
+<p>Where</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">sol.x</span></code> represents the solution vector</li>
+<li><code class="docutils literal"><span class="pre">sol.y</span></code> represents the slack</li>
+<li><code class="docutils literal"><span class="pre">sol.w</span></code> represents the reduced costs</li>
+<li><code class="docutils literal"><span class="pre">sol.f</span></code> the objective value</li>
+</ul>
+</div>
+<div class="section" id="flux-variability-analysis">
+<span id="fva"></span><h2>Flux Variability Analysis<a class="headerlink" href="#flux-variability-analysis" title="Permalink to this headline">¶</a></h2>
+<p>Returns the <strong>minimum</strong> and <strong>maximum</strong> flux of every reaction in the model</p>
+<p><strong>Note:</strong> This method may run <strong>in parallel</strong></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">fva</span><span class="p">(</span><span class="n">model</span><span class="p">::</span><span class="n">Model</span><span class="p">,</span> <span class="p">[</span><span class="n">optPercentage</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">flux_matrix</span> <span class="o">=</span> <span class="n">false</span><span class="p">])</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">optPercentage</span></code>: Fix the lower bound of the biomass reaction (or objective reaction) to a percentage of its maximum possible value.</li>
+<li><code class="docutils literal"><span class="pre">flux_matrix</span></code>: In addition to <strong>minimum</strong> and <strong>maximum</strong> fluxes, return the entire solution flux for every reaction.</li>
+</ul>
+<p><strong>Example</strong></p>
+<p>To calculate the minimum and maximum flux values of <strong>every reaction</strong> with biomass fixed
+at 50% of its maximum value:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">minFlux</span><span class="p">,</span> <span class="n">maxFlux</span> <span class="o">=</span> <span class="n">fva</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To calculate the flux values of <strong>every</strong> reaction for every reactions minimum flux and maximum flux, call:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">minFlux</span><span class="p">,</span> <span class="n">maxFlux</span><span class="p">,</span> <span class="n">minFluxArray</span><span class="p">,</span> <span class="n">maxFluxArray</span> <span class="o">=</span> <span class="n">fva</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">true</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="find-blocked-reactions">
+<span id="id1"></span><h2>Find blocked reactions<a class="headerlink" href="#find-blocked-reactions" title="Permalink to this headline">¶</a></h2>
+<p>Locate every reaction that is constrianed to <strong>zero flux</strong> in every case:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">blocked_reactions</span> <span class="o">=</span> <span class="p">(</span><span class="n">model</span><span class="p">::</span><span class="n">Model</span><span class="p">,</span> <span class="p">[</span><span class="n">tolerance</span><span class="p">::</span><span class="n">Number</span> <span class="o">=</span> <span class="mi">1</span><span class="n">e</span><span class="o">-</span><span class="mi">10</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Where tolerance represents how close to absolute 0.0 the reaction flux must lie</p>
+<p><strong>Example</strong></p>
+<p>For ecoli core:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">find_blocked_reactions</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="mi">8</span><span class="o">-</span><span class="n">element</span> <span class="n">Array</span><span class="p">{</span><span class="n">Any</span><span class="p">,</span><span class="mi">1</span><span class="p">}:</span>
+ <span class="s2">&quot;EX_fru_e&quot;</span>
+ <span class="s2">&quot;EX_fum_e&quot;</span>
+ <span class="s2">&quot;EX_gln__L_e&quot;</span>
+ <span class="s2">&quot;EX_mal__L_e&quot;</span>
+ <span class="s2">&quot;FRUpts2&quot;</span>
+ <span class="s2">&quot;FUMt2_2&quot;</span>
+ <span class="s2">&quot;GLNabc&quot;</span>
+ <span class="s2">&quot;MALt2_2&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="synthetic-lethal-genes">
+<span id="id2"></span><h2>Synthetic Lethal Genes<a class="headerlink" href="#synthetic-lethal-genes" title="Permalink to this headline">¶</a></h2>
+<p>Check the model for essential genes, conditionally essential genes and non-essential genes</p>
+<p>Returns a vector of essential, conditionally essential and essential genes,:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">synthetic_lethal_genes</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">cutoff</span><span class="p">,</span> <span class="n">num_runs</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal"><span class="pre">cutoff</span></code> represents the minimum biomass flux as a percentage of the wild-type flux.</p>
+<p><code class="docutils literal"><span class="pre">num_runs</span></code> indicates how many times the algorithm runs, higher number gives better results, but takes longer.</p>
+<p><strong>Examples</strong>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ess</span><span class="p">,</span> <span class="n">cond</span><span class="p">,</span> <span class="n">non</span> <span class="o">=</span> <span class="n">synthetic_lethal_genes</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>essential genes</strong> are those that if disabled, make biomass production ratio to the
+wild type drop below 10%</p>
+<p><strong>conditionally essential</strong> are those, that if disabled along with some other genes will make the biomass production ratio to the wild type drop below 10%</p>
+<p><strong>non-essential genes</strong> are those that never have the effect of making the biomass production ratio to the wild type ratio drop below 10%</p>
+</div>
+<div class="section" id="robustness-analysis">
+<span id="id3"></span><h2>Robustness Analysis<a class="headerlink" href="#robustness-analysis" title="Permalink to this headline">¶</a></h2>
+<p>Perform a robustness analysis for any number of fixed reactions, specified by indices or reaction names:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">solution</span> <span class="o">=</span> <span class="o">=</span> <span class="n">robustness_analysis</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">reaction_names</span><span class="p">,</span> <span class="p">[</span><span class="n">objective_name</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">pts</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">direction</span> <span class="o">=</span> <span class="s2">&quot;max&quot;</span><span class="p">])</span>
+<span class="n">solution</span> <span class="o">=</span> <span class="n">robustness_analysis</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">reactions</span><span class="p">,</span> <span class="p">[</span><span class="n">objective</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">pts</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">direction</span> <span class="o">=</span> <span class="s2">&quot;max&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>The method can either be called with reaction names or with reaction indices.</p>
+<ul class="simple">
+<li>If the <code class="docutils literal"><span class="pre">objective_name</span></code>/<code class="docutils literal"><span class="pre">objective</span></code> field is left empty, the method defaults to the reaction marked nonzero by <code class="docutils literal"><span class="pre">model.c</span></code></li>
+<li><code class="docutils literal"><span class="pre">pts</span></code> represents the <em>resolution</em> of each reaction, so if reactions <code class="docutils literal"><span class="pre">[5,6]</span></code> are chosen and points <code class="docutils literal"><span class="pre">[8,10]</span></code>, the range for which reaction 5 will be fixed to will be split into 8 points, but 10 points for reaction 6. This defaults to 20 points.</li>
+<li>direction can be either <code class="docutils literal"><span class="pre">min</span></code> or, as default, <code class="docutils literal"><span class="pre">max</span></code></li>
+</ul>
+<p><strong>Example</strong>
+To perform a robustness analysis on reaction 13 againts reactions 5,8 and 11, where the point resolution
+for reactions 5,8 and 11 is 4,2 and 10, respectively:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">robustness_analysis</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">11</span><span class="p">],</span> <span class="mi">13</span><span class="p">,</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">10</span><span class="p">],</span> <span class="s2">&quot;max&quot;</span><span class="p">)</span>
+    <span class="n">Robustness</span> <span class="n">Analysis</span>
+                          <span class="n">result</span> <span class="p">:</span>   <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span> <span class="n">Array</span>
+                          <span class="n">ranges</span> <span class="p">:</span>
+                                  <span class="n">reaction</span> <span class="p">:</span>          <span class="nb">range</span><span class="p">:</span>
+                                         <span class="mi">5</span> <span class="p">:</span>     <span class="p">(</span><span class="o">-</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">20.0</span><span class="p">)</span>
+                                         <span class="mi">8</span> <span class="p">:</span>      <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">20.0</span><span class="p">)</span>
+                                        <span class="mi">11</span> <span class="p">:</span>    <span class="p">(</span><span class="mf">8.39</span><span class="p">,</span><span class="mf">175.0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The method returns a <strong>Robustness</strong> object with fields</p>
+<blockquote>
+<div><ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">solution.result</span></code></p>
+<blockquote>
+<div><p>a multidimensional matrix which contains the flux value of the objective for each point.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">solution.reactions</span></code></p>
+<blockquote>
+<div><p>names of the reactions</p>
+</div></blockquote>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">solution.ranges</span></code></p>
+<blockquote>
+<div><p>the flux values of the reactions at specific points</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">solution</span><span class="o">.</span><span class="n">ranges</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="mi">4</span><span class="o">-</span><span class="n">element</span> <span class="n">Array</span><span class="p">{</span><span class="n">Float64</span><span class="p">,</span><span class="mi">1</span><span class="p">}:</span>
+ <span class="o">-</span><span class="mf">1.3884e-28</span>
+  <span class="mf">6.66667</span>
+ <span class="mf">13.3333</span>
+ <span class="mf">20.0</span>
+</pre></div>
+</div>
+<p>So reaction 1 (reaction 5, ACONTb) is fixed at 6.6666 at point 2</p>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+<p>To see the value of the objective, reaction 13, when reaction 5
+is fixed at point 1, reaction 8 at point 2 and reaction 11 at
+point 10:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">solution</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">10</span><span class="p">]</span>
+<span class="mf">6.365820260756199e-16</span>
+</pre></div>
+</div>
+<p>To see every point where the objective is between 0.5 and 0.9:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nb">range</span><span class="p">(</span><span class="n">solution</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">)</span>
+<span class="mi">4</span><span class="o">-</span><span class="n">element</span> <span class="n">Array</span><span class="p">{</span><span class="n">Tuple</span><span class="p">{</span><span class="n">Int64</span><span class="p">,</span><span class="n">Int64</span><span class="p">,</span><span class="n">Int64</span><span class="p">},</span><span class="mi">1</span><span class="p">}:</span>
+ <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+ <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+ <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+ <span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To get the entire vector for reaction 5 when reaction 8 is fixed at
+point 2 and reaction 11 is fixed at point 6:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">solution</span><span class="p">[:,</span><span class="mi">2</span><span class="p">,</span><span class="mi">6</span><span class="p">]</span>
+<span class="mi">4</span><span class="o">-</span><span class="n">element</span> <span class="n">Array</span><span class="p">{</span><span class="n">Float64</span><span class="p">,</span><span class="mi">1</span><span class="p">}:</span>
+ <span class="mf">0.425313</span>
+ <span class="mf">0.314254</span>
+ <span class="mf">0.203194</span>
+ <span class="mf">0.0921351</span>
+</pre></div>
+</div>
+<p>Return a matrix with the objective reactions optimal value at each
+value of the control reaction</p>
+<p><strong>Plotting</strong></p>
+<p>It is reccomended to use PyPlot to plot in Julia.</p>
+<p>using PyPlot, to plot a 2D image of the effect of reaction 5
+while reaction 8 is fixed at point 2 and reaction 11 at point 6:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">PyPlot</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">a</span><span class="p">[:,</span><span class="mi">2</span><span class="p">,</span><span class="mi">6</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>to plot a 3D image in PyPlot for reactions 5 and 8 while
+reaction 11 is fixed at point 6:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">PyPlot</span><span class="o">.</span><span class="n">surf</span><span class="p">(</span><span class="n">a</span><span class="p">[:,:,</span><span class="mi">6</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="find-dead-end-metabolites">
+<span id="find-deadend-metabolites"></span><h2>Find Dead End Metabolites<a class="headerlink" href="#find-dead-end-metabolites" title="Permalink to this headline">¶</a></h2>
+<p>Return those metabolites that are <strong>only produced</strong> and <strong>only consumed</strong>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">find_deadend_metabolites</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="p">[</span><span class="n">lbfilter</span> <span class="o">=</span> <span class="n">true</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>By default, those metabolites with a positive lower bound are filtered out of the results</p>
+<p><strong>Example</strong></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">idx</span> <span class="o">=</span> <span class="n">find_deadend_metabolites</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="mi">5</span><span class="o">-</span><span class="n">element</span> <span class="n">Array</span><span class="p">{</span><span class="n">Int64</span><span class="p">,</span><span class="mi">1</span><span class="p">}:</span>
+ <span class="mi">30</span>
+ <span class="mi">32</span>
+ <span class="mi">37</span>
+ <span class="mi">49</span>
+ <span class="mi">60</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="find-essential-genes">
+<span id="id4"></span><h2>Find Essential Genes<a class="headerlink" href="#find-essential-genes" title="Permalink to this headline">¶</a></h2>
+<p>Return a list of those genes, which would, if knocked out, bring the objective flux beneath that
+specified by <code class="docutils literal"><span class="pre">min_growth</span></code></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">essential</span> <span class="o">=</span> <span class="n">find_essential_genes</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">min_growth</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Example</strong></p>
+<p>Find those genes that would bring biomass production beneath 0.01:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">find_essential_genes</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="mf">0.01</span><span class="p">)</span>
+<span class="mi">2</span><span class="o">-</span><span class="n">element</span> <span class="n">Array</span><span class="p">{</span><span class="n">String</span><span class="p">,</span><span class="mi">1</span><span class="p">}:</span>
+ <span class="s2">&quot;b2416&quot;</span>
+ <span class="s2">&quot;b2415&quot;</span>
+</pre></div>
+</div>
+<p>Note that <strong>min_growth</strong> represents the actual growth, not a percentage of the <strong>wild-type</strong> growth. For min growth of
+0.1%, do:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">find_essential_genes</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="mf">0.001</span> <span class="o">*</span> <span class="n">fba</span><span class="p">(</span><span class="n">model</span><span class="p">)</span><span class="o">.</span><span class="n">f</span><span class="p">)</span>
+<span class="mi">2</span><span class="o">-</span><span class="n">element</span> <span class="n">Array</span><span class="p">{</span><span class="n">String</span><span class="p">,</span><span class="mi">1</span><span class="p">}:</span>
+ <span class="s2">&quot;b2416&quot;</span>
+ <span class="s2">&quot;b2415&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="find-exchange-reactions">
+<span id="id5"></span><h2>Find Exchange Reactions<a class="headerlink" href="#find-exchange-reactions" title="Permalink to this headline">¶</a></h2>
+<p>Return either the indices or names of the exchange reactions in the model:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">find_exchange_reactions</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="p">[</span><span class="n">output</span> <span class="o">=</span> <span class="s2">&quot;index&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">output</span></code> can be either <code class="docutils literal"><span class="pre">index</span></code> or <code class="docutils literal"><span class="pre">name</span></code></li>
+</ul>
+<p><strong>Example</strong>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">find_exchange_reactions</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">)</span>
+<span class="mi">20</span><span class="o">-</span><span class="n">element</span> <span class="n">Array</span><span class="p">{</span><span class="n">String</span><span class="p">,</span><span class="mi">1</span><span class="p">}:</span>
+ <span class="s2">&quot;EX_ac_e&quot;</span>
+ <span class="s2">&quot;EX_acald_e&quot;</span>
+ <span class="s2">&quot;EX_akg_e&quot;</span>
+ <span class="s2">&quot;EX_co2_e&quot;</span>
+ <span class="s2">&quot;EX_etoh_e&quot;</span>
+ <span class="s2">&quot;EX_for_e&quot;</span>
+ <span class="s2">&quot;EX_fru_e&quot;</span>
+ <span class="s2">&quot;EX_fum_e&quot;</span>
+ <span class="s2">&quot;EX_glc__D_e&quot;</span>
+ <span class="s2">&quot;EX_gln__L_e&quot;</span>
+ <span class="s2">&quot;EX_glu__L_e&quot;</span>
+ <span class="s2">&quot;EX_h_e&quot;</span>
+ <span class="s2">&quot;EX_h2o_e&quot;</span>
+ <span class="s2">&quot;EX_lac__D_e&quot;</span>
+ <span class="s2">&quot;EX_mal__L_e&quot;</span>
+ <span class="s2">&quot;EX_nh4_e&quot;</span>
+ <span class="s2">&quot;EX_o2_e&quot;</span>
+ <span class="s2">&quot;EX_pi_e&quot;</span>
+ <span class="s2">&quot;EX_pyr_e&quot;</span>
+ <span class="s2">&quot;EX_succ_e&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="find-reactions-from-gene">
+<span id="id6"></span><h2>Find Reactions From Gene<a class="headerlink" href="#find-reactions-from-gene" title="Permalink to this headline">¶</a></h2>
+<p>Return the indices of those reactions affected by a specified <code class="docutils literal"><span class="pre">gene</span></code>, specified by name or index, and output can be either &#8220;index&#8221; or &#8220;name&#8221;:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">find_reactions_from_gene</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">gene</span><span class="p">,</span> <span class="p">[</span><span class="n">output</span> <span class="o">=</span> <span class="s2">&quot;index&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">output</span></code> can be either <code class="docutils literal"><span class="pre">index</span></code> or <code class="docutils literal"><span class="pre">name</span></code></li>
+</ul>
+<p><strong>Example</strong></p>
+<p>To find the indices of those reactions affected by gene &#8220;s0001&#8221;:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">find_reactions_from_gene</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s2">&quot;s0001&quot;</span><span class="p">,</span> <span class="s2">&quot;index&quot;</span><span class="p">)</span>
+<span class="mi">5</span><span class="o">-</span><span class="n">element</span> <span class="n">Array</span><span class="p">{</span><span class="n">Int64</span><span class="p">,</span><span class="mi">1</span><span class="p">}:</span>
+  <span class="mi">2</span>
+ <span class="mi">14</span>
+ <span class="mi">58</span>
+ <span class="mi">69</span>
+ <span class="mi">70</span>
+</pre></div>
+</div>
+<p><strong>Example</strong></p>
+<p>Find the names of the reactions affected by gene number 3 in model.genes:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">find_reactions_from_gene</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">)</span>
+<span class="mi">5</span><span class="o">-</span><span class="n">element</span> <span class="n">Array</span><span class="p">{</span><span class="n">String</span><span class="p">,</span><span class="mi">1</span><span class="p">}:</span>
+ <span class="s2">&quot;ACALDt&quot;</span>
+ <span class="s2">&quot;CO2t&quot;</span>
+ <span class="s2">&quot;H2Ot&quot;</span>
+ <span class="s2">&quot;NH4t&quot;</span>
+ <span class="s2">&quot;O2t&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="find-reactions-from-metabolite">
+<span id="id7"></span><h2>Find Reactions From Metabolite<a class="headerlink" href="#find-reactions-from-metabolite" title="Permalink to this headline">¶</a></h2>
+<p>Find those reactions a specified metabolite appears in, the metabolite either specified by its name
+as it appears in model.mets, or by its index:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">find_reactions_from_metabolite</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">metabolite</span><span class="p">,</span> <span class="p">[</span><span class="n">output</span> <span class="o">=</span> <span class="s2">&quot;index&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">output</span></code> can be either <code class="docutils literal"><span class="pre">index</span></code> or <code class="docutils literal"><span class="pre">name</span></code> or <code class="docutils literal"><span class="pre">formula</span></code></li>
+</ul>
+<p><strong>Example</strong></p>
+<p>To find the indices of those reactions where &#8220;cit_c&#8221; appears:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">find_reactions_from_metabolite</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s2">&quot;cit_c&quot;</span><span class="p">)</span>
+<span class="mi">2</span><span class="o">-</span><span class="n">element</span> <span class="n">Array</span><span class="p">{</span><span class="n">Int64</span><span class="p">,</span><span class="mi">1</span><span class="p">}:</span>
+  <span class="mi">4</span>
+ <span class="mi">15</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="gene-deletion">
+<span id="id8"></span><h2>Gene Deletion<a class="headerlink" href="#gene-deletion" title="Permalink to this headline">¶</a></h2>
+<p>Return a GeneDeletion object, which containts the result from the n-th combinatorial deletion of genes.:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">gene_deletion</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Example</strong></p>
+<p>To calculate every possible double-deletion of genes:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">sol</span> <span class="o">=</span> <span class="n">gene_deletion</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">Type</span><span class="p">:</span> <span class="n">GeneDeletion</span>
+                                 <span class="n">Field</span> <span class="p">:</span>   <span class="n">Size</span>  <span class="n">Fieldtype</span>
+    <span class="n">Reactions</span> <span class="o">=&gt;</span> <span class="n">Gene</span><span class="o">-</span><span class="n">knockout</span>     <span class="n">r_g</span> <span class="p">:</span>    <span class="mi">684</span> <span class="n">Dict</span><span class="p">{</span><span class="n">Any</span><span class="p">,</span><span class="n">Any</span><span class="p">}</span>
+             <span class="n">Reactions</span> <span class="o">=&gt;</span> <span class="n">Flow</span>     <span class="n">r_f</span> <span class="p">:</span>    <span class="mi">684</span> <span class="n">Dict</span><span class="p">{</span><span class="n">Any</span><span class="p">,</span><span class="n">Any</span><span class="p">}</span>
+         <span class="n">Gene</span><span class="o">-</span><span class="n">knockout</span> <span class="o">=&gt;</span> <span class="n">Flow</span>     <span class="n">g_f</span> <span class="p">:</span>   <span class="mi">9453</span> <span class="n">Dict</span><span class="p">{</span><span class="n">Any</span><span class="p">,</span><span class="n">Any</span><span class="p">}</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">sol.r_g</span></code> is a dictionary with <code class="docutils literal"><span class="pre">reactions</span></code> as keys, and <code class="docutils literal"><span class="pre">genes</span></code> as values. An element may contain:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Any</span><span class="p">[</span><span class="mi">53</span><span class="p">,</span><span class="mi">90</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="n">Any</span><span class="p">[</span><span class="n">String</span><span class="p">[</span><span class="s2">&quot;b1761&quot;</span><span class="p">,</span><span class="s2">&quot;b0729&quot;</span><span class="p">],</span><span class="n">String</span><span class="p">[</span><span class="s2">&quot;b1761&quot;</span><span class="p">,</span><span class="s2">&quot;b0728&quot;</span><span class="p">]]</span>
+</pre></div>
+</div>
+<p>Which means that knocking out either <code class="docutils literal"><span class="pre">[&quot;b1761&quot;,&quot;b0729&quot;]</span></code> or <code class="docutils literal"><span class="pre">[&quot;b1761&quot;,&quot;b0728&quot;]</span></code> will disable reactions <code class="docutils literal"><span class="pre">[53,90]</span></code></p>
+<p><code class="docutils literal"><span class="pre">sol.r_g</span></code> is a dictionary with <code class="docutils literal"><span class="pre">reactions</span></code> as keys, and the resulting biomass flow ratio to the wild-type flow after its knockout.</p>
+<p>An element from this dictionary may contain:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sol</span><span class="o">.</span><span class="n">r_f</span><span class="p">[[</span><span class="mi">53</span><span class="p">,</span><span class="mi">90</span><span class="p">]]</span> <span class="o">=&gt;</span> <span class="mf">0.9533242530236902</span>
+</pre></div>
+</div>
+<p>So disabling reactions <code class="docutils literal"><span class="pre">[53,90]</span></code> will reduce the biomass (or whatever the objective reaction is) to 95% of the wild-type</p>
+<p><code class="docutils literal"><span class="pre">sol.g_f</span></code> is a dictionary with <code class="docutils literal"><span class="pre">gene-pairs</span></code> as keys and the resulting biomass flow ration to the wild-tyoe flow, after the gene-pairs knockout</p>
+<p>An element from this dictionary may contain:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">String</span><span class="p">[</span><span class="s2">&quot;b3956&quot;</span><span class="p">,</span><span class="s2">&quot;b3919&quot;</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">0.670362</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="knockout-genes">
+<span id="id9"></span><h2>Knockout Genes<a class="headerlink" href="#knockout-genes" title="Permalink to this headline">¶</a></h2>
+<p>Perform fba after knocking out a set of genes, specified either by indices or their names.</p>
+<p>Return a GeneKnockout type with fields <code class="docutils literal"><span class="pre">growth</span></code>, <code class="docutils literal"><span class="pre">flux</span></code>, <code class="docutils literal"><span class="pre">disabled</span></code> and <code class="docutils literal"><span class="pre">affected</span></code></p>
+<blockquote>
+<div>knockout_genes(model, gene_index)
+knockout_genes(model, gene_name)</div></blockquote>
+<p><strong>Example</strong></p>
+<p>### Example</p>
+<blockquote>
+<div><p>julia&gt; knockout_genes(model, [model.genes[4], model.genes[16], model.genes[99]])</p>
+<dl class="docutils">
+<dt>Type: GeneKnockout</dt>
+<dd><blockquote class="first">
+<div><p>Fields
+growth :                      0.374230</p>
+<blockquote>
+<div>flux :              Array{Float64,1}</div></blockquote>
+</div></blockquote>
+<p>disabled :                       [12,71]
+affected</p>
+<div class="last highlight-default"><div class="highlight"><pre><span></span>     <span class="n">gene</span><span class="p">:</span>      <span class="n">reactions</span><span class="p">:</span>
+<span class="n">gene_016</span> <span class="p">:</span>            <span class="p">[</span><span class="mi">12</span><span class="p">]</span>
+<span class="n">gene_004</span> <span class="p">:</span>             <span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+<span class="n">gene_099</span> <span class="p">:</span>            <span class="p">[</span><span class="mi">71</span><span class="p">]</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</div></blockquote>
+<p>So knocking out genes 4, 16 and 99, would <strong>touch</strong> reactions 12, 3 and 71, respectively, but only reactions 12 and 71 would be disabled</p>
+</div>
+<div class="section" id="knockout-reactions">
+<span id="id10"></span><h2>Knockout Reactions<a class="headerlink" href="#knockout-reactions" title="Permalink to this headline">¶</a></h2>
+<p>An algorithm that attempts to return those genes that can be knocked out to disable a specified set of reactions</p>
+<p>The reactions can be specified as a single reaction by name or index, or as an array of multiple names or indices:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">knockout_reactions</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">reaction</span><span class="p">)</span>
+<span class="n">knockout_reactions</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">reactions</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Example</strong></p>
+<p>See if reaction 5 can be disabled:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">knockout_reactions</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+<span class="mi">1</span><span class="o">-</span><span class="n">element</span> <span class="n">Array</span><span class="p">{</span><span class="n">Array</span><span class="p">,</span><span class="mi">1</span><span class="p">}:</span>
+ <span class="p">[</span><span class="mi">8</span><span class="p">;</span> <span class="mi">7</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>So knocking out genes 8 and 7 will disable reaction 5</p>
+</div>
+<div class="section" id="print-reaction-formula">
+<span id="id11"></span><h2>Print Reaction Formula<a class="headerlink" href="#print-reaction-formula" title="Permalink to this headline">¶</a></h2>
+<p>Print the formula for a specified reaction specified by name or string:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">print_reaction_formul</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">reaction</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Example</strong></p>
+<p>Formula for reaction 5:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">print_reaction_formula</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+        <span class="mf">1.0</span> <span class="n">acon_C_c</span> <span class="o">+</span> <span class="mf">1.0</span> <span class="n">h2o_c</span>  <span class="o">-&gt;</span> <span class="mf">1.0</span> <span class="n">icit_c</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="reaction-info">
+<span id="id12"></span><h2>Reaction Info<a class="headerlink" href="#reaction-info" title="Permalink to this headline">¶</a></h2>
+<p>Print out the information for a reaction specified by name or string:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">reaction_info</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">reaction</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Example</strong></p>
+<p>View reaction information for reaction 5</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span> <span class="n">Reaction</span> <span class="n">Name</span><span class="p">:</span>     <span class="n">Aconitase</span> <span class="p">(</span><span class="n">half</span><span class="o">-</span><span class="n">reaction</span> <span class="n">B</span><span class="p">,</span> <span class="n">Isocitrate</span> <span class="n">hydro</span><span class="o">-</span><span class="n">lyase</span><span class="p">)</span>
+   <span class="n">Reaction</span> <span class="n">ID</span><span class="p">:</span>                                                  <span class="n">ACONTb</span>
+   <span class="n">Lower</span> <span class="n">Bound</span><span class="p">:</span>                                                 <span class="o">-</span><span class="mf">1000.0</span>
+   <span class="n">Upper</span> <span class="n">Bound</span><span class="p">:</span>                                                  <span class="mf">1000.0</span>
+     <span class="n">Subsystem</span><span class="p">:</span>                                       <span class="n">Citric</span> <span class="n">Acid</span> <span class="n">Cycle</span>
+<span class="o">-----------------------------------------------------------------------</span>
+     <span class="n">Metabolite</span>    <span class="n">Coefficient</span>
+       <span class="n">acon_C_c</span>           <span class="o">-</span><span class="mf">1.0</span>
+          <span class="n">h2o_c</span>           <span class="o">-</span><span class="mf">1.0</span>
+         <span class="n">icit_c</span>            <span class="mf">1.0</span>
+
+<span class="o">----------------------------------</span>
+<span class="n">b3115</span> <span class="o">||</span> <span class="n">b2296</span> <span class="o">||</span> <span class="n">b1849</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Simulations</a><ul>
+<li><a class="reference internal" href="#flux-balance-analysis">Flux Balance Analysis</a></li>
+<li><a class="reference internal" href="#flux-variability-analysis">Flux Variability Analysis</a></li>
+<li><a class="reference internal" href="#find-blocked-reactions">Find blocked reactions</a></li>
+<li><a class="reference internal" href="#synthetic-lethal-genes">Synthetic Lethal Genes</a></li>
+<li><a class="reference internal" href="#robustness-analysis">Robustness Analysis</a></li>
+<li><a class="reference internal" href="#find-dead-end-metabolites">Find Dead End Metabolites</a></li>
+<li><a class="reference internal" href="#find-essential-genes">Find Essential Genes</a></li>
+<li><a class="reference internal" href="#find-exchange-reactions">Find Exchange Reactions</a></li>
+<li><a class="reference internal" href="#find-reactions-from-gene">Find Reactions From Gene</a></li>
+<li><a class="reference internal" href="#find-reactions-from-metabolite">Find Reactions From Metabolite</a></li>
+<li><a class="reference internal" href="#gene-deletion">Gene Deletion</a></li>
+<li><a class="reference internal" href="#knockout-genes">Knockout Genes</a></li>
+<li><a class="reference internal" href="#knockout-reactions">Knockout Reactions</a></li>
+<li><a class="reference internal" href="#print-reaction-formula">Print Reaction Formula</a></li>
+<li><a class="reference internal" href="#reaction-info">Reaction Info</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="IO.html" title="previous chapter">IO</a></li>
+      <li>Next: <a href="Modification.html" title="next chapter">Modification</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/Simulations.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Davíð Isebarn & Steinn Guðmundsson.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="_sources/Simulations.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

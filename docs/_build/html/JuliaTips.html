@@ -1,0 +1,229 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Julia Tips &mdash; cobra 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="cobra 0.1 documentation" href="index.html" />
+    <link rel="next" title="Cobra Tips" href="CobraTips.html" />
+    <link rel="prev" title="Solvers" href="Solvers.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="julia-tips">
+<h1>Julia Tips<a class="headerlink" href="#julia-tips" title="Permalink to this headline">¶</a></h1>
+<p>This section is intended to familiarize the user with the tools and features of Julia</p>
+<ul class="simple">
+<li><a class="reference internal" href="#packages"><span class="std std-ref">Packages</span></a></li>
+<li><a class="reference internal" href="#funcnames"><span class="std std-ref">Function names</span></a></li>
+<li><a class="reference internal" href="#help"><span class="std std-ref">Getting help</span></a></li>
+<li><a class="reference internal" href="#methods"><span class="std std-ref">Methods</span></a></li>
+</ul>
+<div class="section" id="packages">
+<span id="id1"></span><h2>Packages<a class="headerlink" href="#packages" title="Permalink to this headline">¶</a></h2>
+<p>Usefull commands for packages are :</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">Pkg.add(package_name)</span></code> to add a package from name</li>
+<li><code class="docutils literal"><span class="pre">Pkg.clone(package_url)</span></code> to add a package from URL, fx from Github</li>
+<li><code class="docutils literal"><span class="pre">Pkg.rm(package_name)</span></code> to uninstall a package</li>
+<li><code class="docutils literal"><span class="pre">Pkg.build(package_name)</span></code> to build a package, this may sometimes be necessary</li>
+<li><code class="docutils literal"><span class="pre">Pkg.dir()</span></code> to get the <code class="docutils literal"><span class="pre">path</span></code> to all installed packages</li>
+<li><code class="docutils literal"><span class="pre">using</span> <span class="pre">&quot;package</span> <span class="pre">name&quot;</span></code> to import a package into the enviroment, fx <code class="docutils literal"><span class="pre">Using</span> <span class="pre">Cobra</span></code></li>
+</ul>
+<p>For more information, see the <a class="reference external" href="http://docs.julialang.org/en/release-0.5/manual/packages/">full documentation</a> for packages</p>
+</div>
+<div class="section" id="function-names">
+<span id="funcnames"></span><h2>Function names<a class="headerlink" href="#function-names" title="Permalink to this headline">¶</a></h2>
+<p>Function names ending with an exclamation point (!) modify their arguments.</p>
+<p>Some functions have both modifying (e.g., sort!) and non-modifying (sort) versions.</p>
+<p>For Cobra, this means that calling:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>change_reaction_bounds!(model, 13, 0, 1000)
+</pre></div>
+</div>
+<p>will change the bounds for reaction 13 in the original model, whereas calling:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">new_model</span> <span class="o">=</span> <span class="n">change_reaction_bounds</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>returns a new copy of the model, with bounds changed for reaction 13.</p>
+</div>
+<div class="section" id="getting-help">
+<span id="help"></span><h2>Getting help<a class="headerlink" href="#getting-help" title="Permalink to this headline">¶</a></h2>
+<p>To access the help for a function, write a question mark (?) in front of the function name</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>help?&gt; change_reaction_bounds
+search: change_reaction_bounds find_exchange_reactions
+
+  change_reaction_bounds(model, reaction, lb, ub)
+
+  Return a duplicate of the model with the lower/upper bounds of a reaction changed
+
+  change_reaction_bounds(model, reaction, value[, bound])
+
+  change_reaction_bounds(model, reaction_index, value[, bound])
+
+  Return a duplicate of the model after changing a bound
+
+     Optional arguements:
+    ––––––––––––––––––––––
+
+  bound:
+
+    •    &#39;l&#39; to change the lower bound
+
+    •    &#39;u&#39; to change the upper bound
+
+    •    &#39;b&#39; to fix lower and upper to the same value (default)
+</pre></div>
+</div>
+</div>
+<div class="section" id="methods">
+<span id="id2"></span><h2>Methods<a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="methods-within-a-module">
+<h3>Methods within a module<a class="headerlink" href="#methods-within-a-module" title="Permalink to this headline">¶</a></h3>
+<p>To view every single method (and global variables) from a module, like <code class="docutils literal"><span class="pre">Cobra</span></code> or <code class="docutils literal"><span class="pre">GLPK</span></code> or <code class="docutils literal"><span class="pre">JSON</span></code>, write <code class="docutils literal"><span class="pre">JSON.</span></code> and press the <code class="docutils literal"><span class="pre">tab</span></code> key twice:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">JSON</span><span class="o">.</span>
+<span class="n">ARRAY_BEGIN</span>        <span class="n">LATIN_E</span>             <span class="n">OBJECT_END</span>          <span class="nb">eval</span>
+<span class="n">ARRAY_END</span>          <span class="n">LATIN_F</span>             <span class="n">PLUS_SIGN</span>           <span class="n">json</span>
+<span class="n">AssociativeWrapper</span> <span class="n">LATIN_L</span>             <span class="n">Parser</span>              <span class="n">lower</span>
+<span class="n">BACKSLASH</span>          <span class="n">LATIN_N</span>             <span class="n">RETURN</span>              <span class="n">parsefile</span>
+<span class="n">BACKSPACE</span>          <span class="n">LATIN_R</span>             <span class="n">REVERSE_ESCAPES</span>     <span class="n">prefix</span>
+<span class="n">DECIMAL_POINT</span>      <span class="n">LATIN_S</span>             <span class="n">SEPARATOR</span>           <span class="nb">print</span>
+<span class="n">DELIMITER</span>          <span class="n">LATIN_T</span>             <span class="n">SOLIDUS</span>             <span class="n">print_escaped</span>
+<span class="n">DIGIT_NINE</span>         <span class="n">LATIN_U</span>             <span class="n">SPACE</span>               <span class="n">printsp</span>
+<span class="n">DIGIT_ZERO</span>         <span class="n">LATIN_UPPER_A</span>       <span class="n">STRING_DELIM</span>        <span class="n">separator</span>
+<span class="n">ESCAPES</span>            <span class="n">LATIN_UPPER_E</span>       <span class="n">State</span>               <span class="n">set_state</span>
+<span class="n">FORM_FEED</span>          <span class="n">LATIN_UPPER_F</span>       <span class="n">TAB</span>                 <span class="n">start_object</span>
+<span class="n">INDENT</span>             <span class="n">MINUS_SIGN</span>          <span class="n">_print</span>              <span class="n">suffix</span>
+<span class="n">JSONPrimitive</span>      <span class="n">NEWLINE</span>             <span class="n">_writejson</span>
+<span class="n">LATIN_A</span>            <span class="n">NOINDENT</span>            <span class="n">end_object</span>
+<span class="n">LATIN_B</span>            <span class="n">OBJECT_BEGIN</span>        <span class="n">escaped</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="method-variations">
+<h3>Method variations<a class="headerlink" href="#method-variations" title="Permalink to this headline">¶</a></h3>
+<p>Julia is implemented with <strong>multiple dispatch</strong>, which means, that methods can have the same name but take different input arguments</p>
+<p>For example, the method <code class="docutils literal"><span class="pre">change_reaction_bounds</span></code> has multiple definitions, two of which are</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">function</span> <span class="n">change_reaction_bounds</span><span class="p">(</span><span class="n">model</span><span class="p">::</span><span class="n">Model</span><span class="p">,</span> <span class="n">reaction</span><span class="p">::</span><span class="n">String</span><span class="p">,</span> <span class="n">lb</span><span class="p">::</span><span class="n">Number</span><span class="p">,</span> <span class="n">ub</span><span class="p">::</span><span class="n">Number</span><span class="p">,</span> <span class="n">bound</span><span class="p">::</span><span class="n">String</span> <span class="o">=</span> <span class="s2">&quot;both&quot;</span><span class="p">)</span>
+<span class="n">function</span> <span class="n">change_reaction_bounds</span><span class="p">(</span><span class="n">model</span><span class="p">::</span><span class="n">Model</span><span class="p">,</span> <span class="n">reaction</span><span class="p">::</span><span class="n">Number</span><span class="p">,</span> <span class="n">lb</span><span class="p">::</span><span class="n">Number</span><span class="p">,</span> <span class="n">ub</span><span class="p">::</span><span class="n">Number</span><span class="p">,</span> <span class="n">bound</span><span class="p">::</span><span class="n">String</span> <span class="o">=</span> <span class="s2">&quot;both&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You will notice that these definitions are a bit different, namely, that in one definition, <code class="docutils literal"><span class="pre">reaction</span></code> must be a <code class="docutils literal"><span class="pre">String</span></code> and in another it should be a <code class="docutils literal"><span class="pre">Number</span></code>. So calling:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>change_reaction_bounds!(model, &quot;ACONTa&quot;, 0, 1000)
+change_reaction_bounds!(model, 4, 0, 1000)
+</pre></div>
+</div>
+<p>will do the same thing to the model, because &#8220;ACONTa&#8221; is the 4th reaction in model.rxns</p>
+<p>There are sometimes a few different definitions and often there are numerous definitions, to view <strong>all</strong> definitions, use the <code class="docutils literal"><span class="pre">methods()</span></code> function:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">methods</span><span class="p">(</span><span class="n">change_reaction_bounds</span><span class="p">)</span>
+<span class="c1"># 8 methods for generic function &quot;change_reaction_bounds&quot;:</span>
+<span class="n">change_reaction_bounds</span><span class="p">(</span><span class="n">model</span><span class="p">::</span><span class="n">Cobra</span><span class="o">.</span><span class="n">Model</span><span class="p">,</span> <span class="n">reaction</span><span class="p">::</span><span class="n">String</span><span class="p">,</span> <span class="n">value</span><span class="p">::</span><span class="n">Number</span><span class="p">)</span>
+<span class="n">change_reaction_bounds</span><span class="p">(</span><span class="n">model</span><span class="p">::</span><span class="n">Cobra</span><span class="o">.</span><span class="n">Model</span><span class="p">,</span> <span class="n">reaction</span><span class="p">::</span><span class="n">String</span><span class="p">,</span> <span class="n">value</span><span class="p">::</span><span class="n">Number</span><span class="p">,</span> <span class="n">bound</span><span class="p">::</span><span class="n">String</span><span class="p">)</span>
+<span class="n">change_reaction_bounds</span><span class="p">(</span><span class="n">model</span><span class="p">::</span><span class="n">Cobra</span><span class="o">.</span><span class="n">Model</span><span class="p">,</span> <span class="n">reaction</span><span class="p">::</span><span class="n">String</span><span class="p">,</span> <span class="n">lb</span><span class="p">::</span><span class="n">Number</span><span class="p">,</span> <span class="n">ub</span><span class="p">::</span><span class="n">Number</span><span class="p">)</span>
+<span class="n">change_reaction_bounds</span><span class="p">(</span><span class="n">model</span><span class="p">::</span><span class="n">Cobra</span><span class="o">.</span><span class="n">Model</span><span class="p">,</span> <span class="n">reaction</span><span class="p">::</span><span class="n">String</span><span class="p">,</span> <span class="n">lb</span><span class="p">::</span><span class="n">Number</span><span class="p">,</span> <span class="n">ub</span><span class="p">::</span><span class="n">Number</span><span class="p">,</span> <span class="n">bound</span><span class="p">::</span><span class="n">String</span><span class="p">)</span>
+<span class="n">change_reaction_bounds</span><span class="p">(</span><span class="n">model</span><span class="p">::</span><span class="n">Cobra</span><span class="o">.</span><span class="n">Model</span><span class="p">,</span> <span class="n">reaction_index</span><span class="p">::</span><span class="n">Number</span><span class="p">,</span> <span class="n">value</span><span class="p">::</span><span class="n">Number</span><span class="p">)</span>
+<span class="n">change_reaction_bounds</span><span class="p">(</span><span class="n">model</span><span class="p">::</span><span class="n">Cobra</span><span class="o">.</span><span class="n">Model</span><span class="p">,</span> <span class="n">reaction_index</span><span class="p">::</span><span class="n">Number</span><span class="p">,</span> <span class="n">value</span><span class="p">::</span><span class="n">Number</span><span class="p">,</span> <span class="n">bound</span><span class="p">::</span><span class="n">String</span><span class="p">)</span>
+<span class="n">change_reaction_bounds</span><span class="p">(</span><span class="n">model</span><span class="p">::</span><span class="n">Cobra</span><span class="o">.</span><span class="n">Model</span><span class="p">,</span> <span class="n">reaction_index</span><span class="p">::</span><span class="n">Number</span><span class="p">,</span> <span class="n">lb</span><span class="p">::</span><span class="n">Number</span><span class="p">,</span> <span class="n">ub</span><span class="p">::</span><span class="n">Number</span><span class="p">)</span>
+<span class="n">change_reaction_bounds</span><span class="p">(</span><span class="n">model</span><span class="p">::</span><span class="n">Cobra</span><span class="o">.</span><span class="n">Model</span><span class="p">,</span> <span class="n">reaction_index</span><span class="p">::</span><span class="n">Number</span><span class="p">,</span> <span class="n">lb</span><span class="p">::</span><span class="n">Number</span><span class="p">,</span> <span class="n">ub</span><span class="p">::</span><span class="n">Number</span><span class="p">,</span> <span class="n">bound</span><span class="p">::</span><span class="n">String</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Julia Tips</a><ul>
+<li><a class="reference internal" href="#packages">Packages</a></li>
+<li><a class="reference internal" href="#function-names">Function names</a></li>
+<li><a class="reference internal" href="#getting-help">Getting help</a></li>
+<li><a class="reference internal" href="#methods">Methods</a><ul>
+<li><a class="reference internal" href="#methods-within-a-module">Methods within a module</a></li>
+<li><a class="reference internal" href="#method-variations">Method variations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="Solvers.html" title="previous chapter">Solvers</a></li>
+      <li>Next: <a href="CobraTips.html" title="next chapter">Cobra Tips</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/JuliaTips.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Davíð Isebarn & Steinn Guðmundsson.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="_sources/JuliaTips.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

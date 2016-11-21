@@ -1,0 +1,400 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>IO &mdash; cobra 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="cobra 0.1 documentation" href="index.html" />
+    <link rel="next" title="Simulations" href="Simulations.html" />
+    <link rel="prev" title="Welcome to cobra’s documentation!" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="io">
+<h1>IO<a class="headerlink" href="#io" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><a class="reference internal" href="#loadjson"><span class="std std-ref">Loading JSON</span></a></li>
+<li><a class="reference internal" href="#loadmatlab"><span class="std std-ref">Loading Matlab</span></a></li>
+<li><a class="reference internal" href="#loadtable"><span class="std std-ref">Load Table (csv/tsv)</span></a></li>
+<li><a class="reference internal" href="#trouble"><span class="std std-ref">Troubleshooting</span></a></li>
+</ul>
+<div class="section" id="loading-a-model">
+<h2>Loading a model<a class="headerlink" href="#loading-a-model" title="Permalink to this headline">¶</a></h2>
+<p>A model can be loaded from a <em>.json</em>, a <em>.mat</em> file or from a table (csv/tsv) using the methods:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">load_json</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+<span class="n">load_matlab</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+<span class="n">load_table</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="p">[</span><span class="n">delimiter</span> <span class="o">=</span> <span class="s1">&#39;,&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="section" id="loading-json">
+<span id="loadjson"></span><h3>Loading JSON<a class="headerlink" href="#loading-json" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">model</span> <span class="o">=</span> <span class="n">load_json</span><span class="p">(</span><span class="s2">&quot;Models/e_coli_core.json&quot;</span><span class="p">)</span>
+           <span class="n">rxns</span> <span class="p">:</span>     <span class="mi">95</span> <span class="n">Array</span><span class="p">{</span><span class="n">String</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+           <span class="n">mets</span> <span class="p">:</span>     <span class="mi">72</span> <span class="n">Array</span><span class="p">{</span><span class="n">String</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+          <span class="n">genes</span> <span class="p">:</span>    <span class="mi">137</span> <span class="n">Array</span><span class="p">{</span><span class="n">String</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+              <span class="n">S</span> <span class="p">:</span>   <span class="mi">6840</span> <span class="n">SparseMatrixCSC</span><span class="p">{</span><span class="n">Float64</span><span class="p">,</span><span class="n">Int64</span><span class="p">}</span>
+             <span class="n">lb</span> <span class="p">:</span>     <span class="mi">95</span> <span class="n">Array</span><span class="p">{</span><span class="n">Float64</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+             <span class="n">ub</span> <span class="p">:</span>     <span class="mi">95</span> <span class="n">Array</span><span class="p">{</span><span class="n">Float64</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+              <span class="n">c</span> <span class="p">:</span>     <span class="mi">95</span> <span class="n">Array</span><span class="p">{</span><span class="n">Float64</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+              <span class="n">b</span> <span class="p">:</span>     <span class="mi">72</span> <span class="n">Array</span><span class="p">{</span><span class="n">Float64</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+         <span class="n">csense</span> <span class="p">:</span>      <span class="mi">3</span> <span class="n">Dict</span><span class="p">{</span><span class="n">String</span><span class="p">,</span><span class="n">Array</span><span class="p">{</span><span class="n">Any</span><span class="p">,</span><span class="mi">1</span><span class="p">}}</span>
+   <span class="n">rxn_gene_mat</span> <span class="p">:</span>  <span class="mi">13015</span> <span class="n">SparseMatrixCSC</span><span class="p">{</span><span class="n">Float64</span><span class="p">,</span><span class="n">Int64</span><span class="p">}</span>
+       <span class="n">rxn_name</span> <span class="p">:</span>     <span class="mi">95</span> <span class="n">Array</span><span class="p">{</span><span class="n">String</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+      <span class="n">rxn_rules</span> <span class="p">:</span>     <span class="mi">95</span> <span class="n">Array</span><span class="p">{</span><span class="n">String</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+  <span class="n">rxn_subsystem</span> <span class="p">:</span>     <span class="mi">95</span> <span class="n">Array</span><span class="p">{</span><span class="n">String</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+      <span class="n">rxn_extra</span> <span class="p">:</span>      <span class="mi">3</span> <span class="n">Dict</span><span class="p">{</span><span class="n">String</span><span class="p">,</span><span class="n">Array</span><span class="p">{</span><span class="n">Any</span><span class="p">,</span><span class="mi">1</span><span class="p">}}</span>
+    <span class="n">met_formula</span> <span class="p">:</span>     <span class="mi">72</span> <span class="n">Array</span><span class="p">{</span><span class="n">String</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+       <span class="n">met_name</span> <span class="p">:</span>     <span class="mi">72</span> <span class="n">Array</span><span class="p">{</span><span class="n">String</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+      <span class="n">met_extra</span> <span class="p">:</span>      <span class="mi">2</span> <span class="n">Dict</span><span class="p">{</span><span class="n">String</span><span class="p">,</span><span class="n">Array</span><span class="p">{</span><span class="n">Any</span><span class="p">,</span><span class="mi">1</span><span class="p">}}</span>
+      <span class="n">gene_name</span> <span class="p">:</span>    <span class="mi">137</span> <span class="n">Array</span><span class="p">{</span><span class="n">String</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+     <span class="n">gene_extra</span> <span class="p">:</span>      <span class="mi">1</span> <span class="n">Dict</span><span class="p">{</span><span class="n">String</span><span class="p">,</span><span class="n">Array</span><span class="p">{</span><span class="n">Any</span><span class="p">,</span><span class="mi">1</span><span class="p">}}</span>
+    <span class="n">description</span> <span class="p">:</span>     <span class="mi">11</span>     <span class="n">String</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="loading-matlab">
+<span id="loadmatlab"></span><h3>Loading Matlab<a class="headerlink" href="#loading-matlab" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">model</span> <span class="o">=</span> <span class="n">load_matlab</span><span class="p">(</span><span class="s2">&quot;Models/ecoli_core_model.mat&quot;</span><span class="p">)</span>
+           <span class="n">rxns</span> <span class="p">:</span>     <span class="mi">95</span> <span class="n">Array</span><span class="p">{</span><span class="n">String</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+           <span class="n">mets</span> <span class="p">:</span>     <span class="mi">72</span> <span class="n">Array</span><span class="p">{</span><span class="n">String</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+          <span class="n">genes</span> <span class="p">:</span>    <span class="mi">137</span> <span class="n">Array</span><span class="p">{</span><span class="n">String</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+              <span class="n">S</span> <span class="p">:</span>   <span class="mi">6840</span> <span class="n">SparseMatrixCSC</span><span class="p">{</span><span class="n">Float64</span><span class="p">,</span><span class="n">Int64</span><span class="p">}</span>
+             <span class="n">lb</span> <span class="p">:</span>     <span class="mi">95</span> <span class="n">Array</span><span class="p">{</span><span class="n">Float64</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+             <span class="n">ub</span> <span class="p">:</span>     <span class="mi">95</span> <span class="n">Array</span><span class="p">{</span><span class="n">Float64</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+              <span class="n">c</span> <span class="p">:</span>     <span class="mi">95</span> <span class="n">Array</span><span class="p">{</span><span class="n">Float64</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+              <span class="n">b</span> <span class="p">:</span>     <span class="mi">72</span> <span class="n">Array</span><span class="p">{</span><span class="n">Float64</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+         <span class="n">csense</span> <span class="p">:</span>      <span class="mi">3</span> <span class="n">Dict</span><span class="p">{</span><span class="n">String</span><span class="p">,</span><span class="n">Array</span><span class="p">{</span><span class="n">Any</span><span class="p">,</span><span class="mi">1</span><span class="p">}}</span>
+   <span class="n">rxn_gene_mat</span> <span class="p">:</span>  <span class="mi">13015</span> <span class="n">SparseMatrixCSC</span><span class="p">{</span><span class="n">Float64</span><span class="p">,</span><span class="n">Int64</span><span class="p">}</span>
+       <span class="n">rxn_name</span> <span class="p">:</span>     <span class="mi">95</span> <span class="n">Array</span><span class="p">{</span><span class="n">String</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+      <span class="n">rxn_rules</span> <span class="p">:</span>     <span class="mi">95</span> <span class="n">Array</span><span class="p">{</span><span class="n">String</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+  <span class="n">rxn_subsystem</span> <span class="p">:</span>     <span class="mi">95</span> <span class="n">Array</span><span class="p">{</span><span class="n">String</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+      <span class="n">rxn_extra</span> <span class="p">:</span>      <span class="mi">3</span> <span class="n">Dict</span><span class="p">{</span><span class="n">String</span><span class="p">,</span><span class="n">Array</span><span class="p">{</span><span class="n">Any</span><span class="p">,</span><span class="mi">1</span><span class="p">}}</span>
+    <span class="n">met_formula</span> <span class="p">:</span>     <span class="mi">72</span> <span class="n">Array</span><span class="p">{</span><span class="n">String</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+       <span class="n">met_name</span> <span class="p">:</span>     <span class="mi">72</span> <span class="n">Array</span><span class="p">{</span><span class="n">String</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+      <span class="n">met_extra</span> <span class="p">:</span>      <span class="mi">2</span> <span class="n">Dict</span><span class="p">{</span><span class="n">String</span><span class="p">,</span><span class="n">Array</span><span class="p">{</span><span class="n">Any</span><span class="p">,</span><span class="mi">1</span><span class="p">}}</span>
+      <span class="n">gene_name</span> <span class="p">:</span>    <span class="mi">137</span> <span class="n">Array</span><span class="p">{</span><span class="n">String</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+     <span class="n">gene_extra</span> <span class="p">:</span>      <span class="mi">1</span> <span class="n">Dict</span><span class="p">{</span><span class="n">String</span><span class="p">,</span><span class="n">Array</span><span class="p">{</span><span class="n">Any</span><span class="p">,</span><span class="mi">1</span><span class="p">}}</span>
+    <span class="n">description</span> <span class="p">:</span>     <span class="mi">11</span>     <span class="n">String</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="load-table-csv-tsv">
+<span id="loadtable"></span><h3>Load Table (csv/tsv)<a class="headerlink" href="#load-table-csv-tsv" title="Permalink to this headline">¶</a></h3>
+<p>To load a model from a table, fx from a .csv file</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">model</span> <span class="o">=</span> <span class="n">load_table</span><span class="p">(</span><span class="s2">&quot;./ecoli/e_coli&quot;</span><span class="p">,</span> <span class="s1">&#39;,&#39;</span><span class="p">)</span>
+           <span class="n">rxns</span> <span class="p">:</span>     <span class="mi">95</span> <span class="n">Array</span><span class="p">{</span><span class="n">Any</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+           <span class="n">mets</span> <span class="p">:</span>     <span class="mi">72</span> <span class="n">Array</span><span class="p">{</span><span class="n">Any</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+          <span class="n">genes</span> <span class="p">:</span>    <span class="mi">137</span> <span class="n">Array</span><span class="p">{</span><span class="n">Any</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+              <span class="n">S</span> <span class="p">:</span>  <span class="mi">13680</span> <span class="n">SparseMatrixCSC</span><span class="p">{</span><span class="n">Float64</span><span class="p">,</span><span class="n">Int64</span><span class="p">}</span>
+             <span class="n">lb</span> <span class="p">:</span>     <span class="mi">95</span> <span class="n">Array</span><span class="p">{</span><span class="n">Any</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+             <span class="n">ub</span> <span class="p">:</span>     <span class="mi">95</span> <span class="n">Array</span><span class="p">{</span><span class="n">Any</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+              <span class="n">c</span> <span class="p">:</span>     <span class="mi">95</span> <span class="n">Array</span><span class="p">{</span><span class="n">Any</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+              <span class="n">b</span> <span class="p">:</span>     <span class="mi">72</span> <span class="n">Array</span><span class="p">{</span><span class="n">Any</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+         <span class="n">csense</span> <span class="p">:</span>      <span class="mi">3</span> <span class="n">Dict</span><span class="p">{</span><span class="n">Any</span><span class="p">,</span><span class="n">Any</span><span class="p">}</span>
+   <span class="n">rxn_gene_mat</span> <span class="p">:</span>      <span class="mi">0</span> <span class="n">Array</span><span class="p">{</span><span class="n">Any</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+       <span class="n">rxn_name</span> <span class="p">:</span>     <span class="mi">95</span> <span class="n">Array</span><span class="p">{</span><span class="n">Any</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+      <span class="n">rxn_rules</span> <span class="p">:</span>     <span class="mi">95</span> <span class="n">Array</span><span class="p">{</span><span class="n">Any</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+  <span class="n">rxn_subsystem</span> <span class="p">:</span>     <span class="mi">95</span> <span class="n">Array</span><span class="p">{</span><span class="n">Any</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+      <span class="n">rxn_extra</span> <span class="p">:</span>      <span class="mi">0</span> <span class="n">Array</span><span class="p">{</span><span class="n">Any</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+    <span class="n">met_formula</span> <span class="p">:</span>     <span class="mi">72</span> <span class="n">Array</span><span class="p">{</span><span class="n">Any</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+       <span class="n">met_name</span> <span class="p">:</span>     <span class="mi">72</span> <span class="n">Array</span><span class="p">{</span><span class="n">Any</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+      <span class="n">met_extra</span> <span class="p">:</span>      <span class="mi">0</span> <span class="n">Array</span><span class="p">{</span><span class="n">Any</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+      <span class="n">gene_name</span> <span class="p">:</span>    <span class="mi">137</span> <span class="n">Array</span><span class="p">{</span><span class="n">Any</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+     <span class="n">gene_extra</span> <span class="p">:</span>      <span class="mi">0</span> <span class="n">Array</span><span class="p">{</span><span class="n">Any</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+    <span class="n">description</span> <span class="p">:</span>      <span class="mi">0</span> <span class="n">Array</span><span class="p">{</span><span class="n">Any</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Note</strong> that these table files need to be specifically structured:</p>
+<p>Inside the &#8220;/ecoli/&#8221; directory there must be 4 files.</p>
+<ul class="simple">
+<li>e_coli_rxns.csv</li>
+<li>e_coli_mets.csv</li>
+<li>e_coli_genes.csv</li>
+<li>e_coli_constraints.csv</li>
+</ul>
+<p><strong>Note</strong> No additional fields are included in the model when loading from a tabular file</p>
+<div class="section" id="e-coli-rxns-csv">
+<h4>e_coli_rxns.csv<a class="headerlink" href="#e-coli-rxns-csv" title="Permalink to this headline">¶</a></h4>
+<p>With 8 columns, with the column contents as:</p>
+<ol class="arabic">
+<li><p class="first">reaction id</p>
+</li>
+<li><p class="first">reaction lower bounds</p>
+</li>
+<li><p class="first">reaction upper bounds</p>
+</li>
+<li><p class="first">objective coefficient, c, usually 0 for all, except 1 for the biomass function</p>
+</li>
+<li><p class="first">reaction name</p>
+</li>
+<li><p class="first">reaction gene rules</p>
+</li>
+<li><p class="first">reaction subsystem</p>
+</li>
+<li><dl class="first docutils">
+<dt>reaction formula</dt>
+<dd><p class="first last"><strong>Note:</strong> that if the <code class="docutils literal"><span class="pre">&lt;=</span></code>, <code class="docutils literal"><span class="pre">=</span></code> and <code class="docutils literal"><span class="pre">=&gt;</span></code> are not wrapped with spacing, they wont be detected, so make sure they have spaces around them.</p>
+</dd>
+</dl>
+</li>
+</ol>
+<p>A line from ecoli_rxns.csv may look like:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ETOHt2r</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="n">e3</span><span class="p">,</span><span class="mi">1</span><span class="n">e3</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">ETOHt2r</span><span class="p">,,</span><span class="s2">&quot;Transport, Extracellular&quot;</span><span class="p">,</span><span class="n">etoh_e</span> <span class="o">+</span>  <span class="n">h_e</span> <span class="o">&lt;=&gt;</span>  <span class="n">etoh_c</span> <span class="o">+</span>  <span class="n">h_c</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="e-coli-mets-csv">
+<h4>e_coli_mets.csv<a class="headerlink" href="#e-coli-mets-csv" title="Permalink to this headline">¶</a></h4>
+<p>With 3 columns, with the column contents as:</p>
+<ol class="arabic simple">
+<li>metabolite id (as it appears in reaction formulas)</li>
+<li>metabolite formula</li>
+<li>metabolite name</li>
+</ol>
+<p>A line from ecoli_mets.csv may look like:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">coa_c</span><span class="p">,</span><span class="n">C21H32N7O16P3S</span><span class="p">,</span><span class="n">Coenzyme</span> <span class="n">A</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="e-coli-genes-csv">
+<h4>e_coli_genes.csv<a class="headerlink" href="#e-coli-genes-csv" title="Permalink to this headline">¶</a></h4>
+<p>With 2 columns, with the column contents as:</p>
+<ol class="arabic simple">
+<li>gene id (as it appears in the reaction gene rule)</li>
+<li>gene name</li>
+</ol>
+<p>A line from ecoli_genes.csv may look like:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">b0727</span><span class="p">,</span><span class="n">sucB</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="e-coli-constraints-csv">
+<h4>e_coli_constraints.csv<a class="headerlink" href="#e-coli-constraints-csv" title="Permalink to this headline">¶</a></h4>
+<p>With 2 columns, with the column contents as:</p>
+<ol class="arabic simple">
+<li>b, usually an array of the same length as the metabolites, but filled with zeros</li>
+<li>constraint sense, usually an array of the same length as the metabolites, but filled with <code class="docutils literal"><span class="pre">=</span></code></li>
+</ol>
+<p>A line from ecoli_constraints.csv may look like:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">0</span><span class="p">,</span><span class="o">=</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="troubleshooting">
+<span id="trouble"></span><h3>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this headline">¶</a></h3>
+<p>There may be some inconsistent models, so they wont be able to load properly.</p>
+<div class="section" id="json">
+<h4>.json<a class="headerlink" href="#json" title="Permalink to this headline">¶</a></h4>
+<p>JSON-files are parsed as nested <strong>dictionaries</strong> in Julia. For a model in .json format to load properly, its structure must be consistent with the JSON-structure of models found in the BiGG model database</p>
+<p>The following is the required structure for .json models:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">model</span><span class="p">:</span> <span class="p">{}</span>
+        <span class="n">reactions</span><span class="p">:</span> <span class="p">[]</span>
+                <span class="n">upper_bound</span>        <span class="p">:</span> <span class="n">number</span> <span class="o">*</span>
+                <span class="n">lower_bound</span>        <span class="p">:</span> <span class="n">number</span> <span class="o">*</span>
+                <span class="n">subsystem</span>          <span class="p">:</span> <span class="n">string</span>
+                <span class="n">name</span>               <span class="p">:</span> <span class="n">string</span>
+                <span class="n">gene_reaction_rule</span> <span class="p">:</span> <span class="n">string</span> <span class="o">*</span>
+                <span class="nb">id</span>                 <span class="p">:</span> <span class="n">string</span> <span class="o">*</span>
+                <span class="n">metabolites</span><span class="p">:</span>         <span class="p">{}</span>         <span class="o">*</span>
+                        <span class="n">metabolite</span> <span class="p">:</span> <span class="n">coefficient</span>
+
+        <span class="n">genes</span><span class="p">:</span> <span class="p">[]</span>
+                <span class="n">name</span> <span class="p">:</span> <span class="n">string</span>
+                <span class="nb">id</span>   <span class="p">:</span> <span class="n">string</span> <span class="o">*</span>
+
+        <span class="n">metabolites</span><span class="p">:</span> <span class="p">[]</span>
+                <span class="n">formula</span>     <span class="p">:</span> <span class="n">string</span>
+                <span class="n">compartment</span> <span class="p">:</span> <span class="n">string</span>
+                <span class="n">name</span>        <span class="p">:</span> <span class="n">string</span>
+                <span class="nb">id</span>          <span class="p">:</span> <span class="n">string</span> <span class="o">*</span>
+</pre></div>
+</div>
+<p>Everything else goes into the fields rxn_extra, met_extra and gene_extra.</p>
+<p>This structure must be followed for the model to load properly and the ones marked with * must be present for all functionality to be available</p>
+</div>
+<div class="section" id="mat">
+<h4>.mat<a class="headerlink" href="#mat" title="Permalink to this headline">¶</a></h4>
+<p>Matlab files are saved as a dictionary of variables, different from .json in the sense that .mat files arent nested, i.e not dictionaries within dictionaries.</p>
+<p>The following must be either present or provided in a .mat file:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">rxns</span>
+<span class="n">mets</span>
+<span class="n">genes</span>
+<span class="n">S</span>
+<span class="n">lb</span>
+<span class="n">ub</span>
+<span class="n">c</span>
+<span class="n">b</span>
+<span class="n">csense</span>
+<span class="n">rxnGeneMat</span>
+<span class="n">rxnNames</span>
+<span class="n">grRules</span>
+<span class="n">subSystems</span>
+<span class="n">metFormulas</span>
+<span class="n">metNames</span>
+<span class="n">description</span>
+</pre></div>
+</div>
+<p>However, if fx in your model.mat file, &#8220;rxns&#8221; is saved as &#8220;rxn_ids&#8221; you can call:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">load_matlab</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">rxns</span> <span class="o">=</span> <span class="s2">&quot;rxn_ids&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To let the function know that &#8220;rxns&#8221; is called &#8220;rxn_ids&#8221; in your .mat file</p>
+<p>There can be multiple corrections</p>
+<blockquote>
+<div>load_matlab(model, rxns = &#8220;rxn_ids&#8221;, grRules = &#8220;rules&#8221;)</div></blockquote>
+</div>
+<div class="section" id="csense">
+<h4>csense<a class="headerlink" href="#csense" title="Permalink to this headline">¶</a></h4>
+<p>csense will be converted into a dictionary:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>julia&gt; model.csense
+Dict{String,Array{Any,1}} with 3 entries:
+  &quot;&lt;=&quot; =&gt; Any[]
+  &quot;=&quot;  =&gt; Any[1,2,3 …  71,72]
+  &quot;&gt;=&quot; =&gt; Any[]
+</pre></div>
+</div>
+<p>csense is not strictly necessary, if csense is not present in a model, csense will be generated automatically</p>
+</div>
+</div>
+</div>
+<div class="section" id="exporting-a-model">
+<h2>Exporting a model<a class="headerlink" href="#exporting-a-model" title="Permalink to this headline">¶</a></h2>
+<p>A model can be exported in JSON/Matlab and Table format:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">export_json</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">filename</span><span class="p">);</span>
+<span class="n">export_matlab</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">filename</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>This will create a .json/.mat file, &#8220;ecoli.json&#8221;</p>
+<p>To export model to a table, do:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">export_table</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">filename</span><span class="p">;</span> <span class="p">[</span><span class="n">delimiter</span> <span class="o">=</span> <span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="n">overwrite</span> <span class="o">=</span> <span class="n">false</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>For example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">export_table</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s2">&quot;./ecoli/ecoli&quot;</span><span class="p">;</span> <span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="n">false</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>It is reccomended to store every tabular model in a private folder, as this method creates 4 files:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">ecoli</span><span class="o">/</span><span class="n">ecoli_rxns</span><span class="o">.</span><span class="n">csv</span>
+<span class="o">./</span><span class="n">ecoli</span><span class="o">/</span><span class="n">ecoli_mets</span><span class="o">.</span><span class="n">csv</span>
+<span class="o">./</span><span class="n">ecoli</span><span class="o">/</span><span class="n">ecoli_genes</span><span class="o">.</span><span class="n">csv</span>
+<span class="o">./</span><span class="n">ecoli</span><span class="o">/</span><span class="n">ecoli_constraints</span><span class="o">.</span><span class="n">csv</span>
+</pre></div>
+</div>
+<p>Separated by commas, <code class="docutils literal"><span class="pre">,</span></code>.</p>
+<p><strong>Note:</strong> By <em>default</em>, <code class="docutils literal"><span class="pre">overwrite</span></code> is set to <code class="docutils literal"><span class="pre">false</span></code>, meaning that you cannot accidentally overwrite existing tabular files, the method will return an error.</p>
+<p>However, if overwriting is desired, do:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">export_table</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s2">&quot;./ecoli/ecoli&quot;</span><span class="p">;</span> <span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="n">true</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">IO</a><ul>
+<li><a class="reference internal" href="#loading-a-model">Loading a model</a><ul>
+<li><a class="reference internal" href="#loading-json">Loading JSON</a></li>
+<li><a class="reference internal" href="#loading-matlab">Loading Matlab</a></li>
+<li><a class="reference internal" href="#load-table-csv-tsv">Load Table (csv/tsv)</a><ul>
+<li><a class="reference internal" href="#e-coli-rxns-csv">e_coli_rxns.csv</a></li>
+<li><a class="reference internal" href="#e-coli-mets-csv">e_coli_mets.csv</a></li>
+<li><a class="reference internal" href="#e-coli-genes-csv">e_coli_genes.csv</a></li>
+<li><a class="reference internal" href="#e-coli-constraints-csv">e_coli_constraints.csv</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#troubleshooting">Troubleshooting</a><ul>
+<li><a class="reference internal" href="#json">.json</a></li>
+<li><a class="reference internal" href="#mat">.mat</a></li>
+<li><a class="reference internal" href="#csense">csense</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#exporting-a-model">Exporting a model</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to cobra&#8217;s documentation!</a></li>
+      <li>Next: <a href="Simulations.html" title="next chapter">Simulations</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/IO.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Davíð Isebarn & Steinn Guðmundsson.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="_sources/IO.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
