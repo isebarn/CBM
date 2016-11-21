@@ -4,6 +4,12 @@ CBM.jl is a COBRA toolbox that implements a collection of constrained based anal
 
 CBM provides a broad range of functionality found in similar COBRA toolboxes, while being easy to use and providing top of the line performance.
 
+Install the package by calling:: 
+
+	Pkg.clone(https://github.com/isebarn/CBM)
+
+within the Julia enviroment.
+
 Full documentation is available `here <http://cbm.readthedocs.io/en/latest/index.html>`_
 
 ## Installation
