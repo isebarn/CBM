@@ -89,7 +89,7 @@ And these packages
 
 And then do::
 
-	julia> Pkg.clone(https://github.com/isebarn/CBM)
+	julia> Pkg.clone("https://github.com/isebarn/CBM")
 
 
 When CBM finishes installation, call::
