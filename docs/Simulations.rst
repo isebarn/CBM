@@ -2,7 +2,7 @@
 Simulations
 ===========
 
-Cobra offers many methods inteded for model analysis
+CBM offers many methods inteded for model analysis
 
 
 * :ref:`fba`

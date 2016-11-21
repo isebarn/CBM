@@ -25,7 +25,7 @@ Solvers
 Supported Solvers
 -----------------
 
-Currently, Cobra has support for
+Currently, CBM has support for
 
 * GLPK
 * CPLEX
