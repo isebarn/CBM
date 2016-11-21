@@ -6,7 +6,7 @@ CBM provides a broad range of functionality found in similar COBRA toolboxes, wh
 
 Install the package by calling:: 
 
-	Pkg.clone(https://github.com/isebarn/CBM)
+	Pkg.clone("https://github.com/isebarn/CBM")
 
 within the Julia enviroment.
 
