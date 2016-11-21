@@ -1,6 +1,6 @@
 # CBM.jl
 
-CBM.jl is a COBRA toolbox that implements a collection of constrained based analysis methods.
+CBM.jl is a COBRA toolbox written in the [Julia](http://julialang.org/downloads/) programming language.
 
 CBM provides a broad range of functionality found in similar COBRA toolboxes, while being easy to use and providing top of the line performance.
 
@@ -10,7 +10,7 @@ Install the package by calling::
 
 within the Julia enviroment.
 
-Full documentation is available [here]: http://cbm.readthedocs.io/en/latest/index.html
+Full documentation is available [here](http://cbm.readthedocs.io/en/latest/index.html)
 
 ## Installation
 Firsty, version 0.5 (or above) of Julia is required
