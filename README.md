@@ -10,7 +10,7 @@ Install the package by calling::
 
 within the Julia enviroment.
 
-Full documentation is available `here <http://cbm.readthedocs.io/en/latest/index.html>`_
+Full documentation is available [here]: http://cbm.readthedocs.io/en/latest/index.html
 
 ## Installation
 Firsty, version 0.5 (or above) of Julia is required
