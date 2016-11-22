@@ -62,11 +62,11 @@ So your screen should read something like::
 
 and to run flux balance analysis::
 
-julia> fba(model)
-LPSolution: Optimal
-      objective::  0.873922
-           flux::  95 element array
-          slack::  72 element array
-         rcosts::  95 element array
+	julia> fba(model)
+	LPSolution: Optimal
+	      objective::  0.873922
+	           flux::  95 element array
+	          slack::  72 element array
+	         rcosts::  95 element array
 
 

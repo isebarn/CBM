@@ -274,15 +274,12 @@ julia&gt; model = load_json(Pkg.dir() * &quot;/CBM/Models/e_coli_core.json&quot;
 </pre></div>
 </div>
 <p>and to run flux balance analysis:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">fba</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>will return:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x</span><span class="p">::</span><span class="n">Array</span><span class="p">{</span><span class="n">Float64</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
-<span class="n">y</span><span class="p">::</span><span class="n">Array</span><span class="p">{</span><span class="n">Float64</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
-<span class="n">w</span><span class="p">::</span><span class="n">Array</span><span class="p">{</span><span class="n">Float64</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
-<span class="n">f</span><span class="p">::</span><span class="mf">0.8739215069684305</span>
-<span class="n">status</span><span class="p">::</span><span class="n">Optimal</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">fba</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="n">LPSolution</span><span class="p">:</span> <span class="n">Optimal</span>
+      <span class="n">objective</span><span class="p">::</span>  <span class="mf">0.873922</span>
+           <span class="n">flux</span><span class="p">::</span>  <span class="mi">95</span> <span class="n">element</span> <span class="n">array</span>
+          <span class="n">slack</span><span class="p">::</span>  <span class="mi">72</span> <span class="n">element</span> <span class="n">array</span>
+         <span class="n">rcosts</span><span class="p">::</span>  <span class="mi">95</span> <span class="n">element</span> <span class="n">array</span>
 </pre></div>
 </div>
 </div>

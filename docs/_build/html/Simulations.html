@@ -177,20 +177,20 @@
 </div>
 <p>Where <code class="docutils literal"><span class="pre">direction</span></code> may be either <code class="docutils literal"><span class="pre">max</span></code> or <code class="docutils literal"><span class="pre">min</span></code></p>
 <p><strong>Example</strong></p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">sol</span> <span class="o">=</span> <span class="n">fba</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
-<span class="n">x</span><span class="p">::</span><span class="n">Array</span><span class="p">{</span><span class="n">Float64</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
-<span class="n">y</span><span class="p">::</span><span class="n">Array</span><span class="p">{</span><span class="n">Float64</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
-<span class="n">w</span><span class="p">::</span><span class="n">Array</span><span class="p">{</span><span class="n">Float64</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
-<span class="n">f</span><span class="p">::</span><span class="mf">0.8739215069684305</span>
-<span class="n">status</span><span class="p">::</span><span class="n">Optimal</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">fba</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="n">LPSolution</span><span class="p">:</span> <span class="n">Optimal</span>
+      <span class="n">objective</span><span class="p">::</span>  <span class="mf">0.873922</span>
+           <span class="n">flux</span><span class="p">::</span>  <span class="mi">95</span> <span class="n">element</span> <span class="n">array</span>
+          <span class="n">slack</span><span class="p">::</span>  <span class="mi">72</span> <span class="n">element</span> <span class="n">array</span>
+         <span class="n">rcosts</span><span class="p">::</span>  <span class="mi">95</span> <span class="n">element</span> <span class="n">array</span>
 </pre></div>
 </div>
 <p>Where</p>
 <ul class="simple">
-<li><code class="docutils literal"><span class="pre">sol.x</span></code> represents the solution vector</li>
-<li><code class="docutils literal"><span class="pre">sol.y</span></code> represents the slack</li>
-<li><code class="docutils literal"><span class="pre">sol.w</span></code> represents the reduced costs</li>
-<li><code class="docutils literal"><span class="pre">sol.f</span></code> the objective value</li>
+<li><code class="docutils literal"><span class="pre">sol.objective</span></code> the objective value, equivalently <code class="docutils literal"><span class="pre">sol.f</span></code></li>
+<li><code class="docutils literal"><span class="pre">sol.flux</span></code> represents the solution vector, equivalently <code class="docutils literal"><span class="pre">sol.x</span></code></li>
+<li><code class="docutils literal"><span class="pre">sol.slack</span></code> represents the slack, equivalently <code class="docutils literal"><span class="pre">sol.y</span></code></li>
+<li><code class="docutils literal"><span class="pre">sol.rcosts</span></code> represents the reduced costs, equivalently <code class="docutils literal"><span class="pre">sol.w</span></code></li>
 </ul>
 </div>
 <div class="section" id="flux-variability-analysis">
