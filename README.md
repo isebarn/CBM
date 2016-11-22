@@ -70,3 +70,6 @@ and to run flux balance analysis::
 	         rcosts::  95 element array
 
 
+## Licence
+
+© Copyright 2016, [Davíð Isebarn](isebarn182@gmail.com) & Steinn Guðmundsson. Released under the [MIT licence](https://github.com/helpers/helper-copyright/blob/master/LICENSE).
