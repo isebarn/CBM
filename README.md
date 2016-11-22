@@ -62,12 +62,11 @@ So your screen should read something like::
 
 and to run flux balance analysis::
 
-	fba(model)
+julia> fba(model)
+LPSolution: Optimal
+      objective::  0.873922
+           flux::  95 element array
+          slack::  72 element array
+         rcosts::  95 element array
 
-will return::
 
-	x::Array{Float64,1}
-	y::Array{Float64,1}
-	w::Array{Float64,1}
-	f::0.8739215069684305
-	status::Optimal

@@ -36,19 +36,23 @@ Where ``direction`` may be either ``max`` or ``min``
 
 ::
 
-	julia> sol = fba(model)
-	x::Array{Float64,1}
-	y::Array{Float64,1}
-	w::Array{Float64,1}
-	f::0.8739215069684305
-	status::Optimal
+	julia> fba(model)
+	LPSolution: Optimal
+	      objective::  0.873922
+	           flux::  95 element array
+	          slack::  72 element array
+	         rcosts::  95 element array
+
+
+
 
 Where 
 
-* ``sol.x`` represents the solution vector
-* ``sol.y`` represents the slack
-* ``sol.w`` represents the reduced costs
-* ``sol.f`` the objective value
+* ``sol.objective`` the objective value, equivalently ``sol.f``
+* ``sol.flux`` represents the solution vector, equivalently ``sol.x``
+* ``sol.slack`` represents the slack, equivalently ``sol.y``
+* ``sol.rcosts`` represents the reduced costs, equivalently ``sol.w``
+
 
 
 .. _fva:
