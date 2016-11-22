@@ -320,7 +320,7 @@ function construct_lp_solution(lp)
     w = get_reduced_costs(lp)
     status = get_solution_status(lp)
 
-    return  LPSolution(x,y,w,f,status);
+    return  LPSolution(f,x,y,w,status);
 end
 
 function createlpmodel()
