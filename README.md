@@ -72,4 +72,4 @@ and to run flux balance analysis::
 
 ## Licence
 
-© Copyright 2016, [Davíð Isebarn](<isebarn182@gmail.com>) & Steinn Guðmundsson. Released under the [MIT licence](https://github.com/helpers/helper-copyright/blob/master/LICENSE).
+© Copyright 2016, Davíð Isebarn,<isebarn182@gmail.com> & Steinn Guðmundsson. Released under the [MIT licence](https://github.com/helpers/helper-copyright/blob/master/LICENSE).
