@@ -71,7 +71,7 @@ There are a few packages necessary for CBM to function properly. These can all b
 	julia> Pkg.add("JSON")
 
 
-You will need one of the following solvers.
+You will need at least **one** of the following solvers.
 
 * GLPK
 * CPLEX

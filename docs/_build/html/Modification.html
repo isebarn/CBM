@@ -1,52 +1,156 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>Modification &mdash; cobra 0.1 documentation</title>
-    
-    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
-        VERSION:     '0.1',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
-      };
-    </script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="cobra 0.1 documentation" href="index.html" />
-    <link rel="next" title="Solvers" href="Solvers.html" />
-    <link rel="prev" title="Simulations" href="Simulations.html" />
-   
-  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
   
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
-
-  </head>
-  <body role="document">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Modification &mdash; CBM v1.0 documentation</title>
   
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body" role="main">
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="CBM v1.0 documentation" href="index.html"/>
+        <link rel="next" title="Solvers" href="Solvers.html"/>
+        <link rel="prev" title="Simulations" href="Simulations.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> CBM
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                v1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Getting Started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="IO.html">IO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Simulations.html">Simulations</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Modification</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#adding-a-metabolite">Adding a Metabolite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#adding-a-reaction">Adding a Reaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#change-the-objective-reaction">Change the Objective Reaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#change-reaction-bounds">Change Reaction Bounds</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#convert-to-irreversible">Convert To Irreversible</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#find-reversible-reactions">Find Reversible Reactions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#convert-to-reversible">Convert To Reversible</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#reduce-model">Reduce Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#remove-gene">Remove Gene</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#remove-reaction">Remove Reaction</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Solvers.html">Solvers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="JuliaTips.html">Julia Tips</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">CBM</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Modification</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/Modification.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
             
   <div class="section" id="modification">
 <h1>Modification<a class="headerlink" href="#modification" title="Permalink to this headline">¶</a></h1>
-<p>Cobra offers many methods intended for model modification</p>
+<p>CBM offers many methods intended for model modification</p>
 <ul class="simple">
 <li><a class="reference internal" href="#add-metabolite"><span class="std std-ref">Adding a Metabolite</span></a></li>
 <li><a class="reference internal" href="#add-reaction"><span class="std std-ref">Adding a Reaction</span></a></li>
-<li><a class="reference internal" href="#change-objective"><span class="std std-ref">Change the Objective Reaction</span></a></li>
+<li><a class="reference internal" href="Solvers.html#change-objective"><span class="std std-ref">change objective</span></a></li>
 <li><a class="reference internal" href="#change-reaction-bounds"><span class="std std-ref">Change Reaction Bounds</span></a></li>
 <li><a class="reference internal" href="#convert-to-irreversible"><span class="std std-ref">Convert To Irreversible</span></a></li>
 <li><a class="reference internal" href="#find-reversible"><span class="std std-ref">Find Reversible Reactions</span></a></li>
@@ -306,71 +410,71 @@ new_model = remove_reaction(model, reaction)
 </div>
 
 
+           </div>
           </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Solvers.html" class="btn btn-neutral float-right" title="Solvers" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="Simulations.html" class="btn btn-neutral" title="Simulations" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Davíð Isebarn &amp; Steinn Guðmundsson.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Modification</a><ul>
-<li><a class="reference internal" href="#adding-a-metabolite">Adding a Metabolite</a></li>
-<li><a class="reference internal" href="#adding-a-reaction">Adding a Reaction</a></li>
-<li><a class="reference internal" href="#change-the-objective-reaction">Change the Objective Reaction</a></li>
-<li><a class="reference internal" href="#change-reaction-bounds">Change Reaction Bounds</a></li>
-<li><a class="reference internal" href="#convert-to-irreversible">Convert To Irreversible</a></li>
-<li><a class="reference internal" href="#find-reversible-reactions">Find Reversible Reactions</a></li>
-<li><a class="reference internal" href="#convert-to-reversible">Convert To Reversible</a></li>
-<li><a class="reference internal" href="#reduce-model">Reduce Model</a></li>
-<li><a class="reference internal" href="#remove-gene">Remove Gene</a></li>
-<li><a class="reference internal" href="#remove-reaction">Remove Reaction</a></li>
-</ul>
-</li>
-</ul>
-<div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="Simulations.html" title="previous chapter">Simulations</a></li>
-      <li>Next: <a href="Solvers.html" title="next chapter">Solvers</a></li>
-  </ul></li>
-</ul>
-</div>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/Modification.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
-    <form class="search" action="search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="footer">
-      &copy;2016, Davíð Isebarn & Steinn Guðmundsson.
-      
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.4</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
-      
-      |
-      <a href="_sources/Modification.txt"
-          rel="nofollow">Page source</a>
-    </div>
 
-    
+    </section>
 
-    
-  </body>
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'v1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
 </html>

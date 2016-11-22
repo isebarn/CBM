@@ -2,7 +2,7 @@
 Getting Started
 ===============
 
-The Cobra package is intended for Constraint Based Analysis. 
+The CBM package is intended for Constraint Based Analysis. 
 The package includes methods to read and write models, methods for simulation such as flux balanace analysis and gene deletion and methods
 to modify the model, such as changing reaction bounds, adding reactions or reducing the model
 
@@ -20,7 +20,7 @@ Installation
 ============
 Firsty, you'll need to install `Julia <http://julialang.org/downloads/platform.html>`_ (version 0.5 or above).
 
-In addition to Julia, you will also want to install a **optimization solver**.  Free solvers are available and Cobra supports both GLPK and Clp.
+In addition to Julia, you will also want to install a **optimization solver**.  Free solvers are available and CBM supports both GLPK and Clp.
 Supported proprietery solvers are CPLEX and Gurobi
 
 .. _windows:
@@ -49,7 +49,7 @@ In addition you may need to run::
 
 .. _cobrasetup:
 
-Cobra Setup
+CBM Setup
 ===========
 
 Wheter you are on Windows, Linux or MacOS, once you're in the **Julia REPL** your interface will look something similar to this::
@@ -66,12 +66,12 @@ Wheter you are on Windows, Linux or MacOS, once you're in the **Julia REPL** you
 
 	julia> 
 
-There are a few packages necessary for Cobra to function properly. These can all be installed easily through the Julia REPL using the function ``Pkg.add("package name")``, fx ::
+There are a few packages necessary for CBM to function properly. These can all be installed easily through the Julia REPL using the function ``Pkg.add("package name")``, fx ::
 
 	julia> Pkg.add("JSON")
 
 
-You will need one of the following solvers.
+You will need at least **one** of the following solvers.
 
 * GLPK
 * CPLEX
@@ -89,11 +89,12 @@ And these packages
 
 And then do::
 
-	julia> Pkg.add("Cobra")
+	julia> Pkg.clone("https://github.com/isebarn/CBM")
 
-When Cobra finishes installation, call::
 
-	julia> using Cobra
+When CBM finishes installation, call::
+
+	julia> using CBM
 	
 Now the toolbox is setup and ready for use!
 
@@ -104,8 +105,8 @@ First Run
 
 You can load the example model, ``e_coli_core`` which comes with the package by calling::
 
-	using Cobra
-	model = load_json(Pkg.dir() * "/Cobra/Models/e_coli_core.json")
+	using CBM
+	model = load_json(Pkg.dir() * "/CBM/Models/e_coli_core.json")
 
 So your screen should read something like::
 
@@ -118,8 +119,8 @@ So your screen should read something like::
 	 _/ |\__'_|_|_|\__'_|  |  
 	|__/                   |  x86_64-linux-gnu
 
-	julia> using Cobra
-	julia> model = load_json(Pkg.dir() * "/Cobra/Models/e_coli_core.json")
+	julia> using CBM
+	julia> model = load_json(Pkg.dir() * "/CBM/Models/e_coli_core.json")
 
 	           rxns :     95 Array{String,1}
 	           mets :     72 Array{String,1}
@@ -153,5 +154,4 @@ will return::
 	w::Array{Float64,1}
 	f::0.8739215069684305
 	status::Optimal
-
 

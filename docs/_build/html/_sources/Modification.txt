@@ -2,7 +2,7 @@
 Modification
 ============
 
-Cobra offers many methods intended for model modification
+CBM offers many methods intended for model modification
 
 * :ref:`add_metabolite`
 * :ref:`add_reaction`

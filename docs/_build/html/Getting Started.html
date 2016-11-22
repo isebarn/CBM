@@ -1,48 +1,149 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>Getting Started &mdash; cobra 0.1 documentation</title>
-    
-    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
-        VERSION:     '0.1',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
-      };
-    </script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="cobra 0.1 documentation" href="index.html" />
-    <link rel="next" title="IO" href="IO.html" />
-    <link rel="prev" title="Welcome to cobra’s documentation!" href="index.html" />
-   
-  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
   
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
-
-  </head>
-  <body role="document">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Getting Started &mdash; CBM v1.0 documentation</title>
   
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body" role="main">
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="CBM v1.0 documentation" href="index.html"/>
+        <link rel="next" title="IO" href="IO.html"/>
+        <link rel="prev" title="Welcome to CBM’s documentation!" href="index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> CBM
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                v1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#windows">Windows</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#linux">Linux</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#cbm-setup">CBM Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#first-run">First Run</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="IO.html">IO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Simulations.html">Simulations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Modification.html">Modification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Solvers.html">Solvers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="JuliaTips.html">Julia Tips</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">CBM</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Getting Started</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/Getting Started.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
             
   <div class="section" id="getting-started">
 <h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
-<p>The Cobra package is intended for Constraint Based Analysis.
+<p>The CBM package is intended for Constraint Based Analysis.
 The package includes methods to read and write models, methods for simulation such as flux balanace analysis and gene deletion and methods
 to modify the model, such as changing reaction bounds, adding reactions or reducing the model</p>
 <ul>
@@ -55,7 +156,7 @@ to modify the model, such as changing reaction bounds, adding reactions or reduc
 </dd>
 </dl>
 </li>
-<li><p class="first"><a class="reference internal" href="#cobrasetup"><span class="std std-ref">Cobra Setup</span></a></p>
+<li><p class="first"><a class="reference internal" href="#cobrasetup"><span class="std std-ref">CBM Setup</span></a></p>
 </li>
 <li><p class="first"><a class="reference internal" href="#firstrun"><span class="std std-ref">First Run</span></a></p>
 </li>
@@ -63,7 +164,7 @@ to modify the model, such as changing reaction bounds, adding reactions or reduc
 <div class="section" id="installation">
 <span id="id1"></span><h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
 <p>Firsty, you&#8217;ll need to install <a class="reference external" href="http://julialang.org/downloads/platform.html">Julia</a> (version 0.5 or above).</p>
-<p>In addition to Julia, you will also want to install a <strong>optimization solver</strong>.  Free solvers are available and Cobra supports both GLPK and Clp.
+<p>In addition to Julia, you will also want to install a <strong>optimization solver</strong>.  Free solvers are available and CBM supports both GLPK and Clp.
 Supported proprietery solvers are CPLEX and Gurobi</p>
 <div class="section" id="windows">
 <span id="id2"></span><h3>Windows<a class="headerlink" href="#windows" title="Permalink to this headline">¶</a></h3>
@@ -84,8 +185,8 @@ Supported proprietery solvers are CPLEX and Gurobi</p>
 </div>
 </div>
 </div>
-<div class="section" id="cobra-setup">
-<span id="cobrasetup"></span><h2>Cobra Setup<a class="headerlink" href="#cobra-setup" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="cbm-setup">
+<span id="cobrasetup"></span><h2>CBM Setup<a class="headerlink" href="#cbm-setup" title="Permalink to this headline">¶</a></h2>
 <p>Wheter you are on Windows, Linux or MacOS, once you&#8217;re in the <strong>Julia REPL</strong> your interface will look something similar to this:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span>david@david ~ $ julia
                _
@@ -100,11 +201,11 @@ Supported proprietery solvers are CPLEX and Gurobi</p>
 julia&gt;
 </pre></div>
 </div>
-<p>There are a few packages necessary for Cobra to function properly. These can all be installed easily through the Julia REPL using the function <code class="docutils literal"><span class="pre">Pkg.add(&quot;package</span> <span class="pre">name&quot;)</span></code>, fx</p>
+<p>There are a few packages necessary for CBM to function properly. These can all be installed easily through the Julia REPL using the function <code class="docutils literal"><span class="pre">Pkg.add(&quot;package</span> <span class="pre">name&quot;)</span></code>, fx</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">Pkg</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;JSON&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>You will need one of the following solvers.</p>
+<p>You will need at least <strong>one</strong> of the following solvers.</p>
 <ul class="simple">
 <li>GLPK</li>
 <li>CPLEX</li>
@@ -121,11 +222,11 @@ julia&gt;
 <li>Combinatorics</li>
 </ul>
 <p>And then do:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">Pkg</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;Cobra&quot;</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">Pkg</span><span class="o">.</span><span class="n">clone</span><span class="p">(</span><span class="s2">&quot;https://github.com/isebarn/CBM&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>When Cobra finishes installation, call:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">using</span> <span class="n">Cobra</span>
+<p>When CBM finishes installation, call:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">using</span> <span class="n">CBM</span>
 </pre></div>
 </div>
 <p>Now the toolbox is setup and ready for use!</p>
@@ -133,8 +234,8 @@ julia&gt;
 <div class="section" id="first-run">
 <span id="firstrun"></span><h2>First Run<a class="headerlink" href="#first-run" title="Permalink to this headline">¶</a></h2>
 <p>You can load the example model, <code class="docutils literal"><span class="pre">e_coli_core</span></code> which comes with the package by calling:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">using</span> <span class="n">Cobra</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">load_json</span><span class="p">(</span><span class="n">Pkg</span><span class="o">.</span><span class="n">dir</span><span class="p">()</span> <span class="o">*</span> <span class="s2">&quot;/Cobra/Models/e_coli_core.json&quot;</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">using</span> <span class="n">CBM</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">load_json</span><span class="p">(</span><span class="n">Pkg</span><span class="o">.</span><span class="n">dir</span><span class="p">()</span> <span class="o">*</span> <span class="s2">&quot;/CBM/Models/e_coli_core.json&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>So your screen should read something like:</p>
@@ -147,8 +248,8 @@ julia&gt;
  _/ |\__&#39;_|_|_|\__&#39;_|  |
 |__/                   |  x86_64-linux-gnu
 
-julia&gt; using Cobra
-julia&gt; model = load_json(Pkg.dir() * &quot;/Cobra/Models/e_coli_core.json&quot;)
+julia&gt; using CBM
+julia&gt; model = load_json(Pkg.dir() * &quot;/CBM/Models/e_coli_core.json&quot;)
 
            rxns :     95 Array{String,1}
            mets :     72 Array{String,1}
@@ -188,68 +289,71 @@ julia&gt; model = load_json(Pkg.dir() * &quot;/Cobra/Models/e_coli_core.json&quo
 </div>
 
 
+           </div>
           </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="IO.html" class="btn btn-neutral float-right" title="IO" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="Welcome to CBM’s documentation!" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Davíð Isebarn &amp; Steinn Guðmundsson.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Getting Started</a><ul>
-<li><a class="reference internal" href="#installation">Installation</a><ul>
-<li><a class="reference internal" href="#windows">Windows</a></li>
-<li><a class="reference internal" href="#linux">Linux</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#cobra-setup">Cobra Setup</a></li>
-<li><a class="reference internal" href="#first-run">First Run</a></li>
-</ul>
-</li>
-</ul>
-<div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="index.html" title="previous chapter">Welcome to cobra&#8217;s documentation!</a></li>
-      <li>Next: <a href="IO.html" title="next chapter">IO</a></li>
-  </ul></li>
-</ul>
-</div>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/Getting Started.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
-    <form class="search" action="search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="footer">
-      &copy;2016, Davíð Isebarn & Steinn Guðmundsson.
-      
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.4</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
-      
-      |
-      <a href="_sources/Getting Started.txt"
-          rel="nofollow">Page source</a>
-    </div>
 
-    
+    </section>
 
-    
-  </body>
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'v1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
 </html>
