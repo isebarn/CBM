@@ -78,7 +78,7 @@ function parallel_fva(model::Model, optPercentage::Number = 100, flux_matrix::Bo
 
     objective = find(model.c)
     lb = deepcopy(model.lb)
-    lb[objective] = fba(model).f * optPercentage/100
+    lb[objective] = fba(model).obj * optPercentage/100
 
     extra_cores = procs()[2:end]
 

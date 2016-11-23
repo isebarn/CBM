@@ -189,7 +189,7 @@ function gene_deletion(model::Model, n::Number)
 
 
     lp = setup_lp(model)
-    wt = fba(model).f
+    wt = fba(model).obj
 
     # create a dictionary containing the reactions that are affected 
     # by each geme, so that geneX => [rxnX1,...rxnXn]
@@ -344,7 +344,7 @@ function knockout_genes{T <: String}(model::Model, genes::Array{T})
     end 
 
     # find wild type growth
-    wt = fba(model).f
+    wt = fba(model).obj
 
     lp = setup_lp(model)
     
@@ -669,7 +669,7 @@ function synthetic_lethal_genes(model, cutoff = 10, nruns = 100)
     # calculate the wt_growth and gene_flow first.
     # see description of prep_genes() for information. The purpose is to 
     # format the data for quicker and easier lookup
-    wt_growth = fba(model).f * (cutoff/100)
+    wt_growth = fba(model).obj * (cutoff/100)
     gene_flow = gene_deletion(model,1).g_f
     rules, new_genes, gene_lookup, effects, rxn_genes = prep_genes(model)
 

@@ -277,7 +277,7 @@ specified by **min_growth**
 Note that **min_growth** represents the actual growth, not a percentage. For min growth of 
 0.1%, do
 
-    julia> find_essential_genes(model,0.001 * fba(model).f)
+    julia> find_essential_genes(model,0.001 * fba(model).obj)
     2-element Array{String,1}:
      "b2416"
      "b2415"
