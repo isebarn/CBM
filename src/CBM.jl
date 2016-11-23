@@ -1,6 +1,7 @@
 module CBM
 using Base.Test
 solvers = map(x -> in(x, readdir(Pkg.dir())) ? x : "" , ["GLPK", "CPLEX", "Gurobi", "Clp"])
+err_rd, err_wt = redirect_stderr()
 
 
 using JSON
@@ -10,7 +11,7 @@ using MAT
 using HDF5
 using Combinatorics
 
-    include("core/structure.jl")
+include("core/structure.jl")
 
 if in("GLPK", solvers)
     using GLPK
@@ -186,4 +187,19 @@ include("core/solvers/help.jl")
 
     export test_module
     include("core/docs.jl")
+
+
+# print errrors that arent method refefinition
+outerr = String(readavailable(err_rd))
+outerr = split(outerr, "\n")
+
+for i in outerr
+    if contains(i, "WARNING: Method definition") & redef_filter
+        continue
+    end  
+    println(i)
+end 
+
+redirect_stderr(STDOUT)
+
 end 
