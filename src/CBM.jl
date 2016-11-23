@@ -1,7 +1,8 @@
 module CBM
 using Base.Test
+#=
 solvers = map(x -> in(x, readdir(Pkg.dir())) ? x : "" , ["GLPK", "CPLEX", "Gurobi", "Clp"])
-err_rd, err_wt = redirect_stderr()
+#err_rd, err_wt = redirect_stderr()
 
 
 using JSON
@@ -173,8 +174,8 @@ include("core/modification.jl")
     export remove_reaction!
     export remove_reaction
 
-include("core/tests.jl")
-
+#include("core/tests.jl")
+#=
 function test_module()
     model = load_json(Pkg.dir() * "/Cobra/Models/e_coli_core.json")
     lp = setup_lp(model)
@@ -191,15 +192,15 @@ function test_module()
     test_lp(lp, model)
     test_solvers(model)
 end 
-
+=#
 export test_module
 include("core/docs.jl")
 
 
 # print errrors that arent method refefinition
-outerr = String(readavailable(err_rd))
-outerr = split(outerr, "\n")
-
+#outerr = String(readavailable(err_rd))
+#outerr = split(outerr, "\n")
+#=
 for i in outerr
     if contains(i, "WARNING: Method definition")
         continue
@@ -208,5 +209,6 @@ for i in outerr
 end 
 
 redirect_stderr(STDOUT)
-
+=#
+=#
 end 
