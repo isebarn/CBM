@@ -4,7 +4,7 @@ using Base.Test
 solvers = map(x -> in(x, readdir(Pkg.dir())) ? x : "" , ["GLPK", "CPLEX", "Gurobi", "Clp"])
 #err_rd, err_wt = redirect_stderr()
 
-
+=#
 using JSON
 using ProgressMeter
 using JuMP
@@ -18,7 +18,7 @@ if in("GLPK", solvers)
     using GLPK
     include("core/solvers/GLPK.jl")
 end 
-
+#=
 if in("CPLEX", solvers)
     using CPLEX
     include("core/solvers/CPLEX.jl")
