@@ -16,6 +16,7 @@ using Combinatorics
 include("core/structure.jl")
 
 if in("GLPK", solvers)
+    Pkg.build("GLPK")
     using GLPK
     include("core/solvers/GLPK.jl")
 end 
