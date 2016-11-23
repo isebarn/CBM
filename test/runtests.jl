@@ -1,6 +1,6 @@
 using CBM
 using Base.Test
-
+#=
 
 function test_add_reaction(model)
     value1 = 1.31592;
@@ -402,3 +402,4 @@ function test_solvers(model)
         test_lp(setup_clp(model), model)
     end 
 end
+=#
