@@ -86,6 +86,22 @@ end
 function set_col_bounds(index::Number, fixed_value::Number)
     set_col_bounds(lp, index, fixed_value)
 end
+
+
+function fastfva{T <: Number}(sect::Array{T})
+    res = Array(Float64, length(sect))
+
+    for (i,v) in enumerate(sect)
+        set_objective(v)
+        solve()
+        res[i] = get_objective_value()
+        set_objective(v, 0.0)
+    end 
+
+    return res
+end 
+
+
 ###############################################
 
 #################### FVA ######################

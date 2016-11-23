@@ -312,15 +312,16 @@ function answer_lp(lp)
     end 
 end
 
-# return a LPSolution. lp must be solved
+# return a FBAsolution. lp must be solved
 function construct_lp_solution(lp)
     f = get_objective_value(lp)
     x = get_solution(lp)
     y = get_slack(lp)
     w = get_reduced_costs(lp)
-    status = get_solution_status(lp)
+    success = get_solution_status(lp) 
+    info = SolverInfo(settings_default_lp, solver_status(lp))
 
-    return  LPSolution(f,x,y,w,status);
+    return  FBAsolution(f,x,y,w,success, info);
 end
 
 function createlpmodel()
