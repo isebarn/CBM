@@ -40,7 +40,8 @@ include("core/solvers/help.jl")
     export MOMAsol 
     export Model 
     export RobustnessAnalysis 
-    export LPSolution
+    export FBAsolution 
+    export SolverInfo
     export GeneKnockout
 
 
@@ -130,6 +131,7 @@ include("core/solvers/help.jl")
         export set_col_bounds
         export set_objective
         export solve
+        export solver_status
 
 
     include("core/simulations.jl")

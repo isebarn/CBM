@@ -37,22 +37,24 @@ Where ``direction`` may be either ``max`` or ``min``
 ::
 
 	julia> fba(model)
-	LPSolution: Optimal
-	      objective::  0.873922
-	           flux::  95 element array
-	          slack::  72 element array
-	         rcosts::  95 element array
+	FBAsolution: 
+	       obj::  0.873922
+	         v::  95 element-array
+	     slack::  72 element-array
+	    rcosts::  95 element-array
+	   success::  Optimal
+	      info::  SolverInfo("glpk","GLP_OPT")
 
 
 
 
 Where 
 
-* ``sol.objective`` the objective value, equivalently ``sol.f``
-* ``sol.flux`` represents the solution vector, equivalently ``sol.x``
-* ``sol.slack`` represents the slack, equivalently ``sol.y``
-* ``sol.rcosts`` represents the reduced costs, equivalently ``sol.w``
-
+* ``sol.obj`` the objective value
+* ``sol.v`` represents the solution vector
+* ``sol.slack`` represents the slack
+* ``sol.rcosts`` represents the reduced costs
+* ``sol.info`` details solver information
 
 
 .. _fva:
