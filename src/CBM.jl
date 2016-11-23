@@ -20,11 +20,11 @@ if in("GLPK", solvers)
     using GLPK
     include("core/solvers/GLPK.jl")
 end 
-#=
 if in("CPLEX", solvers)
     using CPLEX
     include("core/solvers/CPLEX.jl")
 end 
+#=
 
 if in("Gurobi", solvers)
     using Gurobi
