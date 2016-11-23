@@ -9,12 +9,13 @@ Solves the LP : max/min c'*v
 ### Examples
     fbasolution = fba(model)
 
-Return a LPSolution object which has the following fields: 
-* x - Primal solution
-* y - Dual solution
-* w - Reduced costs
-* f - Objective value
-* status - Solution status
+Return a FBAsolution object which has the following fields: 
+* obj - Objective value
+* v - Primal solution
+* slack - Dual solution
+* rcost - Reduced costs
+* success - true if solution was a success, false otherwise
+* info - Solver info
 """ fba
 
 

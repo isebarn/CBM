@@ -454,5 +454,7 @@ function solve(lp::CPLEX.Model)
 	CPLEX.optimize!(lp)
 end
 
-
+function solver_status(lp::CPLEX.Model)
+    string(CPLEX.status_symbols[get_solution_status_code(lp)])
+end 
 

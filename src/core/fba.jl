@@ -18,11 +18,11 @@ function fva(model::Model; optPercentage::Number = 100, flux_matrix::Bool = fals
 end
 
 function fva(model::Model, optPercentage::Number = 100, flux_matrix::Bool = false)
-	#=
+	
     if length(procs()) != 1
 		return parallel_fva(model, optPercentage, flux_matrix)
 	end 
-    =#
+    
 
 	num_rxns = model.S.n
 	objective_index = find(model.c)
@@ -72,7 +72,7 @@ function variability_runner(lp, num_rxns, progress_meter, flux_matrix)
 	return flux, v
 end
 
-#=
+
 function parallel_fva(model::Model, optPercentage::Number = 100, flux_matrix::Bool = false)
     num_rxns = length(model.c)
 
@@ -115,7 +115,7 @@ function parallel_fva(model::Model, optPercentage::Number = 100, flux_matrix::Bo
         return minF, maxF, minV, maxV
     end 
 end 
-=#
+
 
 
 # -------------------------------------------------------------------

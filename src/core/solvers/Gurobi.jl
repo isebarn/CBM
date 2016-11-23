@@ -139,3 +139,8 @@ function solve(lp::Gurobi.Model)
 	return Gurobi.optimize(lp)
 end
 
+function solver_status(lp::Gurobi.Model)
+    string(Gurobi.status_symbols[get_solution_status_code(lp)])
+end 
+
+

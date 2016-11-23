@@ -125,3 +125,8 @@ function solve(lp::ClpModel)
     primal(lp,0)
 end
 
+function solver_status(lp::ClpModel)
+    get_solution_status(lp)
+end 
+
+

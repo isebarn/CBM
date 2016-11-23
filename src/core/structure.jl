@@ -11,29 +11,29 @@ function Base.show(io::IO, m::GeneDeletion)
         @printf "%30s %7s : %6s %10s\n" "Reactions => Flow" fieldnames(m)[2] length(getfield(m,2)) typeof(getfield(m,2))
         @printf "%30s %7s : %6s %10s\n" "Gene-knockout => Flow" fieldnames(m)[3] length(getfield(m,3)) typeof(getfield(m,3))
 end
-type LPSolution
-	f
-	x
-	y
-	w
-	objective 
-	solution 
+type FBAsolution
+	obj
+	v
 	slack 
 	rcost
-	status
-
-	function LPSolution(f,x,y,w,status)
-		new(f,x,y,w,f,x,y,w,status)
-	end 
+	success
+	info
 end
 
-function Base.show(io::IO, m::LPSolution)
-	@printf "%1s: %3s\n"  "LPSolution" m.status
+type SolverInfo
+	solver 
+	status 
+end 
 
-	@printf "%17s %9f\n" "objective::" m.f
-	@printf "%17s %3d %2s\n" "flux::" length(m.x) "element array"
-	@printf "%17s %3d %2s\n" "slack::" length(m.y) "element array"
-	@printf "%17s %3d %2s\n" "rcosts::" length(m.w) "element array"
+function Base.show(io::IO, m::FBAsolution)
+	@printf "%1s: \n"  "FBAsolution" 
+
+	@printf "%12s %9f\n" "obj::" m.obj
+	@printf "%12s %3d %2s\n" "v::" length(m.v) "element-array"
+	@printf "%12s %3d %2s\n" "slack::" length(m.slack) "element-array"
+	@printf "%12s %3d %2s\n" "rcosts::" length(m.rcost) "element-array"
+	@printf "%12s %8s\n" "success::" m.success
+	@printf "%13s %8s\n" "info:: " m.info
 end
 # THINK: Specify types wherever appropriate, remove obsolete stuff (sparsestruct?)
 type Model

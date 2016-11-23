@@ -7,6 +7,9 @@ function Base.show(io::IO, m::GLPK.Prob)
     @printf "   %-15s = %10s \n" "coefficients" GLPK.get_num_nz(m)
 end
 
+
+# status codes 
+# http://artax.karlin.mff.cuni.cz/r-help/library/glpkAPI/html/glpkConstants.html
 # To change settings for GLPK, find the parameter you wish 
 # to change, uncomment its line, and change the X to the desired
 # value.
@@ -311,6 +314,24 @@ function solve(lp::GLPK.Prob)
 	return GLPK.simplex(lp, settings_glpk())
 end
 
+function solver_status(lp::GLPK.Prob)
+
+	status_code = get_solution_status_code(lp)
+
+	if status_code == 1
+		return "GLP_UNDEF" 
+	elseif status_code == 2
+		return "GLP_FEAS" 
+	elseif status_code == 3
+		return "GLP_INFEAS" 
+	elseif status_code == 4
+		return "GLP_NOFEAS" 
+	elseif status_code == 5
+		return "GLP_OPT" 
+	elseif status_code == 6
+		return "GLP_UNBND" 
+	end
+end
 
 
 
