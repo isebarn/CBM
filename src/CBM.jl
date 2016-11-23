@@ -5,6 +5,7 @@ solvers = map(x -> in(x, readdir(Pkg.dir())) ? x : "" , ["GLPK", "CPLEX", "Gurob
 #err_rd, err_wt = redirect_stderr()
 
 =#
+println(123)
 using JSON
 using ProgressMeter
 using JuMP
