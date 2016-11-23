@@ -18,6 +18,7 @@ if in("GLPK", solvers)
     include("core/solvers/GLPK.jl")
 end 
 
+#=
 if in("CPLEX", solvers)
     using CPLEX
     include("core/solvers/CPLEX.jl")
@@ -33,7 +34,7 @@ if in("Clp", solvers)
     using Clp.ClpCInterface
     include("core/solvers/Clp.jl")
 end 
-
+=#
 include("core/solvers/help.jl")
 
     export SolverInfo 
