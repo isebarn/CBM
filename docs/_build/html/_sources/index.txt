@@ -22,6 +22,8 @@ we plan to add to CBM.jl a strain design toolbox, novel algorithms along
 with implementing an interface to the libSBML parser to support models
 expressed in the SBML format
 
+CBM.jl is available at the `CBM github page <https://github.com/isebarn/CBM>`_
+
 Contents:
 
 .. toctree::

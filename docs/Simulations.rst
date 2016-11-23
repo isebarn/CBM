@@ -2,7 +2,20 @@
 Simulations
 ===========
 
-CBM offers many methods inteded for model analysis
+CBM offers many methods inteded for model analysis.
+
+**Note:** arguments inside brackets ``[ ]`` denote **keyword arguments**, for example 
+``flux balance analysis`` is defined as ::
+
+	fba(model; [direction = "max"])
+
+meaning you can equivalently call::
+
+	fba(model)
+	fba(model, "max")
+	fba(model, direction = "max")
+
+
 
 
 * :ref:`fba`
@@ -28,13 +41,14 @@ Flux Balance Analysis
 
 ``fba()`` is a mathematical method for simulating metabolism in genome-scale reconstructions of metabolic networks, by optimizing the network w.r.t (usually) the reactions responsible for the organisms growth::
 
-	fba(model; [direction = "max"])
+	fba(model; [direction = "max", objective = 0])
 
-Where ``direction`` may be either ``max`` or ``min``
+* ``direction`` may be either ``"max"`` or ``"min"``
+* ``objective`` may be either an **integer index** or **reaction name** as it appears in ``model.rxns``
 
 **Example**
 
-::
+To maximize the default objective function::
 
 	julia> fba(model)
 	FBAsolution: 
@@ -45,8 +59,42 @@ Where ``direction`` may be either ``max`` or ``min``
 	   success::  Optimal
 	      info::  SolverInfo("glpk","GLP_OPT")
 
+To maximize "ADK1"::
+
+	julia> fba(model, objective = "ADK1")
+	FBAsolution: 
+	       obj:: 166.610000
+	         v::  95 element-array
+	     slack::  72 element-array
+	    rcosts::  95 element-array
+	   success::  Optimal
+	      info::  SolverInfo("glpk","GLP_OPT")
+
+To maximize the reaction number 14::
+
+	julia> fba(model, objective = 14)
+	FBAsolution: 
+	       obj:: 11.104242
+	         v::  95 element-array
+	     slack::  72 element-array
+	    rcosts::  95 element-array
+	   success::  Optimal
+	      info::  SolverInfo("glpk","GLP_OPT")
 
 
+To minimize, use:: 
+
+	julia> fba(model, "min")
+	FBAsolution: 
+	       obj::  0.000000
+	         v::  95 element-array
+	     slack::  72 element-array
+	    rcosts::  95 element-array
+	   success::  Optimal
+	      info::  SolverInfo("glpk","GLP_OPT")
+
+
+or ``fba(model, objective = "min")``
 
 Where 
 

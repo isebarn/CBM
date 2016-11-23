@@ -89,6 +89,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Julia Tips</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#packages">Packages</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#function-names">Function names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#function-argument-signature">Function argument signature</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#getting-help">Getting help</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#methods">Methods</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#methods-within-a-module">Methods within a module</a></li>
@@ -147,8 +148,9 @@
 <ul class="simple">
 <li><a class="reference internal" href="#packages"><span class="std std-ref">Packages</span></a></li>
 <li><a class="reference internal" href="#funcnames"><span class="std std-ref">Function names</span></a></li>
+<li><a class="reference internal" href="#funcsignature"><span class="std std-ref">Function argument signature</span></a></li>
 <li><a class="reference internal" href="#help"><span class="std std-ref">Getting help</span></a></li>
-<li><a class="reference internal" href="Solvers.html#methods"><span class="std std-ref">Methods</span></a></li>
+<li><a class="reference internal" href="#methods"><span class="std std-ref">Methods</span></a></li>
 </ul>
 <div class="section" id="packages">
 <span id="id1"></span><h2>Packages<a class="headerlink" href="#packages" title="Permalink to this headline">¶</a></h2>
@@ -176,6 +178,24 @@
 </pre></div>
 </div>
 <p>returns a new copy of the model, with bounds changed for reaction 13.</p>
+</div>
+<div class="section" id="function-argument-signature">
+<span id="funcsignature"></span><h2>Function argument signature<a class="headerlink" href="#function-argument-signature" title="Permalink to this headline">¶</a></h2>
+<p>Functions in Julia may have either optional arguments <strong>and</strong> keyword arguments.</p>
+<p>This makes it easier to use functions that may have multiple necessary arguments, where some of them have sensible default values.</p>
+<p>In the documentation, <strong>optional arguments</strong> have a default value assigned to them, for example, the <code class="docutils literal"><span class="pre">flux</span> <span class="pre">balance</span> <span class="pre">analysis</span></code> function <code class="docutils literal"><span class="pre">fba()</span></code> has the following description</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">fba</span><span class="p">(</span><span class="n">model</span><span class="p">;</span> <span class="p">[</span><span class="n">direction</span> <span class="o">=</span> <span class="s2">&quot;max&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Here, <code class="docutils literal"><span class="pre">&quot;max&quot;</span></code> is the default value given to <code class="docutils literal"><span class="pre">direction</span></code></p>
+<p><strong>Keyword arguments</strong> are those that appear inside brackets <code class="docutils literal"><span class="pre">[</span> <span class="pre">]</span></code> following a semicolon, <code class="docutils literal"><span class="pre">;</span></code>
+so <code class="docutils literal"><span class="pre">&quot;direction&quot;</span></code> is a keyword argument</p>
+<p>meaning you can equivalently call:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">fba</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="n">fba</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s2">&quot;max&quot;</span><span class="p">)</span>
+<span class="n">fba</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">direction</span> <span class="o">=</span> <span class="s2">&quot;max&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="getting-help">
 <span id="help"></span><h2>Getting help<a class="headerlink" href="#getting-help" title="Permalink to this headline">¶</a></h2>

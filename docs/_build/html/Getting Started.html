@@ -275,11 +275,13 @@ julia&gt; model = load_json(Pkg.dir() * &quot;/CBM/Models/e_coli_core.json&quot;
 </div>
 <p>and to run flux balance analysis:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">fba</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
-<span class="n">LPSolution</span><span class="p">:</span> <span class="n">Optimal</span>
-      <span class="n">objective</span><span class="p">::</span>  <span class="mf">0.873922</span>
-           <span class="n">flux</span><span class="p">::</span>  <span class="mi">95</span> <span class="n">element</span> <span class="n">array</span>
-          <span class="n">slack</span><span class="p">::</span>  <span class="mi">72</span> <span class="n">element</span> <span class="n">array</span>
-         <span class="n">rcosts</span><span class="p">::</span>  <span class="mi">95</span> <span class="n">element</span> <span class="n">array</span>
+<span class="n">FBAsolution</span><span class="p">:</span>
+       <span class="n">obj</span><span class="p">::</span>  <span class="mf">0.873922</span>
+         <span class="n">v</span><span class="p">::</span>  <span class="mi">95</span> <span class="n">element</span><span class="o">-</span><span class="n">array</span>
+     <span class="n">slack</span><span class="p">::</span>  <span class="mi">72</span> <span class="n">element</span><span class="o">-</span><span class="n">array</span>
+    <span class="n">rcosts</span><span class="p">::</span>  <span class="mi">95</span> <span class="n">element</span><span class="o">-</span><span class="n">array</span>
+   <span class="n">success</span><span class="p">::</span>  <span class="n">Optimal</span>
+      <span class="n">info</span><span class="p">::</span>  <span class="n">SolverInfo</span><span class="p">(</span><span class="s2">&quot;glpk&quot;</span><span class="p">,</span><span class="s2">&quot;GLP_OPT&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

@@ -151,7 +151,18 @@
             
   <div class="section" id="simulations">
 <h1>Simulations<a class="headerlink" href="#simulations" title="Permalink to this headline">¶</a></h1>
-<p>CBM offers many methods inteded for model analysis</p>
+<p>CBM offers many methods inteded for model analysis.</p>
+<p><strong>Note:</strong> arguments inside brackets <code class="docutils literal"><span class="pre">[</span> <span class="pre">]</span></code> denote <strong>keyword arguments</strong>, for example
+<code class="docutils literal"><span class="pre">flux</span> <span class="pre">balance</span> <span class="pre">analysis</span></code> is defined as</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">fba</span><span class="p">(</span><span class="n">model</span><span class="p">;</span> <span class="p">[</span><span class="n">direction</span> <span class="o">=</span> <span class="s2">&quot;max&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>meaning you can equivalently call:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">fba</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="n">fba</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s2">&quot;max&quot;</span><span class="p">)</span>
+<span class="n">fba</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">direction</span> <span class="o">=</span> <span class="s2">&quot;max&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
 <ul class="simple">
 <li><a class="reference internal" href="#fba"><span class="std std-ref">Flux Balance Analysis</span></a></li>
 <li><a class="reference internal" href="#fva"><span class="std std-ref">Flux Variability Analysis</span></a></li>
@@ -172,25 +183,66 @@
 <div class="section" id="flux-balance-analysis">
 <span id="fba"></span><h2>Flux Balance Analysis<a class="headerlink" href="#flux-balance-analysis" title="Permalink to this headline">¶</a></h2>
 <p><code class="docutils literal"><span class="pre">fba()</span></code> is a mathematical method for simulating metabolism in genome-scale reconstructions of metabolic networks, by optimizing the network w.r.t (usually) the reactions responsible for the organisms growth:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">fba</span><span class="p">(</span><span class="n">model</span><span class="p">;</span> <span class="p">[</span><span class="n">direction</span> <span class="o">=</span> <span class="s2">&quot;max&quot;</span><span class="p">])</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">fba</span><span class="p">(</span><span class="n">model</span><span class="p">;</span> <span class="p">[</span><span class="n">direction</span> <span class="o">=</span> <span class="s2">&quot;max&quot;</span><span class="p">,</span> <span class="n">objective</span> <span class="o">=</span> <span class="mi">0</span><span class="p">])</span>
 </pre></div>
 </div>
-<p>Where <code class="docutils literal"><span class="pre">direction</span></code> may be either <code class="docutils literal"><span class="pre">max</span></code> or <code class="docutils literal"><span class="pre">min</span></code></p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">direction</span></code> may be either <code class="docutils literal"><span class="pre">&quot;max&quot;</span></code> or <code class="docutils literal"><span class="pre">&quot;min&quot;</span></code></li>
+<li><code class="docutils literal"><span class="pre">objective</span></code> may be either an <strong>integer index</strong> or <strong>reaction name</strong> as it appears in <code class="docutils literal"><span class="pre">model.rxns</span></code></li>
+</ul>
 <p><strong>Example</strong></p>
+<p>To maximize the default objective function:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">fba</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
-<span class="n">LPSolution</span><span class="p">:</span> <span class="n">Optimal</span>
-      <span class="n">objective</span><span class="p">::</span>  <span class="mf">0.873922</span>
-           <span class="n">flux</span><span class="p">::</span>  <span class="mi">95</span> <span class="n">element</span> <span class="n">array</span>
-          <span class="n">slack</span><span class="p">::</span>  <span class="mi">72</span> <span class="n">element</span> <span class="n">array</span>
-         <span class="n">rcosts</span><span class="p">::</span>  <span class="mi">95</span> <span class="n">element</span> <span class="n">array</span>
+<span class="n">FBAsolution</span><span class="p">:</span>
+       <span class="n">obj</span><span class="p">::</span>  <span class="mf">0.873922</span>
+         <span class="n">v</span><span class="p">::</span>  <span class="mi">95</span> <span class="n">element</span><span class="o">-</span><span class="n">array</span>
+     <span class="n">slack</span><span class="p">::</span>  <span class="mi">72</span> <span class="n">element</span><span class="o">-</span><span class="n">array</span>
+    <span class="n">rcosts</span><span class="p">::</span>  <span class="mi">95</span> <span class="n">element</span><span class="o">-</span><span class="n">array</span>
+   <span class="n">success</span><span class="p">::</span>  <span class="n">Optimal</span>
+      <span class="n">info</span><span class="p">::</span>  <span class="n">SolverInfo</span><span class="p">(</span><span class="s2">&quot;glpk&quot;</span><span class="p">,</span><span class="s2">&quot;GLP_OPT&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
+<p>To maximize &#8220;ADK1&#8221;:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">fba</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">objective</span> <span class="o">=</span> <span class="s2">&quot;ADK1&quot;</span><span class="p">)</span>
+<span class="n">FBAsolution</span><span class="p">:</span>
+       <span class="n">obj</span><span class="p">::</span> <span class="mf">166.610000</span>
+         <span class="n">v</span><span class="p">::</span>  <span class="mi">95</span> <span class="n">element</span><span class="o">-</span><span class="n">array</span>
+     <span class="n">slack</span><span class="p">::</span>  <span class="mi">72</span> <span class="n">element</span><span class="o">-</span><span class="n">array</span>
+    <span class="n">rcosts</span><span class="p">::</span>  <span class="mi">95</span> <span class="n">element</span><span class="o">-</span><span class="n">array</span>
+   <span class="n">success</span><span class="p">::</span>  <span class="n">Optimal</span>
+      <span class="n">info</span><span class="p">::</span>  <span class="n">SolverInfo</span><span class="p">(</span><span class="s2">&quot;glpk&quot;</span><span class="p">,</span><span class="s2">&quot;GLP_OPT&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To maximize the reaction number 14:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">fba</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">objective</span> <span class="o">=</span> <span class="mi">14</span><span class="p">)</span>
+<span class="n">FBAsolution</span><span class="p">:</span>
+       <span class="n">obj</span><span class="p">::</span> <span class="mf">11.104242</span>
+         <span class="n">v</span><span class="p">::</span>  <span class="mi">95</span> <span class="n">element</span><span class="o">-</span><span class="n">array</span>
+     <span class="n">slack</span><span class="p">::</span>  <span class="mi">72</span> <span class="n">element</span><span class="o">-</span><span class="n">array</span>
+    <span class="n">rcosts</span><span class="p">::</span>  <span class="mi">95</span> <span class="n">element</span><span class="o">-</span><span class="n">array</span>
+   <span class="n">success</span><span class="p">::</span>  <span class="n">Optimal</span>
+      <span class="n">info</span><span class="p">::</span>  <span class="n">SolverInfo</span><span class="p">(</span><span class="s2">&quot;glpk&quot;</span><span class="p">,</span><span class="s2">&quot;GLP_OPT&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To minimize, use:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">fba</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s2">&quot;min&quot;</span><span class="p">)</span>
+<span class="n">FBAsolution</span><span class="p">:</span>
+       <span class="n">obj</span><span class="p">::</span>  <span class="mf">0.000000</span>
+         <span class="n">v</span><span class="p">::</span>  <span class="mi">95</span> <span class="n">element</span><span class="o">-</span><span class="n">array</span>
+     <span class="n">slack</span><span class="p">::</span>  <span class="mi">72</span> <span class="n">element</span><span class="o">-</span><span class="n">array</span>
+    <span class="n">rcosts</span><span class="p">::</span>  <span class="mi">95</span> <span class="n">element</span><span class="o">-</span><span class="n">array</span>
+   <span class="n">success</span><span class="p">::</span>  <span class="n">Optimal</span>
+      <span class="n">info</span><span class="p">::</span>  <span class="n">SolverInfo</span><span class="p">(</span><span class="s2">&quot;glpk&quot;</span><span class="p">,</span><span class="s2">&quot;GLP_OPT&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>or <code class="docutils literal"><span class="pre">fba(model,</span> <span class="pre">objective</span> <span class="pre">=</span> <span class="pre">&quot;min&quot;)</span></code></p>
 <p>Where</p>
 <ul class="simple">
-<li><code class="docutils literal"><span class="pre">sol.objective</span></code> the objective value, equivalently <code class="docutils literal"><span class="pre">sol.f</span></code></li>
-<li><code class="docutils literal"><span class="pre">sol.flux</span></code> represents the solution vector, equivalently <code class="docutils literal"><span class="pre">sol.x</span></code></li>
-<li><code class="docutils literal"><span class="pre">sol.slack</span></code> represents the slack, equivalently <code class="docutils literal"><span class="pre">sol.y</span></code></li>
-<li><code class="docutils literal"><span class="pre">sol.rcosts</span></code> represents the reduced costs, equivalently <code class="docutils literal"><span class="pre">sol.w</span></code></li>
+<li><code class="docutils literal"><span class="pre">sol.obj</span></code> the objective value</li>
+<li><code class="docutils literal"><span class="pre">sol.v</span></code> represents the solution vector</li>
+<li><code class="docutils literal"><span class="pre">sol.slack</span></code> represents the slack</li>
+<li><code class="docutils literal"><span class="pre">sol.rcosts</span></code> represents the reduced costs</li>
+<li><code class="docutils literal"><span class="pre">sol.info</span></code> details solver information</li>
 </ul>
 </div>
 <div class="section" id="flux-variability-analysis">

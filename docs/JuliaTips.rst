@@ -8,6 +8,7 @@ This section is intended to familiarize the user with the tools and features of 
 
 * :ref:`packages`
 * :ref:`funcnames`
+* :ref:`funcsignature`
 * :ref:`help`
 * :ref:`methods`
 
@@ -46,6 +47,31 @@ will change the bounds for reaction 13 in the original model, whereas calling::
 	new_model = change_reaction_bounds(model, 13, 0, 1000)
 
 returns a new copy of the model, with bounds changed for reaction 13.
+
+.. _funcsignature:
+
+Function argument signature
+===========================
+
+Functions in Julia may have either optional arguments **and** keyword arguments.
+
+This makes it easier to use functions that may have multiple necessary arguments, where some of them have sensible default values.
+
+In the documentation, **optional arguments** have a default value assigned to them, for example, the ``flux balance analysis`` function ``fba()`` has the following description ::
+
+	fba(model; [direction = "max"])
+
+Here, ``"max"`` is the default value given to ``direction``
+
+**Keyword arguments** are those that appear inside brackets ``[ ]`` following a semicolon, ``;``
+so ``"direction"`` is a keyword argument
+
+meaning you can equivalently call::
+
+	fba(model)
+	fba(model, "max") 
+	fba(model, direction = "max") 
+
 
 .. _help:
 
