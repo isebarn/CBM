@@ -1,5 +1,7 @@
 # CBM.jl
 
+[![Build Status](https://travis-ci.org/isebarn/CBM.svg?branch=master)](https://travis-ci.org/isebarn/CBM)
+
 CBM.jl is a COBRA toolbox written in the [Julia](http://julialang.org/downloads/) programming language.
 
 CBM provides a broad range of functionality found in similar COBRA toolboxes, while being easy to use and providing top of the line performance.
