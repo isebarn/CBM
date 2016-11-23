@@ -194,7 +194,7 @@ outerr = String(readavailable(err_rd))
 outerr = split(outerr, "\n")
 
 for i in outerr
-    if contains(i, "WARNING: Method definition") & redef_filter
+    if contains(i, "WARNING: Method definition")
         continue
     end  
     println(i)
