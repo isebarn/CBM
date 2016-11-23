@@ -1,7 +1,7 @@
 using CBM
 using Base.Test
 
-#=
+
 function test_add_reaction(model)
     value1 = 1.31592;
 	value2 = 21.2434;
@@ -402,10 +402,10 @@ function test_all()
     test_find_reactions_from_gene(model)
     test_find_reactions_from_metabolite(model)
     test_remove_reaction(model)
-    test_solvers(model)
+    #test_solvers(model)
 end 
 
 test_all()
-=#
+
 
 @test 1 == 1
