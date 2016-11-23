@@ -1,3 +1,7 @@
+using CBM
+using Base.Test
+
+
 function test_add_reaction(model)
     value1 = 1.31592;
 	value2 = 21.2434;
