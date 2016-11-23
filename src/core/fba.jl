@@ -1,13 +1,31 @@
-function fba(model::Model; direction::String = "max")
-    fba(model, direction)
+function fba(model::Model; direction::String = "max", objective = 0)
+    if typeof(objective) <: String 
+        if any(model.rxns .== objective)
+            objective = first(find(model.rxns .== objective))
+        else 
+            warn("Objective reaction not found in model.rxns")
+            return
+        end 
+    end 
+
+    fba(model, direction, objective)
 end 
 
-function fba(model::Model, direction::String = "max")
+function fba(model::Model, direction::String = "max", objective = 0)
 	lp = setup_lp(model, direction);
+
+    if objective != 0
+        if objective > length(model.c)
+            warn("Objective is larger than number of reactions")
+            return 
+        end 
+        change_objective_coef(lp, objective)
+    end 
 	solve(lp)
 
 	return construct_lp_solution(lp)
 end
+
 
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
