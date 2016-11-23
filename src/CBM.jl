@@ -1,7 +1,7 @@
 module CBM
 using Base.Test
-#=
 solvers = map(x -> in(x, readdir(Pkg.dir())) ? x : "" , ["GLPK", "CPLEX", "Gurobi", "Clp"])
+#=
 #err_rd, err_wt = redirect_stderr()
 
 =#
