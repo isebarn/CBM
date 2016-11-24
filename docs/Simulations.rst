@@ -256,7 +256,7 @@ and to plot (if ``Plots.jl`` is installed)::
 
 	plots(robust_sol[:])
 
-.. figure:: CBM/docs/pics/acontb_biomass_8pts.png
+.. image:: CBM/docs/pics/acontb_biomass_8pts.png
 
 To perform a robustness analysis on reaction 13 againts reactions 5,8 and 11, where the point resolution
 for reactions 5,8 and 11 is 4,2 and 10, respectively::
