@@ -43,8 +43,8 @@ So your screen should read something like
  _/ |\__'_|_|_|\__'_|  |  
 |__/                   |  x86_64-linux-gnu
 
-julia> using Cobra
-julia> model = load_json(Pkg.dir() * "/Cobra/Models/e_coli_core.json")
+julia> using CBM
+julia> model = load_json(Pkg.dir() * "/CBM/Models/e_coli_core.json")
 
            rxns :     95 Array{String,1}
            mets :     72 Array{String,1}
