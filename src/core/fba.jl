@@ -31,11 +31,11 @@ end
 # -------------------------------------------------------------------
 
 
-function fva(model::Model; optPercentage::Number = 100, flux_matrix::Bool = false)
+function fva(model::Model; optPercentage::Number = 1, flux_matrix::Bool = false)
 	fva(model, optPercentage, flux_matrix)
 end
 
-function fva(model::Model, optPercentage::Number = 100, flux_matrix::Bool = false)
+function fva(model::Model, optPercentage::Number = 1, flux_matrix::Bool = false)
 	
     if length(procs()) != 1
 		return parallel_fva(model, optPercentage, flux_matrix)
@@ -51,7 +51,7 @@ function fva(model::Model, optPercentage::Number = 100, flux_matrix::Bool = fals
 	# fix the biomass lower bound according to "optPercentage"
 	solve(lp)	
 	new_lb = get_solution(lp)[objective_index]
-	new_lb *= (optPercentage/100)
+	new_lb *= optPercentage
 
 	map((x,y) -> set_col_bounds(lp, x, y, model.ub[x]), objective_index, new_lb)
 	map(x -> set_objective(lp, x, 0.0), objective_index)
@@ -91,12 +91,12 @@ function variability_runner(lp, num_rxns, progress_meter, flux_matrix)
 end
 
 
-function parallel_fva(model::Model, optPercentage::Number = 100, flux_matrix::Bool = false)
+function parallel_fva(model::Model, optPercentage::Number = 1, flux_matrix::Bool = false)
     num_rxns = length(model.c)
 
     objective = find(model.c)
     lb = deepcopy(model.lb)
-    lb[objective] = fba(model).obj * optPercentage/100
+    lb[objective] = fba(model).obj * optPercentage
 
     extra_cores = procs()[2:end]
 

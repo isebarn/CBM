@@ -35,13 +35,15 @@ Return a FBAsolution object which has the following fields:
 Determine the flux variability of the model
 
 ### Optional arguements:
-    optPercentage: 0 - 100
+    optPercentage: 0 - 1 (fraction)
     
-Used to fix the biomass production rate anywhere between 0 - 100%
+Used to fix the biomass production rate anywhere between 0 - 1
 
 
 #### Examples
-    min, max, minX, maxX = FBA(model, 90)
+Run flux variability with biomass lower bound at 90% of maximum
+
+    min, max, minX, maxX = fva(model, 0.9)
 
 Return a min flux vector, max flux vector, minimum primal flux vector and maximum 
 primal flux vector
@@ -474,10 +476,10 @@ reaction 11 is fixed at point 6
 """ robustness_analysis
 
 @doc """
-    synthetic_lethal_genes(model, cutoff, num_runs)
+    synthetic_lethal_genes(model, cutoff = 0.1, num_runs = 100)
 
 Check the model for essential genes, conditionally essential genes and non-essential genes
-with regards to some defined cuttof ratio
+with regards to some defined cuttof fraction of the wild type 
 
 
 ### Examples

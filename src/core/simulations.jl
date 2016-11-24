@@ -657,19 +657,14 @@ end
 
 
 
-function synthetic_lethal_genes(model, cutoff = 10, nruns = 100)
-    if cutoff < 1
-        warn("Cutoff set as " * string(cutoff))
-        warn("Cutoff is to be defined as a percentage not as a fraction of 100")
-    end 
-
+function synthetic_lethal_genes(model, cutoff = 0.1, nruns = 100)
     # just a counter 
     cond_count = 0
 
     # calculate the wt_growth and gene_flow first.
     # see description of prep_genes() for information. The purpose is to 
     # format the data for quicker and easier lookup
-    wt_growth = fba(model).obj * (cutoff/100)
+    wt_growth = fba(model).obj * cutoff
     gene_flow = gene_deletion(model,1).g_f
     rules, new_genes, gene_lookup, effects, rxn_genes = prep_genes(model)
 
