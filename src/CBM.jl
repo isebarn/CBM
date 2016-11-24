@@ -40,6 +40,7 @@ include("core/solvers/help.jl")
     export FBAsol 
     export MOMAsol 
     export Model 
+    export SLG
     export RobustnessAnalysis 
     export FBAsolution 
     export SolverInfo

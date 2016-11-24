@@ -164,25 +164,39 @@ Synthetic Lethal Genes
 
 Check the model for essential genes, conditionally essential genes and non-essential genes
 
-Returns a vector of essential, conditionally essential and essential genes,::
+Returns a ``SLG`` type, which contains the fields ``ess``, ``cond_ess`` and ``non_ess``,::
 
-    synthetic_lethal_genes(model, cutoff, num_runs)
+    synthetic_lethal_genes(model, cutoff = 0.1, num_runs = 100)
 
 where ``cutoff`` represents the minimum biomass flux as a fraction of the wild-type flux. 
 
 ``num_runs`` indicates how many times the algorithm runs, higher number gives better results, but takes longer.
 
-**Examples**::
+**Examples**
 
-    ess, cond, non = synthetic_lethal_genes(model, 0.1, 1000)
+To find essentiality with biomass fixed at ``0.1`` in 200 runs::
+
+	julia> slg = synthetic_lethal_genes(model, 0.1, 200)
+	run 200 of 200 Number of conditionally essential genes found: 115
+
+	Type: SLG
+	     Field                  Contains    Size  
+	       ess                Essential:       7  
+	  cond_ess    Conditional Essential:     115  
+	   non_ess            Non-Essential:      15 
 
 
-**essential genes** are those that if disabled, make biomass production ratio to the 
-wild type drop below 10%
+* ``ess`` or **essential genes** are those that if disabled, make biomass production ratio to the 
+wild type drop below 10%. The field slg.ess is a ``Dict()`` containing the gene indices and the resulting biomass production  after their deletion
 
-**conditionally essential** are those, that if disabled along with some other genes will make the biomass production ratio to the wild type drop below 10%
+* ``cond_ess`` or **conditionally essential** are those, that if disabled along with some other genes will make the biomass production ratio to the wild type drop below 10%. The field slg.cond_ess is a ``Dict()`` containing the conditionally-essential genes and **all** the gene-combinations that were checked that reduced the biomass below 10%.
+Example entry in this dictionary may be ::
 
-**non-essential genes** are those that never have the effect of making the biomass production ratio to the wild type ratio drop below 10%
+	90  => Any[Any[89,74,12,79,67], Any[92,95,67]]
+
+meaning that disabling gene 90 along with **either** genes 89,74,12,79,67 **or** 92,95,67, brought the biomass below 10%
+
+**non-essential genes** are those that never have the effect of making the biomass production ratio to the wild type ratio drop below 10%. This is an array containing the indices of the genes that never brought the biomass below 10%
 
 .. _robustness_analysis:
 
