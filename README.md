@@ -6,9 +6,11 @@ CBM.jl is a COBRA toolbox written in the [Julia](http://julialang.org/downloads/
 
 CBM provides a broad range of functionality found in similar COBRA toolboxes, while being easy to use and providing top of the line performance.
 
-Install the package by calling:: 
+Install the package by calling
 
-	Pkg.clone("https://github.com/isebarn/CBM")
+```
+Pkg.clone("https://github.com/isebarn/CBM")
+```
 
 within the Julia enviroment.
 
