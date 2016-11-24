@@ -479,22 +479,25 @@ reaction 11 is fixed at point 6
     synthetic_lethal_genes(model, cutoff = 0.1, num_runs = 100)
 
 Check the model for essential genes, conditionally essential genes and non-essential genes
-with regards to some defined cuttof fraction of the wild type 
 
+Returns a ``SLG`` type, which contains the fields ``ess``, ``cond_ess`` and ``non_ess``,::
 
-### Examples
-    ess, cond, non = synthetic_lethal_genes(model, 0.1, 1000)
+* ``cutoff`` represents the minimum biomass flux as a fraction of the wild-type flux. 
 
-Returns a vector of essential, conditionally essential and essential genes
+* ``num_runs`` indicates how many times the algorithm runs, higher number gives better results, but takes longer.
 
-essential genes are those that if disabled, make biomass production ratio to the 
-wild type drop below 10%
+**Example**
 
-conditionally essential are those, that if disabled along with some other genes will
-make the biomass production ratio to the wild type drop below 10%
+To find essentiality with biomass fixed at ``0.1`` ::
 
-non-essential genes are those that never have the effect of making the biomass production
-ratio to the wild type ratio drop below 10%
+    julia> slg = synthetic_lethal_genes(model, 0.1, 200)
+    run 200 of 200 Number of conditionally essential genes found: 115
+
+    Type: SLG
+         Field                  Contains    Size  
+           ess                Essential:       7  
+      cond_ess    Conditional Essential:     115  
+       non_ess            Non-Essential:      15 
 """ synthetic_lethal_genes
 
 

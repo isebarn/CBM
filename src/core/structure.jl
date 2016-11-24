@@ -68,6 +68,19 @@ end
 Base.length(m::Model) = (length(m.c), length(m.b), length(m.genes))
 Base.size(m::Model) = (length(m.c), length(m.b), length(m.genes))
 
+type SLG
+	ess
+	cond_ess
+	non_ess
+end
+
+function Base.show(io::IO, m::SLG)
+        println("\nType: SLG")
+        @printf "%10s  %24s %7s  \n" "Field" "Contains" "Size"
+        @printf "%10s  %24s %7d  \n" "ess" "Essential:" length(m.ess)
+        @printf "%10s  %24s %7d  \n" "cond_ess" "Conditional Essential:" length(m.cond_ess)
+        @printf "%10s  %24s %7d  \n" "non_ess" "Non-Essential:" length(m.non_ess)
+end
 type Robustness
     result 
     reactions

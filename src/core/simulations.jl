@@ -749,14 +749,16 @@ function synthetic_lethal_genes(model, cutoff = 0.1, nruns = 100)
                 end 
             end 
             dead = setdiff(dead, disabled)
+            disabled = vcat(disabled, dead)
 
             map(x -> set_col_bounds(lp, x, 0.0, 0.0), dead)
 
             if answer_lp(lp) < wt_growth
                 if !haskey(quick_cond, gene_idx)
-                    quick_cond[gene_idx] = 0
+                    quick_cond[gene_idx] = []
                     cond_count += 1
                 end 
+                push!(quick_cond[gene_idx], disabled)
                 map(x -> set_col_bounds(lp, x, lb[x], ub[x]), dead)
             else 
                 for (k,rule) in enumerate(tmp_rules)
@@ -766,14 +768,13 @@ function synthetic_lethal_genes(model, cutoff = 0.1, nruns = 100)
         end 
     end
     println()
-
     cond_ess = sort(collect(keys(quick_cond)))
     essential = sort(collect(keys(quick_essential)))
 
     non_essential = setdiff(collect(1:ngenes), cond_ess)
     non_essential = setdiff(non_essential, essential)
-    
-    return essential, cond_ess, non_essential
+
+    return SLG(quick_essential, quick_cond, non_essential)    
 end 
 
 
