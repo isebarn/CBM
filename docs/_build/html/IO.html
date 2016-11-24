@@ -164,11 +164,20 @@
 <div class="section" id="loading-a-model">
 <h2>Loading a model<a class="headerlink" href="#loading-a-model" title="Permalink to this headline">¶</a></h2>
 <p>A model can be loaded from a <em>.json</em>, a <em>.mat</em> file or from a table (csv/tsv) using the methods:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">load_json</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
-<span class="n">load_matlab</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
-<span class="n">load_table</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="p">[</span><span class="n">delimiter</span> <span class="o">=</span> <span class="s1">&#39;,&#39;</span><span class="p">])</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">load_json</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">fix</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+<span class="n">load_matlab</span><span class="p">(</span><span class="n">filename</span><span class="p">;</span> <span class="n">fix</span> <span class="o">=</span> <span class="n">true</span><span class="p">,</span> <span class="n">model_key</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">...</span><span class="p">)</span>
+<span class="n">load_table</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="p">[</span><span class="n">delimiter</span> <span class="o">=</span> <span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="n">fix</span> <span class="o">=</span> <span class="n">true</span><span class="p">])</span>
 </pre></div>
 </div>
+<p><strong>Note</strong> The parameter <code class="docutils literal"><span class="pre">fix</span></code> is always set to true by default, this runs the method <code class="docutils literal"><span class="pre">fix_model()</span></code> which calls the following methods:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>* ``fix_empty_fields() `` which fills up fields that were not in the loaded file
+* ``fix_extra_dicts()`` fills up extra dictionaries so their length matches
+* ``fix_gene_rules()`` which tries to find all *flaws* in gene reaction rules
+* ``fix_genes()`` removes genes that dont appear in any gene reaction rule
+</pre></div>
+</div>
+<p>Note that <code class="docutils literal"><span class="pre">fix_gene_rules()</span></code> and <code class="docutils literal"><span class="pre">fix_genes()</span></code> may both need to be run, so not running one may introduce errors.</p>
+<p>So if you wish <strong>not</strong> one of these methods to run, it is reccomended to run the others manually to avoid errors. Please see the documentation if futher information is required.</p>
 <div class="section" id="loading-json">
 <span id="loadjson"></span><h3>Loading JSON<a class="headerlink" href="#loading-json" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">model</span> <span class="o">=</span> <span class="n">load_json</span><span class="p">(</span><span class="s2">&quot;Models/e_coli_core.json&quot;</span><span class="p">)</span>

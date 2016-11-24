@@ -2,6 +2,8 @@
 Simulations
 ===========
 
+.. highlight:: julia
+
 CBM offers many methods inteded for model analysis.
 
 **Note:** arguments inside brackets ``[ ]`` denote **keyword arguments**, for example 
@@ -172,8 +174,9 @@ where ``cutoff`` represents the minimum biomass flux as a fraction of the wild-t
 
 ``num_runs`` indicates how many times the algorithm runs, higher number gives better results, but takes longer.
 
-Examples
-^^^^^^^^
+Example
+^^^^^^^
+
 
 To find essentiality with biomass fixed at ``0.1`` in 200 runs::
 
@@ -213,17 +216,48 @@ Robustness Analysis
 
 Perform a robustness analysis for any number of fixed reactions, specified by indices or reaction names::
 
-	solution = = robustness_analysis(model, reaction_names, [objective_name = "", pts = [], direction = "max"])
 	solution = robustness_analysis(model, reactions, [objective = 0, pts = [], direction = "max"])
 
-The method can either be called with reaction names or with reaction indices.
+The method can either be called with **reaction names** or with **reaction indices.**
 
+* ``objective`` reaction can be chosen, either as the **reaction name**, such as ``"BIOMASS_Ecoli_core_w_GAM"`` or as an index, such as ``13``. If left blank it defaults to the default objective of the model
+* ``pts`` is an array used to specify how many points are tested for each reaction, if left blank, it creates 20 points for each reaction
+** ``direction`` represents the optimization direction, either ``"min"`` or ``"max"`` which is the default.
 
-* If the ``objective_name``/``objective`` field is left empty, the method defaults to the reaction marked nonzero by ``model.c``
-* ``pts`` represents the *resolution* of each reaction, so if reactions ``[5,6]`` are chosen and points ``[8,10]``, the range for which reaction 5 will be fixed to will be split into 8 points, but 10 points for reaction 6. This defaults to 20 points. 
-* direction can be either ``min`` or, as default, ``max``
+Examples
+^^^^^^^^
 
-**Example**
+Robustness analysis for "ACONTb" at 20 points 
+"""""""""""""""""""""""""""""""""""""""""""""
+
+To see how the biomass of **e_coli_core** if the flow of "ACONTb" is fixed at 8 different points between its minimum and maximum::
+
+julia> robust_sol = robustness_analysis(model, ["ACONTb"], "BIOMASS_Ecoli_core_w_GAM", [8])
+Robustness Analysis 
+                      result :      (8,) Array 
+                      ranges : 
+                              reaction :          range: 
+                                     5 :     (-0.0,20.0) 
+
+We see that "ACPNTb" (reaction number 5) has a minimum flux of 0.0, and maximum flux of 20.0. To view the objective flux values type ``robust_sol.result`` or robust_sol[:]::
+
+	julia> robust_sol.result
+	8-element Array{Float64,1}:
+	  6.65799e-27
+	  0.850845   
+	  0.871775   
+	  0.809412   
+	  0.607059   
+	  0.404706   
+	  0.202353   
+	 -1.52026e-16
+
+and to plot (if ``Plots.jl`` is installed)::
+
+	plots(robust_sol[:])
+
+.. figure:: /home/david/Julia/CBM/docs/pics/acontb_biomass_8pts.png
+
 To perform a robustness analysis on reaction 13 againts reactions 5,8 and 11, where the point resolution
 for reactions 5,8 and 11 is 4,2 and 10, respectively::
 
