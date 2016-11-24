@@ -255,10 +255,10 @@ We see that "ACPNTb" (reaction number 5) has a minimum flux of 0.0, and maximum 
 and to plot (if ``Plots.jl`` is installed)::
 
 	plots(robust_sol[:])
-		scale:0.5
 
 
 .. image:: https://raw.githubusercontent.com/isebarn/CBM/master/docs/pics/acontb_biomass_8pts.png
+	scale:0.5
 
 To perform a robustness analysis on reaction 13 againts reactions 5,8 and 11, where the point resolution
 for reactions 5,8 and 11 is 4,2 and 10, respectively::
