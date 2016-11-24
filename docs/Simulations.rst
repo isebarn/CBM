@@ -172,7 +172,8 @@ where ``cutoff`` represents the minimum biomass flux as a fraction of the wild-t
 
 ``num_runs`` indicates how many times the algorithm runs, higher number gives better results, but takes longer.
 
-**Examples**
+Examples
+^^^^^^^^
 
 To find essentiality with biomass fixed at ``0.1`` in 200 runs::
 
@@ -186,17 +187,24 @@ To find essentiality with biomass fixed at ``0.1`` in 200 runs::
 	   non_ess            Non-Essential:      15 
 
 
-* ``ess`` or **essential genes** are those that if disabled, make biomass production ratio to the 
-wild type drop below 10%. The field slg.ess is a ``Dict()`` containing the gene indices and the resulting biomass production  after their deletion
+``ess``, **essential genes**
+""""""""""""""""""""""""""""
 
-* ``cond_ess`` or **conditionally essential** are those, that if disabled along with some other genes will make the biomass production ratio to the wild type drop below 10%. The field slg.cond_ess is a ``Dict()`` containing the conditionally-essential genes and **all** the gene-combinations that were checked that reduced the biomass below 10%.
+Those genes, that if disabled, make biomass production ratio to the wild type drop below 10%. The field slg.ess is a ``Dict()`` containing the gene indices and the resulting biomass production  after their deletion
+
+``cond_ess``, **conditionally essential** 
+"""""""""""""""""""""""""""""""""""""""""
+Those genes, that if disabled along with some other genes will make the biomass production ratio to the wild type drop below 10%. The field slg.cond_ess is a ``Dict()`` containing the conditionally-essential genes and **all** the gene-combinations that were checked that reduced the biomass below 10%.
 Example entry in this dictionary may be ::
 
 	90  => Any[Any[89,74,12,79,67], Any[92,95,67]]
 
 meaning that disabling gene 90 along with **either** genes 89,74,12,79,67 **or** 92,95,67, brought the biomass below 10%
 
-**non-essential genes** are those that never have the effect of making the biomass production ratio to the wild type ratio drop below 10%. This is an array containing the indices of the genes that never brought the biomass below 10%
+``non_ess``, **non-essential genes** 
+""""""""""""""""""""""""""""""""""""
+
+Genes that never have the effect of making the biomass production ratio to the wild type ratio drop below 10%. This is an array containing the indices of the genes that never brought the biomass below 10%
 
 .. _robustness_analysis:
 
