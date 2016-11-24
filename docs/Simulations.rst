@@ -238,7 +238,7 @@ Examples
 Robustness analysis for "ACONTb" at 8 points 
 """"""""""""""""""""""""""""""""""""""""""""
 
-To see how the biomass of **e_coli_core** behaves if the flow of "ACONTb" is fixed at 8 different points between its minimum and maximum::
+To see how the biomass of **e_coli_core** behaves if the flow of ``"ACONTb"`` is fixed at 8 different points between its minimum and maximum::
 
 	julia> robust_sol = robustness_analysis(model, ["ACONTb"], "BIOMASS_Ecoli_core_w_GAM", [8])
 	Robustness Analysis 
@@ -247,10 +247,10 @@ To see how the biomass of **e_coli_core** behaves if the flow of "ACONTb" is fix
 	                              reaction :          range: 
 	                                     5 :     (-0.0,20.0) 
 
-We see that "ACPNTb" (reaction number 5) has a minimum flux of 0.0, and maximum flux of 20.0. 
+We see that ``"ACPNTb"`` (reaction number 5) has a minimum flux of ``0.0``, and maximum flux of ``20.0``. 
 
 
-``result``:  To view the objective flux values type ``robust_sol.result`` or robust_sol[:]::
+``result``:  To view the objective flux values type ``robust_sol.result`` or ``robust_sol[:]``::
 
 	julia> robust_sol.result
 	8-element Array{Float64,1}:
@@ -263,7 +263,7 @@ We see that "ACPNTb" (reaction number 5) has a minimum flux of 0.0, and maximum 
 	  0.202353   
 	 -1.52026e-16
 
-``ranges``: To view the range of flux values "ACONTb" is fixed at, type ``robust_sol.ranges::
+``ranges``: To view the range of flux values ``"ACONTb"`` is fixed at, type ``robust_sol.ranges::
 
 	julia> robust_sol.ranges
 	1-element Array{Array{Float64,1},1}:
@@ -277,7 +277,7 @@ To see for which points the biomass lies between ``0.3`` and ``0.7`` type::
 	 (5,)
 	 (6,)
 
-so when "ACONTb" is fixed at either 5 or 6, the biomass will have a flux in that range
+so when ``"ACONTb"`` is fixed at either 5 or 6, the biomass will have a flux in that range
 
 ``getindex()``: To view the biomass flux at point 5::
 
@@ -294,7 +294,7 @@ and to plot (if ``Plots.jl`` is installed)::
 Robustness analysis for "GLUSy" and "PGM", both at 20 points 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-To see how the biomass of **e_coli_core** behaves if the flow of "GLUSy" and "PGM" is fixed at 20 different points::
+To see how the biomass of **e_coli_core** behaves if the flow of ``"GLUSy"`` and ``"PGM"`` is fixed at ``20`` different points::
 	
 	julia> robust_sol = robustness_analysis(model, ["GLUSy", "PGM"], "BIOMASS_Ecoli_core_w_GAM", [20,20])
 	Robustness Analysis 
@@ -304,7 +304,7 @@ To see how the biomass of **e_coli_core** behaves if the flow of "GLUSy" and "PG
 	                                    55 :    (0.0,166.61) 
 	                                    77 :    (-20.0,-0.0)
 
-We see that "GLUSy" (reaction 55) has minimum value of 0.0 and maximum of 166.61, while "PGM" minimum is -20.0 and maximum 0.0
+We see that ``"GLUSy"`` (reaction 55) has minimum value of ``0.0`` and maximum of ``166.61``, while ``"PGM"`` minimum is ``-20.0`` and maximum ``0.0``
 
 ``range()``: To see for which points the biomass lies between ``0.3`` and ``0.32`` type::
 
@@ -317,7 +317,7 @@ We see that "GLUSy" (reaction 55) has minimum value of 0.0 and maximum of 166.61
 	 (4,13) 
 	 (5,13) 
 
-``getindex()``: To view the biomass flux at point (14,11)::
+``getindex()``: To view the biomass flux at point ``(14,11)``::
 
 	julia> robust_sol[14,11]
 	0.30173110378482915
@@ -332,7 +332,7 @@ To plot the 3D surface of the matrix of fluxes, ``robust_sol[:,:]``, do (if ``Pl
 Robustness analysis for reactions 5, 22 and 76
 """"""""""""""""""""""""""""""""""""""""""""""
 
-To see how reaction 13 (biomass reaction) behaves is reactions 5 ("ACONTb"), 22 ("EX_akg_e") and 76 ("PGL") are all fixed in 20 different points::
+To see how reaction 13 (biomass reaction) behaves is reactions 5 (``"ACONTb"``), 22 (``"EX_akg_e"``) and 76 (``"PGL"``) are all fixed in ``20`` different points::
 
 	julia> robust_sol = robustness_analysis(model, [5,22,76], 13, [20,20,20])
 	Robustness Analysis 
@@ -343,7 +343,7 @@ To see how reaction 13 (biomass reaction) behaves is reactions 5 ("ACONTb"), 22 
 	                                    22 :      (0.0,10.0) 
 	                                    76 :      (0.0,60.0) 
 
-All the reactions have a minimum flux of 0.0. Reaction 5 has a maximum flow of 20, reaction 22 has a maximum of 22 and reaction 76 has a maximum flow of 76
+All the reactions have a minimum flux of ``0.0``. Reaction 5 has a maximum flow of ``20.0``, reaction 22 has a maximum of ``10.0`` and reaction 76 has a maximum flow of ``76.0``
 
 ``getindex()``: To view the biomass flux at point **at all points** for reaction 5, while reaction 22 and 76 are fixed at their maximum::
 
@@ -358,7 +358,7 @@ All the reactions have a minimum flux of 0.0. Reaction 5 has a maximum flow of 2
 	 0.0
 
 
-To plot the 3D surface for "ACONTb" and "EX_akg_e" while "PGL" is fixed at point 6::
+To plot the 3D surface for ``"ACONTb"`` and ``"EX_akg_e"`` while ``"PGL"`` is fixed at point ``6``::
 
 	surface(robust_sol[:,:,6])
 
