@@ -258,7 +258,10 @@ and to plot (if ``Plots.jl`` is installed)::
 
 
 .. figure:: https://raw.githubusercontent.com/isebarn/CBM/master/docs/pics/acontb_biomass_8pts.png
-	:scale:20
+	:scale: 20
+
+.. image:: CBM/docs/pics/acontb_biomass_8pts.png
+   :scale: 50
 
 To perform a robustness analysis on reaction 13 againts reactions 5,8 and 11, where the point resolution
 for reactions 5,8 and 11 is 4,2 and 10, respectively::
