@@ -38,9 +38,9 @@ So your screen should read something like
    _       _ _(_)_     |  A fresh approach to technical computing
   (_)     | (_) (_)    |  Documentation: http://docs.julialang.org
    _ _   _| |_  __ _   |  Type "?help" for help.
-  | | | | | | |/ _` |  |
+  | | | | | | |/ _  |  |
   | | |_| | | | (_| |  |  Version 0.5.0 (2016-09-19 18:14 UTC)
- _/ |\__'_|_|_|\__'_|  |  
+ _/ |\__ _|_|_|\__ _|  |  
 |__/                   |  x86_64-linux-gnu
 
 
