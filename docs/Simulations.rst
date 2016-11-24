@@ -224,6 +224,14 @@ The method can either be called with **reaction names** or with **reaction indic
 * ``pts`` is an array used to specify how many points are tested for each reaction, if left blank, it creates 20 points for each reaction
 ** ``direction``** represents the optimization direction, either ``"min"`` or ``"max"`` which is the default.
 
+The function returns a type ``Robustness`` which has fields 
+
+* ``result`` which the flux values for the objective function at every point checked
+* ``reactions``, the indices of the reactions (in case you forgot)
+* ``ranges`` arrays with the flux value at every point for every checked reaction
+
+The methods ``range()``, ``getindex`` and ``size()`` can be used with the type, see below for examples of these methods
+
 Examples
 ^^^^^^^^
 
@@ -239,7 +247,10 @@ To see how the biomass of **e_coli_core** behaves if the flow of "ACONTb" is fix
 	                              reaction :          range: 
 	                                     5 :     (-0.0,20.0) 
 
-We see that "ACPNTb" (reaction number 5) has a minimum flux of 0.0, and maximum flux of 20.0. To view the objective flux values type ``robust_sol.result`` or robust_sol[:]::
+We see that "ACPNTb" (reaction number 5) has a minimum flux of 0.0, and maximum flux of 20.0. 
+
+
+``result``:  To view the objective flux values type ``robust_sol.result`` or robust_sol[:]::
 
 	julia> robust_sol.result
 	8-element Array{Float64,1}:
@@ -252,6 +263,27 @@ We see that "ACPNTb" (reaction number 5) has a minimum flux of 0.0, and maximum 
 	  0.202353   
 	 -1.52026e-16
 
+``ranges``: To view the range of flux values "ACONTb" is fixed at, type ``robust_sol.ranges::
+
+	julia> robust_sol.ranges
+	1-element Array{Array{Float64,1},1}:
+	 [-1.3884e-28,2.85714,5.71429,8.57143,11.4286,14.2857,17.1429,20.0]
+
+``range()``: This method can be used to find where the objective function (the biomass) lies inside a range.
+To see for which points the biomass lies between ``0.3`` and ``0.7`` type::
+
+	julia> range(robust_sol, 0.3, 0.7)
+	2-element Array{Tuple{Int64},1}:
+	 (5,)
+	 (6,)
+
+so when "ACONTb" is fixed at either 5 or 6, the biomass will have a flux in that range
+
+``getindex()``: To view the biomass flux at point 5::
+
+	julia> robust_sol[5]
+	0.6070588806643656
+	
 and to plot (if ``Plots.jl`` is installed)::
 
 	plots(robust_sol[:])
@@ -274,90 +306,50 @@ To see how the biomass of **e_coli_core** behaves if the flow of "GLUSy" and "PG
 
 We see that "GLUSy" (reaction 55) has minimum value of 0.0 and maximum of 166.61, while "PGM" minimum is -20.0 and maximum 0.0
 
-To plot the 3D surface of the matrix ``robust_sol[:,:]`` (if ``Plots.jl`` is installed)::
+``range()``: To see for which points the biomass lies between ``0.3`` and ``0.32`` type::
+
+	julia> range(robust_sol, 0.3,0.32)
+	6-element Array{Tuple{Int64,Int64},1}:
+	 (16,10)
+	 (14,11)
+	 (10,12)
+	 (11,12)
+	 (4,13) 
+	 (5,13) 
+
+``getindex()``: To view the biomass flux at point (14,11)::
+
+	julia> robust_sol[14,11]
+	0.30173110378482915
+
+
+To plot the 3D surface of the matrix of fluxes, ``robust_sol[:,:]``, do (if ``Plots.jl`` is installed)::
 
 	surface(robust_sol[:,:])
 
 .. figure:: https://raw.githubusercontent.com/isebarn/CBM/master/docs/_build/html/_static/GLUSy_PGM_biomass_20_20.png
 
-To perform a robustness analysis on reaction 13 againts reactions 5,8 and 11, where the point resolution
-for reactions 5,8 and 11 is 4,2 and 10, respectively::
+Robustness analysis for reactions 5, 22 and 76
+""""""""""""""""""""""""""""""""""""""""""""""
 
-    robustness_analysis(model, [5,8,11], 13, [4,2,10], "max")
+To see how reaction 13 (biomass reaction) behaves is reactions 5 ("ACONTb"), 22 ("EX_akg_e") and 76 ("PGL") are all fixed in 20 different points::
+
+	julia> robust_sol = robustness_analysis(model, [5,22,76], 13, [20,20,20])
 	Robustness Analysis 
-	                      result :   (2,3,4) Array 
+	                      result : (20,20,20) Array 
 	                      ranges : 
 	                              reaction :          range: 
 	                                     5 :     (-0.0,20.0) 
-	                                     8 :      (0.0,20.0) 
-	                                    11 :    (8.39,175.0) 
+	                                    22 :      (0.0,10.0) 
+	                                    76 :      (0.0,60.0) 
 
+All the reactions have a minimum flux of 0.0. Reaction 5 has a maximum flow of 20, reaction 22 has a maximum of 22 and reaction 76 has a maximum flow of 76
 
-The method returns a **Robustness** object with fields 
+To plot the 3D surface for "ACONTb" and "EX_akg_e" while "PGL" is fixed at point 6::
 
- * ``solution.result``
+	surface(robust_sol[:,:,6])
 
-    a multidimensional matrix which contains the flux value of the objective for each point. 
- 
- * ``solution.reactions``
-
-    names of the reactions
-
- * ``solution.ranges``
-
-    the flux values of the reactions at specific points ::
-
-        solution.ranges[1]
-        4-element Array{Float64,1}:
-         -1.3884e-28
-          6.66667   
-         13.3333    
-         20.0 
-
-    So reaction 1 (reaction 5, ACONTb) is fixed at 6.6666 at point 2 
-
-To see the value of the objective, reaction 13, when reaction 5 
-is fixed at point 1, reaction 8 at point 2 and reaction 11 at 
-point 10::
-
-    solution[1,2,10]
-    6.365820260756199e-16
-
-To see every point where the objective is between 0.5 and 0.9::
-    
-    range(solution, 0.5, 0.9)
-    4-element Array{Tuple{Int64,Int64,Int64},1}:
-     (1,2,3)
-     (2,2,3)
-     (3,2,3)
-     (4,2,3)
-
-To get the entire vector for reaction 5 when reaction 8 is fixed at 
-point 2 and reaction 11 is fixed at point 6::
-
-    solution[:,2,6]
-    4-element Array{Float64,1}:
-     0.425313 
-     0.314254 
-     0.203194 
-     0.0921351  
-
-Return a matrix with the objective reactions optimal value at each  
-value of the control reaction
-
-**Plotting**
-
-It is reccomended to use PyPlot to plot in Julia.
-
-using PyPlot, to plot a 2D image of the effect of reaction 5
-while reaction 8 is fixed at point 2 and reaction 11 at point 6::
-
-    PyPlot.plot(a[:,2,6])
-
-to plot a 3D image in PyPlot for reactions 5 and 8 while 
-reaction 11 is fixed at point 6::
-
-    PyPlot.surf(a[:,:,6])
+.. figure:: https://raw.githubusercontent.com/isebarn/CBM/master/docs/_build/html/_static/5_22_76_13.png
     
 .. _find_deadend_metabolites:
 
