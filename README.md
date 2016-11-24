@@ -81,6 +81,8 @@ FBAsolution:
       info::  SolverInfo("glpk","GLP_OPT")
 ```
 
+**Note**
+Note: The CBM.jl package is currently under development. Please report all problems to dia2@hi.is.
 
 ## Licence
 
