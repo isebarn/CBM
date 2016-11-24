@@ -1,4 +1,4 @@
-function load_json(file)
+function load_json(file, fix = true)
     try
         file = (endswith(file,".json")) ? JSON.parsefile(file) : JSON.parsefile(file*".json")
     catch y
@@ -130,30 +130,14 @@ function load_json(file)
     met_name = stringconvert(met_name)
     gene_name = stringconvert(gene_name)
 
-    return Model(rxns,mets,gene,S,lb,ub,c,b,csense,rxn_gene_mat,rxn_name,rxn_rules,rxn_subsystem,rxn_extra,met_formula,met_name,met_extra,gene_name,gene_extra,description)
-    ##    rxns
-    ##    mets
-    ##    genes
-    ##    S
-    ##    lb
-    ##    ub
-    ##    c
-    ##    b
-    ##    csense
-    ##    rxn_gene_mat
-    ##    rxn_name
-    ##    rxn_rules
-    ##    rxn_subsystem
-    ##    rxn_extra
-    ##    met_formula
-    ##    met_name
-    ##    met_extra
-    ##    gene_name
-    ##    gene_extra
-    ##    description
+    model = Model(rxns,mets,gene,S,lb,ub,c,b,csense,rxn_gene_mat,rxn_name,rxn_rules,rxn_subsystem,rxn_extra,met_formula,met_name,met_extra,gene_name,gene_extra,description)
+    
+    if fix; fix_model(model); end
+
+    return model 
 end 
 
-function load_matlab(filename; model_key = "", x...)
+function load_matlab(filename; fix = true, model_key = "", x...)
     mat_file = matread(filename)
     # extract filename from full path, ie a/b/model.mat => model.mat
     model_name = filename[search(filename, r"\w*.mat")]
@@ -287,6 +271,8 @@ function load_matlab(filename; model_key = "", x...)
     # which flattens out the sparse matrix
     model.S = sparse(reshape(model.S, length(model.mets), length(model.rxns)))
 
+    if fix; fix_model(model); end
+
     return model
 end 
 
@@ -322,7 +308,7 @@ end
 function convert_to_uft8!(array)
 	return convert(Array{UTF8String}, array)
 end
-function load_table(filename, delimiter = ',')
+function load_table(filename, delimiter = ',', fix = true)
     rxn_table = readdlm(filename * "_rxns.csv", delimiter);
     met_table = readdlm(filename * "_mets.csv", delimiter);
     gene_table = readdlm(filename * "_genes.csv", delimiter);
@@ -385,6 +371,8 @@ function load_table(filename, delimiter = ',')
     model.csense[">="] = find(x -> x == "=>", constraint_table[:,2])
     model.csense["="] = find(x -> x == "=", constraint_table[:,2])
     ##########################
+
+    if fix; fix_model(model); end
 
     return model
 end 

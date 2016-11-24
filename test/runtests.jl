@@ -93,6 +93,20 @@ function test_change_objective(model)
 end
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function test_change_reaction_bounds(model)
 	play_model = deepcopy(model)
 	safe_model = deepcopy(model)
@@ -388,24 +402,3 @@ function test_solvers(model)
         test_lp(setup_clp(model), model)
     end 
 end
-
-function test_all()
-    model = load_json(Pkg.dir() * "/CBM/Models/e_coli_core.json")
-
-    test_add_reaction(model)
-    test_change_objective(model)
-    test_change_reaction_bounds(model)
-    test_fba(model)
-    test_find_blocked_reactions(model)
-    test_find_deadend_metabolites(model)
-    test_find_exchange_reactions(model)
-    test_find_reactions_from_gene(model)
-    test_find_reactions_from_metabolite(model)
-    test_remove_reaction(model)
-    #test_solvers(model)
-end 
-
-test_all()
-
-
-@test 1 == 1
