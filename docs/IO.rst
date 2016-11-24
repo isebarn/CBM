@@ -12,9 +12,20 @@ Loading a model
 
 A model can be loaded from a *.json*, a *.mat* file or from a table (csv/tsv) using the methods::
 
-	load_json(filename)
-	load_matlab(filename)
-	load_table(filename, [delimiter = ','])
+	load_json(file, fix = true)
+	load_matlab(filename; fix = true, model_key = "", x...)
+	load_table(filename, [delimiter = ',', fix = true])
+
+**Note** The parameter ``fix`` is always set to true by default, this runs the method ``fix_model()`` which calls the following methods::
+
+* ``fix_empty_fields() `` which fills up fields that were not in the loaded file
+* ``fix_extra_dicts()`` fills up extra dictionaries so their length matches 
+* ``fix_gene_rules()`` which tries to find all *flaws* in gene reaction rules
+* ``fix_genes()`` removes genes that dont appear in any gene reaction rule
+
+Note that ``fix_gene_rules()`` and ``fix_genes()`` may both need to be run, so not running one may introduce errors.
+
+So if you wish **not** one of these methods to run, it is reccomended to run the others manually to avoid errors. Please see the documentation if futher information is required.
 
 .. _loadjson:
 

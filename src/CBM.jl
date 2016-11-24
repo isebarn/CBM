@@ -5,17 +5,11 @@ err_rd, err_wt = redirect_stderr()
 
 
 using JSON
-println("JSON")
 using ProgressMeter
-println("ProgressMeter")
 using JuMP
-println("JuMP")
 using MAT
-println("MAT")
 using HDF5
-println("HDF5")
 using Combinatorics
-println("Combinatorics")
 
 include("core/structure.jl")
 
@@ -23,7 +17,6 @@ if in("GLPK", solvers)
     using GLPK
     include("core/solvers/GLPK.jl")
 end 
-println("GLPK")
 #=
 if in("CPLEX", solvers)
     using CPLEX
