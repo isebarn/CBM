@@ -345,6 +345,19 @@ To see how reaction 13 (biomass reaction) behaves is reactions 5 ("ACONTb"), 22 
 
 All the reactions have a minimum flux of 0.0. Reaction 5 has a maximum flow of 20, reaction 22 has a maximum of 22 and reaction 76 has a maximum flow of 76
 
+``getindex()``: To view the biomass flux at point **at all points** for reaction 5, while reaction 22 and 76 are fixed at their maximum::
+
+	julia> robust_sol[:,20,20]
+	20-element Array{Float64,1}:
+	 0.0
+	 0.0
+	.
+	.
+	.
+	 0.0
+	 0.0
+
+
 To plot the 3D surface for "ACONTb" and "EX_akg_e" while "PGL" is fixed at point 6::
 
 	surface(robust_sol[:,:,6])
