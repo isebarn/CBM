@@ -227,17 +227,16 @@ The method can either be called with **reaction names** or with **reaction indic
 Examples
 ^^^^^^^^
 
-Robustness analysis for "ACONTb" at 20 points 
-"""""""""""""""""""""""""""""""""""""""""""""
+Robustness analysis for "ACONTb" at 8 points 
+""""""""""""""""""""""""""""""""""""""""""""
 
-To see how the biomass of **e_coli_core** if the flow of "ACONTb" is fixed at 8 different points between its minimum and maximum::
-
-julia> robust_sol = robustness_analysis(model, ["ACONTb"], "BIOMASS_Ecoli_core_w_GAM", [8])
-Robustness Analysis 
-                      result :      (8,) Array 
-                      ranges : 
-                              reaction :          range: 
-                                     5 :     (-0.0,20.0) 
+To see how the biomass of **e_coli_core** behaves if the flow of "ACONTb" is fixed at 8 different points between its minimum and maximum::
+	julia> robust_sol = robustness_analysis(model, ["ACONTb"], "BIOMASS_Ecoli_core_w_GAM", [8])
+	Robustness Analysis 
+	                      result :      (8,) Array 
+	                      ranges : 
+	                              reaction :          range: 
+	                                     5 :     (-0.0,20.0) 
 
 We see that "ACPNTb" (reaction number 5) has a minimum flux of 0.0, and maximum flux of 20.0. To view the objective flux values type ``robust_sol.result`` or robust_sol[:]::
 
@@ -258,6 +257,27 @@ and to plot (if ``Plots.jl`` is installed)::
 
 
 .. figure:: https://raw.githubusercontent.com/isebarn/CBM/master/docs/_build/html/_static/acontb_biomass_8pts.png
+
+Robustness analysis for "GLUSy" and "PGM", both at 20 points 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+To see how the biomass of **e_coli_core** behaves if the flow of "GLUSy" and "PGM" is fixed at 20 different points::
+	
+	julia> robust_sol = robustness_analysis(model, ["GLUSy", "PGM"], "BIOMASS_Ecoli_core_w_GAM", [20,20])
+	Robustness Analysis 
+	                      result :   (20,20) Array 
+	                      ranges : 
+	                              reaction :          range: 
+	                                    55 :    (0.0,166.61) 
+	                                    77 :    (-20.0,-0.0)
+
+We see that "GLUSy" (reaction 55) has minimum value of 0.0 and maximum of 166.61, while "PGM" minimum is -20.0 and maximum 0.0
+
+To plot the 3D surface of the matrix ``robust_sol[:,:]`` (if ``Plots.jl`` is installed)::
+
+	surface(robust_sol[:,:])
+
+.. figure:: https://raw.githubusercontent.com/isebarn/CBM/master/docs/_build/html/_static/GLUSy_PGM_biomass_20_20
 
 To perform a robustness analysis on reaction 13 againts reactions 5,8 and 11, where the point resolution
 for reactions 5,8 and 11 is 4,2 and 10, respectively::
