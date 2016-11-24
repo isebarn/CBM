@@ -8,7 +8,7 @@ CBM provides a broad range of functionality found in similar COBRA toolboxes, wh
 
 Install the package by calling
 
-```
+```julia
 Pkg.clone("https://github.com/isebarn/CBM")
 ```
 
