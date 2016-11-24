@@ -33,51 +33,52 @@ model = load_json(Pkg.dir() * "/Cobra/Models/e_coli_core.json")
 
 So your screen should read something like
 
-```julia	               _
-	   _       _ _(_)_     |  A fresh approach to technical computing
-	  (_)     | (_) (_)    |  Documentation: http://docs.julialang.org
-	   _ _   _| |_  __ _   |  Type "?help" for help.
-	  | | | | | | |/ _` |  |
-	  | | |_| | | | (_| |  |  Version 0.5.0 (2016-09-19 18:14 UTC)
-	 _/ |\__'_|_|_|\__'_|  |  
-	|__/                   |  x86_64-linux-gnu
+```julia
+               _
+   _       _ _(_)_     |  A fresh approach to technical computing
+  (_)     | (_) (_)    |  Documentation: http://docs.julialang.org
+   _ _   _| |_  __ _   |  Type "?help" for help.
+  | | | | | | |/ _` |  |
+  | | |_| | | | (_| |  |  Version 0.5.0 (2016-09-19 18:14 UTC)
+ _/ |\__'_|_|_|\__'_|  |  
+|__/                   |  x86_64-linux-gnu
 
-	julia> using Cobra
-	julia> model = load_json(Pkg.dir() * "/Cobra/Models/e_coli_core.json")
+julia> using Cobra
+julia> model = load_json(Pkg.dir() * "/Cobra/Models/e_coli_core.json")
 
-	           rxns :     95 Array{String,1}
-	           mets :     72 Array{String,1}
-	          genes :    137 Array{String,1}
-	              S :   6840 SparseMatrixCSC{Float64,Int64}
-	             lb :     95 Array{Float64,1}
-	             ub :     95 Array{Float64,1}
-	              c :     95 Array{Float64,1}
-	              b :     72 Array{Float64,1}
-	         csense :      3 Dict{String,Array{Any,1}}
-	   rxn_gene_mat :  13015 SparseMatrixCSC{Float64,Int64}
-	       rxn_name :     95 Array{String,1}
-	      rxn_rules :     95 Array{String,1}
-	  rxn_subsystem :     95 Array{String,1}
-	      rxn_extra :      3 Dict{String,Array{Any,1}}
-	    met_formula :     72 Array{String,1}
-	       met_name :     72 Array{String,1}
-	      met_extra :      2 Dict{String,Array{Any,1}}
-	      gene_name :    137 Array{String,1}
-	     gene_extra :      1 Dict{String,Array{Any,1}}
-	    description :     11     String
+           rxns :     95 Array{String,1}
+           mets :     72 Array{String,1}
+          genes :    137 Array{String,1}
+              S :   6840 SparseMatrixCSC{Float64,Int64}
+             lb :     95 Array{Float64,1}
+             ub :     95 Array{Float64,1}
+              c :     95 Array{Float64,1}
+              b :     72 Array{Float64,1}
+         csense :      3 Dict{String,Array{Any,1}}
+   rxn_gene_mat :  13015 SparseMatrixCSC{Float64,Int64}
+       rxn_name :     95 Array{String,1}
+      rxn_rules :     95 Array{String,1}
+  rxn_subsystem :     95 Array{String,1}
+      rxn_extra :      3 Dict{String,Array{Any,1}}
+    met_formula :     72 Array{String,1}
+       met_name :     72 Array{String,1}
+      met_extra :      2 Dict{String,Array{Any,1}}
+      gene_name :    137 Array{String,1}
+     gene_extra :      1 Dict{String,Array{Any,1}}
+    description :     11     String
 ```
 
 and to run flux balance analysis
 
 ```julia
-	julia> fba(model)
-	FBAsolution: 
-	       obj::  0.873922
-	         v::  95 element-array
-	     slack::  72 element-array
-	    rcosts::  95 element-array
-	   success::  Optimal
-	      info::  SolverInfo("glpk","GLP_OPT")
+julia> fba(model)
+FBAsolution: 
+       obj::  0.873922
+         v::  95 element-array
+     slack::  72 element-array
+    rcosts::  95 element-array
+   success::  Optimal
+      info::  SolverInfo("glpk","GLP_OPT")
 ```
 
 
