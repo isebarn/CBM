@@ -24,14 +24,16 @@ In addition to Julia, you will also want to install a optimization solver. Free 
 ## Getting Started
 
 
-You can load the example model, ``e_coli_core`` which comes with the package by calling::
+You can load the example model, ``e_coli_core`` which comes with the package by calling
 
-	using Cobra
-	model = load_json(Pkg.dir() * "/Cobra/Models/e_coli_core.json")
+```julia
+using Cobra
+model = load_json(Pkg.dir() * "/Cobra/Models/e_coli_core.json")
+```
 
-So your screen should read something like::
+So your screen should read something like
 
-	               _
+```julia	               _
 	   _       _ _(_)_     |  A fresh approach to technical computing
 	  (_)     | (_) (_)    |  Documentation: http://docs.julialang.org
 	   _ _   _| |_  __ _   |  Type "?help" for help.
@@ -63,9 +65,11 @@ So your screen should read something like::
 	      gene_name :    137 Array{String,1}
 	     gene_extra :      1 Dict{String,Array{Any,1}}
 	    description :     11     String
+```
 
-and to run flux balance analysis::
+and to run flux balance analysis
 
+```julia
 	julia> fba(model)
 	FBAsolution: 
 	       obj::  0.873922
@@ -74,7 +78,7 @@ and to run flux balance analysis::
 	    rcosts::  95 element-array
 	   success::  Optimal
 	      info::  SolverInfo("glpk","GLP_OPT")
-
+```
 
 
 ## Licence
