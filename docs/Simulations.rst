@@ -255,6 +255,8 @@ We see that "ACPNTb" (reaction number 5) has a minimum flux of 0.0, and maximum 
 and to plot (if ``Plots.jl`` is installed)::
 
 	plots(robust_sol[:])
+		scale:0.5
+
 
 .. image:: https://raw.githubusercontent.com/isebarn/CBM/master/docs/pics/acontb_biomass_8pts.png
 
