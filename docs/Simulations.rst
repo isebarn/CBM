@@ -114,9 +114,9 @@ Returns the **minimum** and **maximum** flux of every reaction in the model
 
 **Note:** This method may run **in parallel** ::
 
-	fva(model::Model, [optPercentage = 100, flux_matrix = false])
+	fva(model::Model, [optPercentage = 1, flux_matrix = false])
 
-* ``optPercentage``: Fix the lower bound of the biomass reaction (or objective reaction) to a percentage of its maximum possible value.
+* ``optPercentage``: Fix the lower bound of the biomass reaction (or objective reaction) to a fraction of its maximum possible value.
 * ``flux_matrix``: In addition to **minimum** and **maximum** fluxes, return the entire solution flux for every reaction.
 
 **Example**
@@ -124,11 +124,11 @@ Returns the **minimum** and **maximum** flux of every reaction in the model
 To calculate the minimum and maximum flux values of **every reaction** with biomass fixed
 at 50% of its maximum value::
 
-	minFlux, maxFlux = fva(model, 50)
+	minFlux, maxFlux = fva(model, 0.5)
 
 To calculate the flux values of **every** reaction for every reactions minimum flux and maximum flux, call::
 
-	minFlux, maxFlux, minFluxArray, maxFluxArray = fva(model, 100, true)
+	minFlux, maxFlux, minFluxArray, maxFluxArray = fva(model, 1, true)
 
 
 .. _find_blocked_reactions:
@@ -168,7 +168,7 @@ Returns a vector of essential, conditionally essential and essential genes,::
 
     synthetic_lethal_genes(model, cutoff, num_runs)
 
-where ``cutoff`` represents the minimum biomass flux as a percentage of the wild-type flux. 
+where ``cutoff`` represents the minimum biomass flux as a fraction of the wild-type flux. 
 
 ``num_runs`` indicates how many times the algorithm runs, higher number gives better results, but takes longer.
 
