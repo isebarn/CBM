@@ -222,7 +222,7 @@ The method can either be called with **reaction names** or with **reaction indic
 
 * ``objective`` reaction can be chosen, either as the **reaction name**, such as ``"BIOMASS_Ecoli_core_w_GAM"`` or as an index, such as ``13``. If left blank it defaults to the default objective of the model
 * ``pts`` is an array used to specify how many points are tested for each reaction, if left blank, it creates 20 points for each reaction
-** ``direction`` represents the optimization direction, either ``"min"`` or ``"max"`` which is the default.
+** ``direction``** represents the optimization direction, either ``"min"`` or ``"max"`` which is the default.
 
 Examples
 ^^^^^^^^
@@ -231,6 +231,7 @@ Robustness analysis for "ACONTb" at 8 points
 """"""""""""""""""""""""""""""""""""""""""""
 
 To see how the biomass of **e_coli_core** behaves if the flow of "ACONTb" is fixed at 8 different points between its minimum and maximum::
+
 	julia> robust_sol = robustness_analysis(model, ["ACONTb"], "BIOMASS_Ecoli_core_w_GAM", [8])
 	Robustness Analysis 
 	                      result :      (8,) Array 
@@ -277,7 +278,7 @@ To plot the 3D surface of the matrix ``robust_sol[:,:]`` (if ``Plots.jl`` is ins
 
 	surface(robust_sol[:,:])
 
-.. figure:: https://raw.githubusercontent.com/isebarn/CBM/master/docs/_build/html/_static/GLUSy_PGM_biomass_20_20
+.. figure:: https://raw.githubusercontent.com/isebarn/CBM/master/docs/_build/html/_static/GLUSy_PGM_biomass_20_20.png
 
 To perform a robustness analysis on reaction 13 againts reactions 5,8 and 11, where the point resolution
 for reactions 5,8 and 11 is 4,2 and 10, respectively::
