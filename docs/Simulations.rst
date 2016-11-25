@@ -247,7 +247,7 @@ To see how the biomass of **e_coli_core** behaves if the flow of ``"ACONTb"`` is
 	                              reaction :          range: 
 	                                     5 :     (-0.0,20.0) 
 
-We see that ``"ACPNTb"`` (reaction number 5) has a minimum flux of ``0.0``, and maximum flux of ``20.0``. 
+We see that ``"ACONTb"`` (reaction number 5) has a minimum flux of ``0.0``, and maximum flux of ``20.0``. 
 
 
 ``result``:  To view the objective flux values type ``robust_sol.result`` or ``robust_sol[:]``::
@@ -517,42 +517,51 @@ To find the indices of those reactions where "cit_c" appears::
 Gene Deletion
 -------------
 
-Return a GeneDeletion object, which containts the result from the n-th combinatorial deletion of genes.::
+Perform single- or double-gene deletion on the model, or the n-th gene deletion::
 
 	gene_deletion(model, n)
 
-**Example**
+Lets do a ``double gene deletion``::
 
-To calculate every possible double-deletion of genes::
+	gene_del_sol = gene_deletion(model,2)
 
-	julia> sol = gene_deletion(model,2)
+``gene_deletion()`` returns a GeneDeletion object, which containts the fields ``r_f``, ``r_f`` and ``g_f``
 
-	Type: GeneDeletion
-	                                 Field :   Size  Fieldtype
-	    Reactions => Gene-knockout     r_g :    684 Dict{Any,Any}
-	             Reactions => Flow     r_f :    684 Dict{Any,Any}
-	         Gene-knockout => Flow     g_f :   9453 Dict{Any,Any}
 
-``sol.r_g`` is a dictionary with ``reactions`` as keys, and ``genes`` as values. An element may contain::
+* ``r_f``, stands for ``reaction_flux``, and contains a ``Dict()`` where the keys are combinations of reaction indices, and the corresponding flux-value as a fraction of the wild type, if these reactions are disabled, for example::
 
-	Any[53,90] => Any[String["b1761","b0729"],String["b1761","b0728"]]
+	julia> gene_del_sol.r_f
+	Dict{Any,Any} with 684 entries:
+	  Any[52,90]            => 0.982133 
+	  Any[55,81]            => 1.0
+	  Any[57,95]            => 0.0
+	  Any[2,14,70,81]       => 0.241601
 
-Which means that knocking out either ``["b1761","b0729"]`` or ``["b1761","b0728"]`` will disable reactions ``[53,90]``
+	  #knocking out reactions 52 ("GLNabc") and 90 ("SUCOAS") 
+	  #brings the biomass to 98% of its maximum
 
-``sol.r_g`` is a dictionary with ``reactions`` as keys, and the resulting biomass flow ratio to the wild-type flow after its knockout. 
+* ``r_g``, stands for ``reaction_genecombo``, and contains a ``Dict()`` where keys are reaction combinations, and the values are arrays of the gene combinations that result in the knockout of the reaction combination::
 
-An element from this dictionary may contain::
+	julia> a.r_g
+	Dict{Any,Any} with 684 entries:
+		Any[57,65]            => Any[String["b2029","b1479"]]
+		Any[8,71,92]          => Any[String["b0116","b1602"],String["b0116","b1603"]]
+		Any[60,75]            => Any[String["b4015","b2926"]]
 
-	sol.r_f[[53,90]] => 0.9533242530236902
+	# so knocking out either both "b0116" and "b1602", or both "b0116" and "b1603"
+	# will knock out reactions 8 ("AKGDH"), 71 ("PDH") and 92 ("THD2")
+	# but knocking out reactions 57 ("GND") and 65 ("ME1") can only be achieved
+	# by knocking out "b2029" and "b1479"
 
-So disabling reactions ``[53,90]`` will reduce the biomass (or whatever the objective reaction is) to 95% of the wild-type
+* ``g_f``, stands for ``gene_flux``, and comtains a ``Dict()`` where keys are gene-combinations and the values are the flux-value as a fraction of the wild type, if the gene-combination in the key is knocked out::
 
-``sol.g_f`` is a dictionary with ``gene-pairs`` as keys and the resulting biomass flow ration to the wild-tyoe flow, after the gene-pairs knockout
+	julia> a.g_f
+	Dict{Any,Any} with 9453 entries:
+	  String["b0809","b3952"] => 1.0
+	  String["b2280","b2458"] => 0.242199
 
-An element from this dictionary may contain::
-
-	String["b3956","b3919"] => 0.670362
-
+	  # knocking out "b0809" and "b3952" wont have any effect
+	  # "b2280" and "b2458" brings the biomass flux down to 24% of the wild-type flux
 
 .. _knockout_genes:
 
@@ -561,17 +570,18 @@ Knockout Genes
 
 Perform fba after knocking out a set of genes, specified either by indices or their names.
 
-Return a GeneKnockout type with fields ``growth``, ``flux``, ``disabled`` and ``affected``
+Return a GeneKnockout type with fields ``growth``, ``flux``, ``disabled`` and ``affected``::
 
 	knockout_genes(model, gene_index)
 	knockout_genes(model, gene_name)
 
-**Example**
+Example
+"""""""
 
+To view the effect of knocking out genes  ,"b1849" (gene 4), "b3731" (gene 16) and "b0115" (gene 99)::
 
-### Example
-
-    julia> knockout_genes(model, [model.genes[4], model.genes[16], model.genes[99]])
+	
+    julia> knockout_genes(model, ["b1849", "b3731", "b0115"])
 
     Type: GeneKnockout
                             Fields 
@@ -584,7 +594,15 @@ Return a GeneKnockout type with fields ``growth``, ``flux``, ``disabled`` and ``
                                               gene_004 :             [3]
                                               gene_099 :            [71]
 
-So knocking out genes 4, 16 and 99, would **touch** reactions 12, 3 and 71, respectively, but only reactions 12 and 71 would be disabled                                              
+``knockout_genes()`` returns a ``GeneKnockout`` type, which has the fields ``growth``, ``flux``, ``disabled`` and ``affected``
+
+* ``growth`` is simply the biomass reaction (or the objective reactions) flux after the knockout of the genes
+
+* ``flux`` is the entire solution vector, containing the flux values of every reaction in the model 
+
+* ``disabled`` is an array containing the indices of the reactions that get disabled, reaction ``12`` is ``"ATPS4r"`` and reaction ``71`` is ``"PDH"``
+
+* ``affected`` is a ``Dict()``, where the keys are the gene names and values are arrays of the reactions that are affected but not necessarily knocked out by that gene                         
 
 
 .. _knockout_reactions:
@@ -600,9 +618,10 @@ The reactions can be specified as a single reaction by name or index, or as an a
 	knockout_reactions(model, reactions)
 
 
-**Example**
+Example
+"""""""
 
-See if reaction 5 can be disabled::
+See if "ACONTb" (reaction 5) can be disabled::
 
 	julia> knockout_reactions(model,5)
 	1-element Array{Array,1}:
@@ -617,11 +636,17 @@ Print Reaction Formula
 
 Print the formula for a specified reaction specified by name or string::
 
-	print_reaction_formul(model, reaction)
+	print_reaction_formula(model, reaction)
 
-**Example**
+Example
+"""""""
 
-Formula for reaction 5::
+To print the formula for "ACONTb" (reaction 5)::
+
+	julia> print_reaction_formula(model,"ACONTb")
+		1.0 acon_C_c + 1.0 h2o_c  -> 1.0 icit_c 
+
+	# or 
 
 	julia> print_reaction_formula(model,5)
 		1.0 acon_C_c + 1.0 h2o_c  -> 1.0 icit_c 
@@ -635,9 +660,14 @@ Print out the information for a reaction specified by name or string::
 
 	reaction_info(model, reaction)
 
-**Example**
+Example
+"""""""
 
-View reaction information for reaction 5 ::
+View reaction information for "ACONTb" (reaction 5) ::
+
+	julia> reaction_info(model, "ACONTb") # or reaction_info(model, 5)
+
+
 
 	 Reaction Name:     Aconitase (half-reaction B, Isocitrate hydro-lyase)
 	   Reaction ID:                                                  ACONTb
@@ -651,4 +681,4 @@ View reaction information for reaction 5 ::
 	         icit_c            1.0
 
 	----------------------------------
-	b3115 || b2296 || b1849
+	b3115  ||  b2296  ||  b1849
