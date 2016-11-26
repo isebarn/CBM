@@ -32,7 +32,7 @@ To add a metabolite simply call::
 
 	add_metabolite!(model,"new_metabolite")
 
-Note that adding a metabolite wont have any *real effect* unless the metabolite appears in a reaction
+Note that adding a metabolite wont have any *real effect* unless the metabolite appears in a reaction.
 
 
 .. _add_reaction:
