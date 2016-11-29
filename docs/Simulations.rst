@@ -236,7 +236,7 @@ Examples
 ^^^^^^^^
 
 Robustness analysis for "ACONTb" at 10 points 
-""""""""""""""""""""""""""""""""""""""´""""""
+"""""""""""""""""""""""""""""""""""""""""""""
 
 To see how the biomass of **e_coli_core** behaves if the flow of ``"ACONTb"`` is fixed at 10 different points between its minimum and maximum::
 
@@ -290,7 +290,7 @@ so when ``"ACONTb"`` is fixed at either 6, 7 or 8, the biomass will have a flux 
 	
 and to plot (if ``Plots.jl`` is installed)::
 
-	plots(robust_sol[:])
+	plot(robust_sol.ranges[1], robust_sol[:])
 
 
 .. figure:: https://raw.githubusercontent.com/isebarn/CBM/master/docs/_build/html/_static/acontb_biomass_8pts.png
