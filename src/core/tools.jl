@@ -455,6 +455,109 @@ function min_max_lp(lp, objective::Number = 0, value::Number = 1.0)
 end
 
 
+function setup_global_lp(model, solver = "")
+    solver = solver == "" ? CBM.settings_default_lp : solver 
+    if solver == "cplex"
+        global lp = setup_cplex(model)
+    elseif solver == "gurobi"
+        global lp = setup_gurobi(model)
+    else
+        global lp = setup_glpk(model)
+    end
+end 
+
+function setup_global_lp{T <: Number}(c::Array{T}, lb::Array{T}, ub::Array{T}, b::Array{T}, S::SparseMatrixCSC, objective::String = "max", solver::String = "")
+    solver = solver == "" ? CBM.settings_default_lp : solver 
+    if solver == "cplex"
+        global lp = setup_cplex(c, lb, ub, b, S, objective)
+    elseif solver == "gurobi"
+        global lp = setup_gurobi(c, lb, ub, b, S, objective)
+    else
+        global lp = setup_glpk(c, lb, ub, b, S, objective)
+    end
+end 
+
+function change_objective_coef(objective::Number, value::Number = 1.0)
+    change_objective_coef(lp, objective, value)
+end
+
+function change_objective_coef{T <: Number}(objective::Array{T}, value::Array=[])
+    change_objective_coef(lp, objective, value)
+end
+
+function get_variable_bounds()
+    get_variable_bounds(lp)
+end
+
+function get_variable_bounds(index::Number)
+    get_variable_bounds(lp, index)
+end
+
+function get_constraint_bounds()
+    get_constraint_bounds(lp)
+end
+
+function get_constraint_matrix()
+    get_constraint_matrix(lp)
+end
+
+function get_direction()
+    get_direction(lp)
+end
+
+function get_objective_value()
+    get_objective_value(lp)
+end
+
+function get_reduced_costs()
+    get_reduced_costs(lp)
+end
+
+function get_solution()  
+    get_solution(lp)
+end
+
+function get_solution_status()
+    get_solution_status(lp)
+end
+
+function get_solution_status_code()
+    get_solution_status_code(lp)
+end
+
+function get_slack()
+    get_slack(lp)
+end
+
+function get_objective()
+    get_objective(lp)
+end
+
+function set_direction(direction::AbstractString)
+    set_direction(lp, direction)
+end
+
+function set_col_bounds(index::Number, lb::Number, ub::Number)
+    set_col_bounds(lp, index, lb, ub)
+end
+
+function set_col_bounds(index::Number, fixed_value::Number)
+    set_col_bounds(lp, index, fixed_value)
+end
+
+function set_objective(objective::Number, value::Number = 1.0)
+    set_objective(lp, objective, value)
+end
+
+function solve()
+    solve(lp)
+end
+
+function solver_status()
+    solver_status(lp)
+end
+
+
 # Delete a column from a sparse matrix 
 function delete_column(struct::AbstractSparseMatrix, n::Number)
 	reaction_indices = collect(nzrange(struct, n))
@@ -669,17 +772,18 @@ function sendto(ps::Vector{Int}; args...)
     end
 end
 
-function initialize_cores()
-    addprocs(Sys.CPU_CORES-1)
-    extra_cores = procs()[2:end]
-    map(x -> remotecall_fetch(include, x, Pkg.dir() * "/CBM/src/core/multicore.jl"), extra_cores)
-end 
-
 function disable_cores()
     rmprocs(procs()[2:end])
 end 
 
+function initialize_cores()
+    addprocs(Sys.CPU_CORES-1)
+    extra_cores = procs()[2:end]
 
+    @sync for id in extra_cores
+        @async remotecall_fetch(include, id, Pkg.dir() * "/CBM/src/CBM.jl")
+    end 
+end 
 function clone(model)
 	return deepcopy(model)
 end

@@ -58,6 +58,7 @@ include("core/tools.jl")
     export find_gene_effects
     export genes_in_reaction_rule
     export setup_lp
+    export setup_global_lp
     export min_max_lp
     export analyze_list_of_blocked_reaction_lp
     export answer_lp

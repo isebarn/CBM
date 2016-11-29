@@ -1,5 +1,4 @@
 function Base.show(io::IO, m::GLPK.Prob)
-
     @printf "%0s \n" "GLPK Model" 
     @printf "   %-15s : %10s \n" "sense " GLPK.get_obj_dir(m) == 2 ? "maximize" : "minimize"
     @printf "   %-15s = %10s \n" "variables" GLPK.get_num_cols(m)
