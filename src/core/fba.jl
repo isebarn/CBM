@@ -38,7 +38,7 @@ end
 function fva(model::Model, optPercentage::Number = 1, flux_matrix::Bool = false)
 	
     if length(procs()) != 1
-		return parallel_fva(model, optPercentage, flux_matrix)
+		return PCBM.fast_fva(model, optPercentage, flux_matrix)
 	end 
     
 
@@ -89,72 +89,6 @@ function variability_runner(lp, num_rxns, progress_meter, flux_matrix)
 
 	return flux, v
 end
-
-function parallel_fva(model, optPercentage::Number = 1, flux_matrix::Bool = false)
-    nrxns = length(model.rxns)
-    extra_cores = workers()
-
-    wt_min = fba(model).obj * optPercentage
-    lb = deepcopy(model.lb)
-    lb[find(model.c)] *= wt_min
-
-    @sync for idx in extra_cores
-        @async remotecall_fetch(setup_global_lp, idx, 
-                zeros(Float64, nrxns),
-                lb,
-                model.ub,
-                model.b,
-                model.S)
-    end 
-
-    stepsize = div(nrxns, 10)
-    checklist = map(x -> collect(x:x+stepsize-1), 1:stepsize:nrxns)
-    checklist[end] = checklist[end][checklist[end] .<= nrxns]
-
-    map(x -> remotecall_fetch(set_direction, x, "max"), extra_cores)
-    maxF = flux_matrix ? pmap(fastfva_sol, checklist) : pmap(fastfva, checklist)
-
-    map(x -> remotecall_fetch(set_direction, x, "min"), extra_cores)
-    minF = flux_matrix ? pmap(fastfva_sol, checklist) : pmap(fastfva, checklist)
-
-    if flux_matrix
-        maxV = hcat(maxF...)
-        minV = hcat(minF...)
-        maxF = diag(maxV)
-        minF = diag(minV)
-        return minF, maxF, minV, maxV
-    end 
-
-    return minF, maxF
-end 
-
-function fastfva{T <: Number}(sect::Array{T})
-    res = Array(Float64, length(sect))
-
-    for (i,v) in enumerate(sect)
-        set_objective(v)
-        solve()
-        res[i] = get_objective_value()
-        set_objective(v, 0.0)
-    end 
-
-    return res
-end 
-
-function fastfva_sol{T <: Number}(sect::Array{T})
-    res = Array(Float64, length(get_variable_bounds(lp)[1]), length(sect))
-
-    for (i,v) in enumerate(sect)
-        set_objective(v)
-        solve()
-        res[:,i] = get_solution()
-        set_objective(v, 0.0)
-    end 
-
-    return res
-end 
-
-
 
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------

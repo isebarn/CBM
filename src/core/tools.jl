@@ -784,6 +784,15 @@ function initialize_cores()
         @async remotecall_fetch(include, id, Pkg.dir() * "/CBM/src/CBM.jl")
     end 
 end 
+
+function initcores()
+    addprocs(Sys.CPU_CORES-1)
+    extra_cores = procs()
+
+    include(Pkg.dir() * "/CBM/src/core/multicore.jl")
+end 
+
+
 function clone(model)
 	return deepcopy(model)
 end

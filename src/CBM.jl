@@ -153,6 +153,10 @@ include("core/simulations.jl")
     export print_reaction_formula
     export reaction_info
 
+# must bring PCBM into the scope of CBM
+include("core/multicore.jl")
+using PCBM
+
 include("core/modification.jl")
     export add_metabolite!
     export add_metabolite
