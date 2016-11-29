@@ -235,17 +235,17 @@ The methods ``range()``, ``getindex`` and ``size()`` can be used with the type, 
 Examples
 ^^^^^^^^
 
-Robustness analysis for "ACONTb" at 8 points 
-""""""""""""""""""""""""""""""""""""""""""""
+Robustness analysis for "ACONTb" at 10 points 
+"""""""""""""""""""""""""""""""""""""""""""""
 
-To see how the biomass of **e_coli_core** behaves if the flow of ``"ACONTb"`` is fixed at 8 different points between its minimum and maximum::
+To see how the biomass of **e_coli_core** behaves if the flow of ``"ACONTb"`` is fixed at 10 different points between its minimum and maximum::
 
-	julia> robust_sol = robustness_analysis(model, ["ACONTb"], "BIOMASS_Ecoli_core_w_GAM", [8])
+	julia> robust_sol = robustness_analysis(model, ["ACONTb"], "BIOMASS_Ecoli_core_w_GAM", [10])
 	Robustness Analysis 
-	                      result :      (8,) Array 
+	                      result :     (10,) Array 
 	                      ranges : 
 	                              reaction :          range: 
-	                                     5 :     (-0.0,20.0) 
+	                                     5 :      (0.0,20.0) 
 
 We see that ``"ACONTb"`` (reaction number 5) has a minimum flux of ``0.0``, and maximum flux of ``20.0``. 
 
@@ -253,40 +253,44 @@ We see that ``"ACONTb"`` (reaction number 5) has a minimum flux of ``0.0``, and 
 ``result``:  To view the objective flux values type ``robust_sol.result`` or ``robust_sol[:]``::
 
 	julia> robust_sol.result
-	8-element Array{Float64,1}:
-	  6.65799e-27
-	  0.850845   
-	  0.871775   
-	  0.809412   
-	  0.607059   
-	  0.404706   
-	  0.202353   
-	 -1.52026e-16
+	10-element Array{Float64,1}:
+	 0.0     
+	 0.840743
+	 0.862473
+	 0.87021 
+	 0.786928
+	 0.629543
+	 0.472157
+	 0.314771
+	 0.157386
+	 0.0 
 
 ``ranges``: To view the range of flux values ``"ACONTb"`` is fixed at, type ``robust_sol.ranges::
 
 	julia> robust_sol.ranges
 	1-element Array{Array{Float64,1},1}:
-	 [-1.3884e-28,2.85714,5.71429,8.57143,11.4286,14.2857,17.1429,20.0]
+	 [0.0,2.22222,4.44444,6.66667,8.88889,11.1111,13.3333,15.5556,17.7778,20.0]
+
 
 ``range()``: This method can be used to find where the objective function (the biomass) lies inside a range.
 To see for which points the biomass lies between ``0.3`` and ``0.7`` type::
 
 	julia> range(robust_sol, 0.3, 0.7)
-	2-element Array{Tuple{Int64},1}:
-	 (5,)
+	3-element Array{Tuple{Int64},1}:
 	 (6,)
+	 (7,)
+	 (8,)
 
-so when ``"ACONTb"`` is fixed at either 5 or 6, the biomass will have a flux in that range
+so when ``"ACONTb"`` is fixed at either 6, 7 or 8, the biomass will have a flux in that range
 
-``getindex()``: To view the biomass flux at point 5::
+``getindex()``: To view the biomass flux at point 6::
 
-	julia> robust_sol[5]
-	0.6070588806643656
+	julia> robust_sol[6]
+	0.6295425429111932
 	
 and to plot (if ``Plots.jl`` is installed)::
 
-	plots(robust_sol[:])
+	plot(robust_sol.ranges[1], robust_sol[:])
 
 
 .. figure:: https://raw.githubusercontent.com/isebarn/CBM/master/docs/_build/html/_static/acontb_biomass_8pts.png

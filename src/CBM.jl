@@ -36,7 +36,6 @@ end
 
 include("core/solvers/help.jl")
 
-    export SolverInfo 
     export FBAsol 
     export MOMAsol 
     export Model 
