@@ -1,33 +1,4 @@
 
-@doc """
-    fba(model,[direction = "max", objective = 0)
-
-Solves the LP : max/min c'*v
-                  subject to S*v = b
-                  lb <= v <= ub
-
-### Examples
-    fbasolution = fba(model)
-
-to maximize the default objective 
-
-    fbasolution = fba(model, objective="ACALD")
-
-to maximize the "ACALD" reaction
-
-    fbasolution = fba(model, objective=4)
-
-to maximize reaction 4    
-
-Return a FBAsolution object which has the following fields: 
-* obj - Objective value
-* v - Primal solution
-* slack - Dual solution
-* rcost - Reduced costs
-* success - true if solution was a success, false otherwise
-* info - Solver info
-""" fba
-
 
 @doc """
     fva(model,[optPercentage = 100])

@@ -455,109 +455,6 @@ function min_max_lp(lp, objective::Number = 0, value::Number = 1.0)
 end
 
 
-function setup_global_lp(model, solver = "")
-    solver = solver == "" ? CBM.settings_default_lp : solver 
-    if solver == "cplex"
-        global lp = setup_cplex(model)
-    elseif solver == "gurobi"
-        global lp = setup_gurobi(model)
-    else
-        global lp = setup_glpk(model)
-    end
-end 
-
-function setup_global_lp{T <: Number}(c::Array{T}, lb::Array{T}, ub::Array{T}, b::Array{T}, S::SparseMatrixCSC, objective::String = "max", solver::String = "")
-    solver = solver == "" ? CBM.settings_default_lp : solver 
-    if solver == "cplex"
-        global lp = setup_cplex(c, lb, ub, b, S, objective)
-    elseif solver == "gurobi"
-        global lp = setup_gurobi(c, lb, ub, b, S, objective)
-    else
-        global lp = setup_glpk(c, lb, ub, b, S, objective)
-    end
-end 
-
-function change_objective_coef(objective::Number, value::Number = 1.0)
-    change_objective_coef(lp, objective, value)
-end
-
-function change_objective_coef{T <: Number}(objective::Array{T}, value::Array=[])
-    change_objective_coef(lp, objective, value)
-end
-
-function get_variable_bounds()
-    get_variable_bounds(lp)
-end
-
-function get_variable_bounds(index::Number)
-    get_variable_bounds(lp, index)
-end
-
-function get_constraint_bounds()
-    get_constraint_bounds(lp)
-end
-
-function get_constraint_matrix()
-    get_constraint_matrix(lp)
-end
-
-function get_direction()
-    get_direction(lp)
-end
-
-function get_objective_value()
-    get_objective_value(lp)
-end
-
-function get_reduced_costs()
-    get_reduced_costs(lp)
-end
-
-function get_solution()  
-    get_solution(lp)
-end
-
-function get_solution_status()
-    get_solution_status(lp)
-end
-
-function get_solution_status_code()
-    get_solution_status_code(lp)
-end
-
-function get_slack()
-    get_slack(lp)
-end
-
-function get_objective()
-    get_objective(lp)
-end
-
-function set_direction(direction::AbstractString)
-    set_direction(lp, direction)
-end
-
-function set_col_bounds(index::Number, lb::Number, ub::Number)
-    set_col_bounds(lp, index, lb, ub)
-end
-
-function set_col_bounds(index::Number, fixed_value::Number)
-    set_col_bounds(lp, index, fixed_value)
-end
-
-function set_objective(objective::Number, value::Number = 1.0)
-    set_objective(lp, objective, value)
-end
-
-function solve()
-    solve(lp)
-end
-
-function solver_status()
-    solver_status(lp)
-end
-
-
 # Delete a column from a sparse matrix 
 function delete_column(struct::AbstractSparseMatrix, n::Number)
 	reaction_indices = collect(nzrange(struct, n))
@@ -878,3 +775,82 @@ function invert_dict(dict, warning::Bool = false)
 end
 
 
+"""
+Wrapper for `load_json()` and `load_matlab()`
+
+    model = load_model(filename)
+"""
+function load_model(filename)
+    all_files = readdir(dirname(filename))
+
+    if endswith(filename, ".json")
+        return load_json(filename)
+    elseif endswith(filename, ".mat")
+        return load_matlab(filename)
+    elseif any(all_files .== basename(filename) * ".json")
+        return load_model(filename * ".json")
+    elseif any(all_files .== basename(filename) * ".mat")
+        return load_model(filename * ".mat")
+    else 
+        warn("Model not found")
+    end 
+end 
+
+"""
+Returns a dictionary with variables saved in a `.mat` file 
+
+    open_mat_file(filename)
+
+**Example**
+
+    open_mat_file("/home/user/variables.mat")
+     Dict{String,Any} with 2 entries:
+     "var_a" => "[1,2,3,4]"
+     "var_b" => "hello"
+"""
+function open_mat_file(filename)
+    filename = endswith(filename, ".mat") ? filename : filename * ".mat"
+
+    if any(readdir(dirname(filename)) .== basename(filename))
+        mat_file = matread(filename)
+    else 
+        warn("File not found, does it end with '.mat' ? ")
+    end 
+end 
+
+"""
+Use to save variables to `.mat` format 
+
+    save_mat_file(filename; args...)
+
+**Example**
+
+If you have the variables `a` and `b` defined as 
+
+    a = [1,2,3,4]
+    b = "hello"
+
+You can save them by calling 
+
+    save_mat_file("/home/user/variables.mat", var_a = a, var_b = b)
+
+and they can be accessed within `Julia` by calling 
+
+    open_mat_file("/home/user/variables.mat")
+     Dict{String,Any} with 2 entries:
+     "var_a" => "[1,2,3,4]"
+     "var_b" => "hello"
+"""
+function save_mat_file(filename::String; args...)
+    filename = endswith(filename, ".mat") ? filename : filename * ".mat"
+    varnames = [] 
+    varvals = [] 
+
+    for (nm, val) in args 
+        push!(varnames, string(nm))       
+        push!(varvals, string(val))       
+    end
+
+
+    MAT.matwrite(filename, Dict(zip(varnames, varvals)))    
+end 
