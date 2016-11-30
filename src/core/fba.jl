@@ -1,3 +1,31 @@
+"""
+    fba(model,[direction = "max", objective = 0)
+
+Solves the LP : max/min c'*v
+                  subject to S*v = b
+                  lb <= v <= ub
+
+### Examples
+    fbasolution = fba(model)
+
+to maximize the default objective 
+
+    fbasolution = fba(model, objective="ACALD")
+
+to maximize the "ACALD" reaction
+
+    fbasolution = fba(model, objective=4)
+
+to maximize reaction 4    
+
+Return a FBAsolution object which has the following fields: 
+* obj - Objective value
+* v - Primal solution
+* slack - Dual solution
+* rcost - Reduced costs
+* success - true if solution was a success, false otherwise
+* info - Solver info
+"""
 function fba(model::Model; direction::String = "max", objective = 0)
     if typeof(objective) <: String 
         if any(model.rxns .== objective)
@@ -25,10 +53,6 @@ function fba(model::Model, direction::String = "max", objective = 0)
 
 	return construct_lp_solution(lp)
 end
-
-
-# -------------------------------------------------------------------
-# -------------------------------------------------------------------
 
 
 function fva(model::Model; optPercentage::Number = 1, flux_matrix::Bool = false)

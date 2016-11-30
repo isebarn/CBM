@@ -79,6 +79,9 @@ include("core/tools.jl")
     export fix_genes
     export initialize_cores
     export disable_cores
+    export load_model
+    export open_mat_file
+    export save_mat_file
 
 include("core/io.jl")
     export load_json
