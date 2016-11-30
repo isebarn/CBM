@@ -362,12 +362,6 @@ All the reactions have a minimum flux of ``0.0``. Reaction 5 has a maximum flow 
 	 0.0
 
 
-To plot the 3D surface for ``"ACONTb"`` and ``"EX_akg_e"`` while ``"PGL"`` is fixed at point ``6``::
-
-	surface(robust_sol[:,:,6])
-
-.. figure:: https://raw.githubusercontent.com/isebarn/CBM/master/docs/_build/html/_static/5_22_76_13.png
-    
 .. _find_deadend_metabolites:
 
 Find Dead End Metabolites
