@@ -355,7 +355,7 @@ function knockout_genes{T <: String}(model::Model, genes::Array{T})
     safe_genes = deepcopy(genes)
     convert_from_abstract(inverse_saved_names, safe_genes)
     rxns_affected = find_gene_effects(rule_list, safe_genes)
-    gene_effect = Dict(zip(safe_genes, rxns_affected))
+    gene_effect = Dict(zip(map(x -> saved_names[x], safe_genes), rxns_affected))
     rxns_affected = sort(unique(vcat(rxns_affected...)))
 
     rules_to_check = rule_list[rxns_affected]
