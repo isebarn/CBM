@@ -201,8 +201,6 @@ function test_module()
 end 
 
 export test_module
-include("core/docs.jl")
-
 
 # print errrors that arent method refefinition
 outerr = String(readavailable(err_rd))
