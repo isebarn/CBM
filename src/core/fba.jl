@@ -55,6 +55,25 @@ function fba(model::Model, direction::String = "max", objective = 0)
 end
 
 
+"""
+    fva(model,[optPercentage = 100])
+
+Determine the flux variability of the model
+
+### Optional arguements:
+    optPercentage: 0 - 1 (fraction)
+    
+Used to fix the biomass production rate anywhere between 0 - 1
+
+
+#### Examples
+Run flux variability with biomass lower bound at 90% of maximum
+
+    min, max, minX, maxX = fva(model, 0.9)
+
+Return a min flux vector, max flux vector, minimum primal flux vector and maximum 
+primal flux vector
+"""
 function fva(model::Model; optPercentage::Number = 1, flux_matrix::Bool = false)
 	fva(model, optPercentage, flux_matrix)
 end
@@ -116,6 +135,7 @@ end
 
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
+
 
 
 

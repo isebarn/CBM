@@ -1,3 +1,8 @@
+"""
+    add_metabolite!(model, metabolite)
+
+Add a metabolite to the model
+"""
 function add_metabolite!(model::Model, metabolite::String; b::Number = 0, csense::String = "=")
 	add_metabolite!(model, metabolite, b, csense)
 end 
@@ -24,6 +29,19 @@ end
 # -------------------------------------------------------------------
 
 
+"""
+    add_reaction(model,  reaction_name, reaction, [lb == -1000, ub = 1000])
+
+Add a reaction to a copy of the model
+
+### Optional arguements:
+    lb \& ub
+* add lower/upper bounds, lower bound must be less/equal to upper bound
+
+Return the new model with the added reaction.
+
+*Note: Original model remains unchanged...see add_reaction! to permanently add a reaction*
+"""
 function add_reaction(model::Model, rxn_name::String, reaction::String; lb::Number = -1000.0, ub::Number = 1000.0)
 	return add_reaction(model, rxn_name, reaction, lb, ub)
 end 
@@ -33,6 +51,15 @@ function add_reaction(model::Model, rxn_name::String, reaction::String, lb::Numb
 	tmp = add_reaction!(tmp, rxn_name, reaction, lb, ub)
 end
 
+"""
+    add_reaction!(model, reaction_name, reaction, [lb == -1000, ub = 1000])
+
+Permanently add a reaction to the model
+
+### Optional arguements:
+    lb \& ub
+* add lower/upper bounds, lower bound must be less/equal to upper bound
+"""
 function add_reaction!(model::Model, rxn_name::String, reaction::String; lb::Number = -1000.0, ub::Number = 1000.0)
 	return add_reaction!(model, rxn_name, reaction, lb, ub)
 end 
@@ -121,8 +148,31 @@ end
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 
-
 # single reaction by index. returns new model
+"""
+    change_objective(model, reaction::String[, objective = 1.0])
+
+Copy the model and change its objective
+
+### Optional arguements
+    objective: Sets the objective coefficient. Default is 1.0
+
+
+Returns the model duplicate with a new objective
+
+
+
+
+    change_objective(model, reaction_index::Number[, objective = 1.0])
+
+Copy the model and change its objective
+
+### Optional arguements
+    objective: Sets the objective coefficient. Default is 1.0
+
+
+Returns the model duplicate with a new objective
+"""
 function change_objective(model::Model, reaction_index::Number, objective::Number = 1.0 )
 	tmp = deepcopy(model)
 	change_objective!(tmp, [reaction_index], [objective])
@@ -137,6 +187,21 @@ function change_objective(model::Model, reaction_index::Number; objective::Numbe
 end
 
 # single reaction by index. modifies the model
+"""
+    change_objective!(model, reaction::String[, objective = 1.0])
+
+Change the model's objective
+### Optional arguements
+    objective: Sets the objective coefficient. Default is 1.0
+
+
+
+    change_objective!(model, reaction_index::Number[, objective = 1.0])
+
+Change the model's objective
+### Optional arguements
+    objective: Sets the objective coefficient. Default is 1.0
+"""
 function change_objective!(model::Model, reaction_index::Number, objective::Number = 1.0 )
 	change_objective!(model, [reaction_index], [objective])
 end
@@ -288,6 +353,12 @@ function change_reaction_bounds(model::Model, reaction::String, value::Number, b
 	return tmp
 end
 
+"""
+    change_reaction_bounds!(model, reaction, lb, ub)
+
+Change the lower \& upper bounds of a reaction
+
+"""
 function change_reaction_bounds!(model::Model, reaction::String, value::Number, bound::String = "both")
 
 	location = find_reaction(model, reaction)
@@ -340,6 +411,25 @@ function change_reaction_bounds!(model::Model, reaction_index::Number, value::Nu
 end 
 
 ###
+"""
+    change_reaction_bounds(model, reaction, lb, ub)
+
+Return a duplicate of the model with the lower/upper bounds of a reaction changed
+
+
+
+    change_reaction_bounds(model, reaction, value[, bound])
+
+    change_reaction_bounds(model, reaction_index, value[, bound])
+
+Return a duplicate of the model after changing a bound
+
+### Optional arguements:
+    bound:
+* 'l' to change the lower bound
+* 'u' to change the upper bound
+* 'b' to fix lower and upper to the same value (default)
+"""
 function change_reaction_bounds(model::Model, reaction_index::Number, lb::Number, ub::Number, bound::String = "both")
 	if (reaction_index < 0) | (reaction_index > length(model.c))
 		warn("Invalid reaction indices")
@@ -380,11 +470,24 @@ end
 #-----------------------------------------------------
 
 
+"""
+    convert_to_irreversible(model)
+
+Finds all reactions that are bi-directional and splits them into one-way reactions 
+
+"""
 function convert_to_irreversible(model::Model)
 	tmp = deepcopy(model)
 	return convert_to_irreversible!(tmp)
 end
 
+"""
+    convert_to_irreversible!(model)
+
+Finds all reactions in a copy of the model that are bi-directional 
+ and splits them into one-way reactions 
+
+"""
 function convert_to_irreversible!(model::Model)
     reversible_reactions = find_reversible(model)
     new_reactions = collect(1:length(reversible_reactions)) + model.S.n
@@ -428,7 +531,6 @@ end
 
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
-
 
 function convert_to_reversible!(model::Model)
     duplicates = []
@@ -481,11 +583,32 @@ end
 # -------------------------------------------------------------------
 
 
+"""
+    reduce_model!(model)
+ 
+ 
+Returns a reduced copy of the model
+* Reactions whose flow is fixed at 0.0
+* Metabolites that never appear after cutoff reactions are removed
+* Genes that have no effect after cutoff reactions are removed
+ 
+
+
+"""
 function reduce_model(model::Model)
     tmp = deepcopy(model)
     reduce_model!(tmp) 
 end
 
+"""
+    reduce_model(model)
+ 
+ Reduces the model by removing:
+* Reactions whose flow is fixed at 0.0
+* Metabolites that never appear after cutoff reactions are removed
+* Genes that have no effect after cutoff reactions are removed
+
+"""
 function reduce_model!(model::Model)
     reference = fba(model, "max").x
 
@@ -523,7 +646,13 @@ end
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 
+"""
+    remove_gene(model, gene::String)
+Return a duplicate of the model with a gene removed
 
+    remove_gene(model, gene::Array{String, N})
+Return a duplicate of the model with an array of genes removed
+""" 
 function remove_gene(model::Model, gene_index::Number)
 	
 	tmp = deepcopy(model)
@@ -618,12 +747,25 @@ end
 #------------------------------------------
 
 
+"""
+    remove_reaction(model, reaction)
+\n
+    remove_reaction(model, reaction_index)
+
+Return a duplicate of the model with a reaction removed
+"""
 function remove_reaction(model::Model, reaction::String)
     tmp = deepcopy(model)
     remove_reaction!(tmp, reaction)
     return tmp
 end
 
+"""
+    remove_reactions!(model, reaction)
+\n
+    remove_reactions!(model, reaction_indices)
+Remove a list of reactions from the model
+"""
 function remove_reaction!(model::Model, reaction::String)
     index = find_reaction(model, reaction)
 
@@ -703,5 +845,7 @@ end
 
 #------------------------------------------------------
 #------------------------------------------------------
+
+
 
 

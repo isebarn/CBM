@@ -780,7 +780,7 @@ Wrapper for `load_json()` and `load_matlab()`
 
     model = load_model(filename)
 """
-function load_model(filename)
+function load_model(filename::String; fix = true)
     all_files = readdir(dirname(filename))
 
     if endswith(filename, ".json")
@@ -808,7 +808,7 @@ Returns a dictionary with variables saved in a `.mat` file
      "var_a" => "[1,2,3,4]"
      "var_b" => "hello"
 """
-function open_mat_file(filename)
+function open_mat_file(filename::String)
     filename = endswith(filename, ".mat") ? filename : filename * ".mat"
 
     if any(readdir(dirname(filename)) .== basename(filename))

@@ -1,3 +1,8 @@
+"""
+    find_blocked_reactions(model, [tolerance = 1e-10])
+
+Return a list of reactions that exhibit zero flux
+"""
 function find_blocked_reactions(model::Model; tolerance::Number = 1e-10)
 	return find_blocked_reactions(model, tolerance)
 end 
@@ -21,6 +26,16 @@ end
 # -------------------------------------------------------------------
 
 
+"""
+    find_deadend_metabolites(model, lbfilter = true)
+
+Locate all metabolites that are only either produced or consumed but 
+not both
+
+### Optional arguements:
+    lbfilter: true / false
+Filter the result for metabolites who participate in reactions that have `positive` lower bounds
+"""
 function find_deadend_metabolites(model::Model; lbfilter::Bool = true)
 	return find_deadend_metabolites(model, lbfilter)
 end
@@ -72,6 +87,26 @@ end
 # -------------------------------------------------------------------
 
 
+"""
+    find_essential_genes(model, min_growth)
+
+Find those genes which, if knocked out, would result in a biomass-production below that 
+specified by **min_growth**
+
+### Examples
+    julia> find_essential_genes(model,0.01)
+    2-element Array{String,1}:
+     "b2416"
+     "b2415"
+
+Note that **min_growth** represents the actual growth, not a percentage. For min growth of 
+0.1%, do
+
+    julia> find_essential_genes(model,0.001 * fba(model).obj)
+    2-element Array{String,1}:
+     "b2416"
+     "b2415"
+"""
 function find_essential_genes(model::Model, min_growth::Number)
     # find all single gene deletions 
     ess_genes = gene_deletion(model,1).g_f
@@ -91,6 +126,17 @@ end
 # -------------------------------------------------------------------
 
 
+"""
+    find_exchange_reactions(model[, output = 'index')
+
+Find all exhange reactions in the model
+
+### Optional arguements: 
+    output:
+* 'index': return an array of indices of the exchange reactions
+* 'name' : return an array of the names of the exchange reactions
+
+"""
 function find_exchange_reactions(model::Model; output::String = "index")
 	return find_exchange_reactions(model, output)
 end 
@@ -113,6 +159,17 @@ end
 # -------------------------------------------------------------------
 
 
+"""
+    find_reactions_from_genes(model, gene [, output = 'index'])
+
+Find the reactions in which a specific ***gene*** participates
+
+### Optional arguements:
+    output:
+* 'index': return an array of indices of the reactions
+* 'name' : return an array of the names of the reactions
+
+"""
 function find_reactions_from_gene(model::Model, gene::String; output::String = "index")
 	return find_reactions_from_gene(model, gene, output)
 end
@@ -140,6 +197,17 @@ end
 # -------------------------------------------------------------------
 
 
+"""
+    find_reactions_from_metabolites(model, metabolite [, output = 'index'])
+
+Find the reactions in which a specific ***metabolite*** participates
+
+### Optional arguements:
+    output:
+* 'index': return an array of indices of the reactions
+* 'name' : return an array of the names of the reactions
+
+"""
 function find_reactions_from_metabolite(model::Model, metabolite::String; output::String = "index")
 	return find_reactions_from_metabolite(model, metabolite, output)
 end 
@@ -184,6 +252,19 @@ end
 # -------------------------------------------------------------------
 
 
+"""
+    gene_deletion(model, num_genes)
+
+Perform fba for all gene combinations knock-outs from 1:n 
+
+### Examples
+    knockouts = gene_deletion(model,2)
+
+Return a GeneDeletion object which has the following fields:  
+*r_g - Reaction/Gene which displays the reactions disabled by gene combinations
+*r_f - Reaction/Flow which displays the flow after disabling reactions 
+*g_f - Gene/Flow which displays the flow for each gene combination knockout 
+"""
 function gene_deletion(model::Model, n::Number)
     gene_list, rule_list, saved_names, _ = abstract_gene_names(model)
 
@@ -311,6 +392,33 @@ end
 # -------------------------------------------------------------------
 
 
+
+
+"""
+    knockout_genes(model, genes)
+
+Perform fba after a knocking out selected genes genes    
+
+Return a GeneKnockout type with fields ``growth``, ``flux``, ``disabled`` and ``affected``
+
+### Example
+
+    julia> knockout_genes(model, [model.genes[4], model.genes[16], model.genes[99]])
+
+    Type: GeneKnockout
+                            Fields 
+                            growth :                      0.374230
+                              flux :              Array{Float64,1}
+                          disabled :                       [12,71]
+                          affected ::
+                                                   gene:      reactions:
+                                              gene_016 :            [12]
+                                              gene_004 :             [3]
+                                              gene_099 :            [71]
+
+So knocking out genes 4, 16 and 99, would **touch** reactions 12, 3 and 71, respectively, but only reactions 12 and 71 would be disabled                                              
+
+""" 
 function knockout_genes(model::Model, gene::String)
     return knockout_genes(model, [gene])
 end 
@@ -380,6 +488,11 @@ end
 # -------------------------------------------------------------------
 
 
+"""
+    knockout_reactions(model, reactions)
+
+Attempt to find the simplest combination of genes that need to be knocked out to disable the selected reactions 
+""" 
 function knockout_reactions(model::Model, reaction::String)
     rxn_idx = find(model.rxns .== reaction)[1]
 
@@ -503,6 +616,12 @@ end
 
 
 
+"""
+    print_reaction_formula(model,reaction::String)
+    print_reaction_formula(model,index::Number)
+
+Print out the formula for a reaction
+""" 
 function print_medium(model)
 	# List medium contents
 	idx = find_exchange_reactions(model)
@@ -553,6 +672,93 @@ end
 # -------------------------------------------------------------------
 
 
+
+"""
+    solution = robustness_analysis(model, reactions; objective[, pts = [], direction = "max"])
+
+Perform a robustness analysis for any number of fixed reactions, specified by indices or reaction names 
+
+**Example**
+To perform a robustness analysis on reaction 13 againts reactions 5,8 and 11, where the point resolution
+for reactions 5,8 and 11 is 4,2 and 10, respectively
+
+    robustness_analysis(model, [5,8,11], 13, [4,2,10], "max")
+    Robustness Analysis 
+                          result :   (2,3,4) Array 
+                          ranges : 
+                                  reaction :          range: 
+                                         5 :     (-0.0,20.0) 
+                                         8 :      (0.0,20.0) 
+                                        11 :    (8.39,175.0) 
+
+
+
+The method returns a **Robustness** object with fields 
+
+ * **solution.result**
+
+    a multidimensional matrix which contains the flux value of the objective for each point
+ 
+ * **solution.reactions**
+
+    names of the reactions
+
+ * **solution.ranges**
+
+    the flux values of the reactions at specific points 
+
+        solution.ranges[1]
+        4-element Array{Float64,1}:
+         -1.3884e-28
+          6.66667   
+         13.3333    
+         20.0 
+
+    So reaction 1 (reaction 5, ACONTb) is fixed at 6.6666 at point 2 
+
+To see the value of the objective, reaction 13, when reaction 5 
+is fixed at point 1, reaction 8 at point 2 and reaction 11 at 
+point 10
+
+    solution[1,2,10]
+    6.365820260756199e-16
+
+To see every point where the objective is between 0.5 and 0.9
+    
+    range(solution, 0.5, 0.9)
+    4-element Array{Tuple{Int64,Int64,Int64},1}:
+     (1,2,3)
+     (2,2,3)
+     (3,2,3)
+     (4,2,3)
+
+To get the entire vector for reaction 5 when reaction 8 is fixed at 
+point 2 and reaction 11 is fixed at point 6
+
+    solution[:,2,6]
+    4-element Array{Float64,1}:
+     0.425313 
+     0.314254 
+     0.203194 
+     0.0921351  
+
+Return a matrix with the objective reactions optimal value at each  
+value of the control reaction
+
+**Plotting**
+
+It is reccomended to use PyPlot to plot in Julia.
+
+using PyPlot, to plot a 2D image of the effect of reaction 5
+while reaction 8 is fixed at point 2 and reaction 11 at point 6
+
+    PyPlot.plot(a[:,2,6])
+
+to plot a 3D image in PyPlot for reactions 5 and 8 while 
+reaction 11 is fixed at point 6
+
+    PyPlot.surf(a[:,:,6])
+""" 
 function robustness_analysis(model::Model, reactions::Array{String}; objective::String = "", pts = [], direction::String = "max")
     return robustness_analysis(model, reacitons, objective, pts, direction)
 end 
@@ -657,6 +863,30 @@ end
 
 
 
+"""
+    synthetic_lethal_genes(model, cutoff = 0.1, num_runs = 100)
+
+Check the model for essential genes, conditionally essential genes and non-essential genes
+
+Returns a ``SLG`` type, which contains the fields ``ess``, ``cond_ess`` and ``non_ess``,::
+
+* ``cutoff`` represents the minimum biomass flux as a fraction of the wild-type flux. 
+
+* ``num_runs`` indicates how many times the algorithm runs, higher number gives better results, but takes longer.
+
+**Example**
+
+To find essentiality with biomass fixed at ``0.1`` ::
+
+    julia> slg = synthetic_lethal_genes(model, 0.1, 200)
+    run 200 of 200 Number of conditionally essential genes found: 115
+
+    Type: SLG
+         Field                  Contains    Size  
+           ess                Essential:       7  
+      cond_ess    Conditional Essential:     115  
+       non_ess            Non-Essential:      15 
+"""
 function synthetic_lethal_genes(model, cutoff = 0.1, nruns = 100)
     # just a counter 
     cond_count = 0
@@ -776,6 +1006,8 @@ function synthetic_lethal_genes(model, cutoff = 0.1, nruns = 100)
 
     return SLG(quick_essential, quick_cond, non_essential)    
 end 
+
+
 
 
 
