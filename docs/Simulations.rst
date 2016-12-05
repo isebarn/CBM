@@ -48,7 +48,8 @@ Flux Balance Analysis
 * ``direction`` may be either ``"max"`` or ``"min"``
 * ``objective`` may be either an **integer index** or **reaction name** as it appears in ``model.rxns``
 
-**Example**
+Example
+^^^^^^^
 
 To maximize the default objective function::
 
@@ -121,7 +122,8 @@ Returns the **minimum** and **maximum** flux of every reaction in the model
 * ``optPercentage``: Fix the lower bound of the biomass reaction (or objective reaction) to a fraction of its maximum possible value.
 * ``flux_matrix``: In addition to **minimum** and **maximum** fluxes, return the entire solution flux for every reaction.
 
-**Example**
+Example
+^^^^^^^
 
 To calculate the minimum and maximum flux values of **every reaction** with biomass fixed
 at 50% of its maximum value::
@@ -144,7 +146,8 @@ Locate every reaction that is constrianed to **zero flux** in every case::
 
 Where tolerance represents how close to absolute 0.0 the reaction flux must lie 
 
-**Example**
+Example
+^^^^^^^
 
 For ecoli core::
 
@@ -198,7 +201,8 @@ Those genes, that if disabled, make biomass production ratio to the wild type dr
 ``cond_ess``, **conditionally essential** 
 """""""""""""""""""""""""""""""""""""""""
 Those genes, that if disabled along with some other genes will make the biomass production ratio to the wild type drop below 10%. The field slg.cond_ess is a ``Dict()`` containing the conditionally-essential genes and **all** the gene-combinations that were checked that reduced the biomass below 10%.
-Example entry in this dictionary may be ::
+Example
+^^^^^^^ entry in this dictionary may be ::
 
 	90  => Any[Any[89,74,12,79,67], Any[92,95,67]]
 
@@ -232,8 +236,8 @@ The function returns a type ``Robustness`` which has fields
 
 The methods ``range()``, ``getindex`` and ``size()`` can be used with the type, see below for examples of these methods
 
-Examples
-^^^^^^^^
+Example
+^^^^^^^
 
 Robustness analysis for "ACONTb" at 10 points 
 """""""""""""""""""""""""""""""""""""""""""""
@@ -373,7 +377,10 @@ Return those metabolites that are **only produced** and **only consumed**::
 
 By default, those metabolites with a positive lower bound are filtered out of the results
 
-**Example** ::
+Example
+^^^^^^^
+
+::
 
 	julia> idx = find_deadend_metabolites(model)
 	5-element Array{Int64,1}:
@@ -394,7 +401,8 @@ specified by ``min_growth`` ::
 
 	essential = find_essential_genes(model, min_growth)
 
-**Example**
+Example
+^^^^^^^
 
 Find those genes that would bring biomass production beneath 0.01::
 
@@ -423,7 +431,9 @@ Return either the indices or names of the exchange reactions in the model::
 
 * ``output`` can be either ``index`` or ``name``
 
-**Example**::
+Example
+^^^^^^^
+::
 
 	julia> find_exchange_reactions(model, "name")
 	20-element Array{String,1}:
@@ -462,7 +472,8 @@ Return the indices of those reactions affected by a specified ``gene``, specifie
 
 * ``output`` can be either ``index`` or ``name``
 
-**Example**
+Example
+^^^^^^^
 
 To find the indices of those reactions affected by gene "s0001"::
 
@@ -474,7 +485,8 @@ To find the indices of those reactions affected by gene "s0001"::
 	 69
 	 70
 
-**Example**
+Example
+^^^^^^^
 
 Find the names of the reactions affected by gene number 3 in model.genes::
 
@@ -500,7 +512,8 @@ as it appears in model.mets, or by its index::
 
 * ``output`` can be either ``index`` or ``name`` or ``formula``
 
-**Example** 
+Example
+^^^^^^^
 
 To find the indices of those reactions where "cit_c" appears::
 
@@ -574,7 +587,7 @@ Return a GeneKnockout type with fields ``growth``, ``flux``, ``disabled`` and ``
 	knockout_genes(model, gene_name)
 
 Example
-"""""""
+^^^^^^^
 
 To view the effect of knocking out genes  ,"b1849" (gene 4), "b3731" (gene 16) and "b0115" (gene 99)::
 
@@ -617,7 +630,7 @@ The reactions can be specified as a single reaction by name or index, or as an a
 
 
 Example
-"""""""
+^^^^^^^
 
 See if "ACONTb" (reaction 5) can be disabled::
 
@@ -637,7 +650,7 @@ Print the formula for a specified reaction specified by name or string::
 	print_reaction_formula(model, reaction)
 
 Example
-"""""""
+^^^^^^^
 
 To print the formula for "ACONTb" (reaction 5)::
 
@@ -659,7 +672,7 @@ Print out the information for a reaction specified by name or string::
 	reaction_info(model, reaction)
 
 Example
-"""""""
+^^^^^^^
 
 View reaction information for "ACONTb" (reaction 5) ::
 

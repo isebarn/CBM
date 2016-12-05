@@ -85,11 +85,20 @@
 <li class="toctree-l1"><a class="reference internal" href="Getting Started.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="IO.html">IO</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Simulations</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#flux-balance-analysis">Flux Balance Analysis</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#flux-variability-analysis">Flux Variability Analysis</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#find-blocked-reactions">Find blocked reactions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#flux-balance-analysis">Flux Balance Analysis</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#flux-variability-analysis">Flux Variability Analysis</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#find-blocked-reactions">Find blocked reactions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Example</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#synthetic-lethal-genes">Synthetic Lethal Genes</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#example">Example</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id5">Example</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#ess-essential-genes"><code class="docutils literal"><span class="pre">ess</span></code>, <strong>essential genes</strong></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cond-ess-conditionally-essential"><code class="docutils literal"><span class="pre">cond_ess</span></code>, <strong>conditionally essential</strong></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#non-ess-non-essential-genes"><code class="docutils literal"><span class="pre">non_ess</span></code>, <strong>non-essential genes</strong></a></li>
@@ -98,24 +107,52 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#robustness-analysis">Robustness Analysis</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#examples">Examples</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#robustness-analysis-for-acontb-at-8-points">Robustness analysis for &#8220;ACONTb&#8221; at 8 points</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">Example</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#robustness-analysis-for-acontb-at-10-points">Robustness analysis for &#8220;ACONTb&#8221; at 10 points</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#robustness-analysis-for-glusy-and-pgm-both-at-20-points">Robustness analysis for &#8220;GLUSy&#8221; and &#8220;PGM&#8221;, both at 20 points</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#robustness-analysis-for-reactions-5-22-and-76">Robustness analysis for reactions 5, 22 and 76</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#find-dead-end-metabolites">Find Dead End Metabolites</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#find-essential-genes">Find Essential Genes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#find-exchange-reactions">Find Exchange Reactions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#find-reactions-from-gene">Find Reactions From Gene</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#find-reactions-from-metabolite">Find Reactions From Metabolite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#find-dead-end-metabolites">Find Dead End Metabolites</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id10">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#find-essential-genes">Find Essential Genes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id12">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#find-exchange-reactions">Find Exchange Reactions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id14">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#find-reactions-from-gene">Find Reactions From Gene</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id16">Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id17">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#find-reactions-from-metabolite">Find Reactions From Metabolite</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id19">Example</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#gene-deletion">Gene Deletion</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#knockout-genes">Knockout Genes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#knockout-reactions">Knockout Reactions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#print-reaction-formula">Print Reaction Formula</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#reaction-info">Reaction Info</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#knockout-genes">Knockout Genes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id22">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#knockout-reactions">Knockout Reactions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id24">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#print-reaction-formula">Print Reaction Formula</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id26">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#reaction-info">Reaction Info</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id28">Example</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="Modification.html">Modification</a></li>
@@ -206,7 +243,8 @@
 <li><code class="docutils literal"><span class="pre">direction</span></code> may be either <code class="docutils literal"><span class="pre">&quot;max&quot;</span></code> or <code class="docutils literal"><span class="pre">&quot;min&quot;</span></code></li>
 <li><code class="docutils literal"><span class="pre">objective</span></code> may be either an <strong>integer index</strong> or <strong>reaction name</strong> as it appears in <code class="docutils literal"><span class="pre">model.rxns</span></code></li>
 </ul>
-<p><strong>Example</strong></p>
+<div class="section" id="example">
+<h3>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h3>
 <p>To maximize the default objective function:</p>
 <div class="highlight-julia"><div class="highlight"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">fba</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
 <span class="n">FBAsolution</span><span class="p">:</span>
@@ -261,6 +299,7 @@
 <li><code class="docutils literal"><span class="pre">sol.info</span></code> details solver information</li>
 </ul>
 </div>
+</div>
 <div class="section" id="flux-variability-analysis">
 <span id="fva"></span><h2>Flux Variability Analysis<a class="headerlink" href="#flux-variability-analysis" title="Permalink to this headline">¶</a></h2>
 <p>Returns the <strong>minimum</strong> and <strong>maximum</strong> flux of every reaction in the model</p>
@@ -272,7 +311,8 @@
 <li><code class="docutils literal"><span class="pre">optPercentage</span></code>: Fix the lower bound of the biomass reaction (or objective reaction) to a fraction of its maximum possible value.</li>
 <li><code class="docutils literal"><span class="pre">flux_matrix</span></code>: In addition to <strong>minimum</strong> and <strong>maximum</strong> fluxes, return the entire solution flux for every reaction.</li>
 </ul>
-<p><strong>Example</strong></p>
+<div class="section" id="id1">
+<h3>Example<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <p>To calculate the minimum and maximum flux values of <strong>every reaction</strong> with biomass fixed
 at 50% of its maximum value:</p>
 <div class="highlight-julia"><div class="highlight"><pre><span></span><span class="n">minFlux</span><span class="p">,</span> <span class="n">maxFlux</span> <span class="o">=</span> <span class="n">fva</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
@@ -283,14 +323,16 @@ at 50% of its maximum value:</p>
 </pre></div>
 </div>
 </div>
+</div>
 <div class="section" id="find-blocked-reactions">
-<span id="id1"></span><h2>Find blocked reactions<a class="headerlink" href="#find-blocked-reactions" title="Permalink to this headline">¶</a></h2>
+<span id="id2"></span><h2>Find blocked reactions<a class="headerlink" href="#find-blocked-reactions" title="Permalink to this headline">¶</a></h2>
 <p>Locate every reaction that is constrianed to <strong>zero flux</strong> in every case:</p>
 <div class="highlight-julia"><div class="highlight"><pre><span></span><span class="n">blocked_reactions</span> <span class="o">=</span> <span class="p">(</span><span class="n">model</span><span class="p">::</span><span class="n">Model</span><span class="p">,</span> <span class="p">[</span><span class="n">tolerance</span><span class="p">::</span><span class="n">Number</span> <span class="o">=</span> <span class="mf">1e-10</span><span class="p">])</span>
 </pre></div>
 </div>
 <p>Where tolerance represents how close to absolute 0.0 the reaction flux must lie</p>
-<p><strong>Example</strong></p>
+<div class="section" id="id3">
+<h3>Example<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <p>For ecoli core:</p>
 <div class="highlight-julia"><div class="highlight"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">find_blocked_reactions</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
 <span class="mi">8</span><span class="o">-</span><span class="n">element</span> <span class="n">Array</span><span class="p">{</span><span class="kt">Any</span><span class="p">,</span><span class="mi">1</span><span class="p">}:</span>
@@ -305,8 +347,9 @@ at 50% of its maximum value:</p>
 </pre></div>
 </div>
 </div>
+</div>
 <div class="section" id="synthetic-lethal-genes">
-<span id="id2"></span><h2>Synthetic Lethal Genes<a class="headerlink" href="#synthetic-lethal-genes" title="Permalink to this headline">¶</a></h2>
+<span id="id4"></span><h2>Synthetic Lethal Genes<a class="headerlink" href="#synthetic-lethal-genes" title="Permalink to this headline">¶</a></h2>
 <p>Check the model for essential genes, conditionally essential genes and non-essential genes</p>
 <p>Returns a <code class="docutils literal"><span class="pre">SLG</span></code> type, which contains the fields <code class="docutils literal"><span class="pre">ess</span></code>, <code class="docutils literal"><span class="pre">cond_ess</span></code> and <code class="docutils literal"><span class="pre">non_ess</span></code>,:</p>
 <div class="highlight-julia"><div class="highlight"><pre><span></span><span class="n">synthetic_lethal_genes</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">cutoff</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">num_runs</span> <span class="o">=</span> <span class="mi">100</span><span class="p">)</span>
@@ -314,8 +357,8 @@ at 50% of its maximum value:</p>
 </div>
 <p>where <code class="docutils literal"><span class="pre">cutoff</span></code> represents the minimum biomass flux as a fraction of the wild-type flux.</p>
 <p><code class="docutils literal"><span class="pre">num_runs</span></code> indicates how many times the algorithm runs, higher number gives better results, but takes longer.</p>
-<div class="section" id="example">
-<h3>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id5">
+<h3>Example<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <p>To find essentiality with biomass fixed at <code class="docutils literal"><span class="pre">0.1</span></code> in 200 runs:</p>
 <div class="highlight-julia"><div class="highlight"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">slg</span> <span class="o">=</span> <span class="n">synthetic_lethal_genes</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
 <span class="n">run</span> <span class="mi">200</span> <span class="n">of</span> <span class="mi">200</span> <span class="n">Number</span> <span class="n">of</span> <span class="n">conditionally</span> <span class="n">essential</span> <span class="n">genes</span> <span class="n">found</span><span class="p">:</span> <span class="mi">115</span>
@@ -334,7 +377,8 @@ at 50% of its maximum value:</p>
 <div class="section" id="cond-ess-conditionally-essential">
 <h4><code class="docutils literal"><span class="pre">cond_ess</span></code>, <strong>conditionally essential</strong><a class="headerlink" href="#cond-ess-conditionally-essential" title="Permalink to this headline">¶</a></h4>
 <p>Those genes, that if disabled along with some other genes will make the biomass production ratio to the wild type drop below 10%. The field slg.cond_ess is a <code class="docutils literal"><span class="pre">Dict()</span></code> containing the conditionally-essential genes and <strong>all</strong> the gene-combinations that were checked that reduced the biomass below 10%.
-Example entry in this dictionary may be</p>
+Example
+^^^^^^^ entry in this dictionary may be</p>
 <div class="highlight-julia"><div class="highlight"><pre><span></span><span class="mi">90</span>  <span class="o">=&gt;</span> <span class="kt">Any</span><span class="p">[</span><span class="kt">Any</span><span class="p">[</span><span class="mi">89</span><span class="p">,</span><span class="mi">74</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">79</span><span class="p">,</span><span class="mi">67</span><span class="p">],</span> <span class="kt">Any</span><span class="p">[</span><span class="mi">92</span><span class="p">,</span><span class="mi">95</span><span class="p">,</span><span class="mi">67</span><span class="p">]]</span>
 </pre></div>
 </div>
@@ -347,7 +391,7 @@ Example entry in this dictionary may be</p>
 </div>
 </div>
 <div class="section" id="robustness-analysis">
-<span id="id3"></span><h2>Robustness Analysis<a class="headerlink" href="#robustness-analysis" title="Permalink to this headline">¶</a></h2>
+<span id="id6"></span><h2>Robustness Analysis<a class="headerlink" href="#robustness-analysis" title="Permalink to this headline">¶</a></h2>
 <p>Perform a robustness analysis for any number of fixed reactions, specified by indices or reaction names:</p>
 <div class="highlight-julia"><div class="highlight"><pre><span></span><span class="n">solution</span> <span class="o">=</span> <span class="n">robustness_analysis</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">reactions</span><span class="p">,</span> <span class="p">[</span><span class="n">objective</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">pts</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">direction</span> <span class="o">=</span> <span class="s">&quot;max&quot;</span><span class="p">])</span>
 </pre></div>
@@ -365,55 +409,58 @@ Example entry in this dictionary may be</p>
 <li><code class="docutils literal"><span class="pre">ranges</span></code> arrays with the flux value at every point for every checked reaction</li>
 </ul>
 <p>The methods <code class="docutils literal"><span class="pre">range()</span></code>, <code class="docutils literal"><span class="pre">getindex</span></code> and <code class="docutils literal"><span class="pre">size()</span></code> can be used with the type, see below for examples of these methods</p>
-<div class="section" id="examples">
-<h3>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="robustness-analysis-for-acontb-at-8-points">
-<h4>Robustness analysis for &#8220;ACONTb&#8221; at 8 points<a class="headerlink" href="#robustness-analysis-for-acontb-at-8-points" title="Permalink to this headline">¶</a></h4>
-<p>To see how the biomass of <strong>e_coli_core</strong> behaves if the flow of <code class="docutils literal"><span class="pre">&quot;ACONTb&quot;</span></code> is fixed at 8 different points between its minimum and maximum:</p>
-<div class="highlight-julia"><div class="highlight"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">robust_sol</span> <span class="o">=</span> <span class="n">robustness_analysis</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="p">[</span><span class="s">&quot;ACONTb&quot;</span><span class="p">],</span> <span class="s">&quot;BIOMASS_Ecoli_core_w_GAM&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">8</span><span class="p">])</span>
+<div class="section" id="id7">
+<h3>Example<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="robustness-analysis-for-acontb-at-10-points">
+<h4>Robustness analysis for &#8220;ACONTb&#8221; at 10 points<a class="headerlink" href="#robustness-analysis-for-acontb-at-10-points" title="Permalink to this headline">¶</a></h4>
+<p>To see how the biomass of <strong>e_coli_core</strong> behaves if the flow of <code class="docutils literal"><span class="pre">&quot;ACONTb&quot;</span></code> is fixed at 10 different points between its minimum and maximum:</p>
+<div class="highlight-julia"><div class="highlight"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">robust_sol</span> <span class="o">=</span> <span class="n">robustness_analysis</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="p">[</span><span class="s">&quot;ACONTb&quot;</span><span class="p">],</span> <span class="s">&quot;BIOMASS_Ecoli_core_w_GAM&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">10</span><span class="p">])</span>
 <span class="n">Robustness</span> <span class="n">Analysis</span>
-                      <span class="n">result</span> <span class="p">:</span>      <span class="p">(</span><span class="mi">8</span><span class="p">,)</span> <span class="n">Array</span>
+                      <span class="n">result</span> <span class="p">:</span>     <span class="p">(</span><span class="mi">10</span><span class="p">,)</span> <span class="n">Array</span>
                       <span class="n">ranges</span> <span class="p">:</span>
                               <span class="n">reaction</span> <span class="p">:</span>          <span class="n">range</span><span class="p">:</span>
-                                     <span class="mi">5</span> <span class="p">:</span>     <span class="p">(</span><span class="o">-</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">20.0</span><span class="p">)</span>
+                                     <span class="mi">5</span> <span class="p">:</span>      <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">20.0</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>We see that <code class="docutils literal"><span class="pre">&quot;ACONTb&quot;</span></code> (reaction number 5) has a minimum flux of <code class="docutils literal"><span class="pre">0.0</span></code>, and maximum flux of <code class="docutils literal"><span class="pre">20.0</span></code>.</p>
 <p><code class="docutils literal"><span class="pre">result</span></code>:  To view the objective flux values type <code class="docutils literal"><span class="pre">robust_sol.result</span></code> or <code class="docutils literal"><span class="pre">robust_sol[:]</span></code>:</p>
 <div class="highlight-julia"><div class="highlight"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">robust_sol</span><span class="o">.</span><span class="n">result</span>
-<span class="mi">8</span><span class="o">-</span><span class="n">element</span> <span class="n">Array</span><span class="p">{</span><span class="kt">Float64</span><span class="p">,</span><span class="mi">1</span><span class="p">}:</span>
-  <span class="mf">6.65799e-27</span>
-  <span class="mf">0.850845</span>
-  <span class="mf">0.871775</span>
-  <span class="mf">0.809412</span>
-  <span class="mf">0.607059</span>
-  <span class="mf">0.404706</span>
-  <span class="mf">0.202353</span>
- <span class="o">-</span><span class="mf">1.52026e-16</span>
+<span class="mi">10</span><span class="o">-</span><span class="n">element</span> <span class="n">Array</span><span class="p">{</span><span class="kt">Float64</span><span class="p">,</span><span class="mi">1</span><span class="p">}:</span>
+ <span class="mf">0.0</span>
+ <span class="mf">0.840743</span>
+ <span class="mf">0.862473</span>
+ <span class="mf">0.87021</span>
+ <span class="mf">0.786928</span>
+ <span class="mf">0.629543</span>
+ <span class="mf">0.472157</span>
+ <span class="mf">0.314771</span>
+ <span class="mf">0.157386</span>
+ <span class="mf">0.0</span>
 </pre></div>
 </div>
-<p><code class="docutils literal"><span class="pre">ranges</span></code>: To view the range of flux values <code class="docutils literal"><span class="pre">&quot;ACONTb&quot;</span></code> is fixed at, type <a href="#id4"><span class="problematic" id="id5">``</span></a>robust_sol.ranges:</p>
+<p><code class="docutils literal"><span class="pre">ranges</span></code>: To view the range of flux values <code class="docutils literal"><span class="pre">&quot;ACONTb&quot;</span></code> is fixed at, type <a href="#id8"><span class="problematic" id="id9">``</span></a>robust_sol.ranges:</p>
 <div class="highlight-julia"><div class="highlight"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">robust_sol</span><span class="o">.</span><span class="n">ranges</span>
 <span class="mi">1</span><span class="o">-</span><span class="n">element</span> <span class="n">Array</span><span class="p">{</span><span class="n">Array</span><span class="p">{</span><span class="kt">Float64</span><span class="p">,</span><span class="mi">1</span><span class="p">},</span><span class="mi">1</span><span class="p">}:</span>
- <span class="p">[</span><span class="o">-</span><span class="mf">1.3884e-28</span><span class="p">,</span><span class="mf">2.85714</span><span class="p">,</span><span class="mf">5.71429</span><span class="p">,</span><span class="mf">8.57143</span><span class="p">,</span><span class="mf">11.4286</span><span class="p">,</span><span class="mf">14.2857</span><span class="p">,</span><span class="mf">17.1429</span><span class="p">,</span><span class="mf">20.0</span><span class="p">]</span>
+ <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">2.22222</span><span class="p">,</span><span class="mf">4.44444</span><span class="p">,</span><span class="mf">6.66667</span><span class="p">,</span><span class="mf">8.88889</span><span class="p">,</span><span class="mf">11.1111</span><span class="p">,</span><span class="mf">13.3333</span><span class="p">,</span><span class="mf">15.5556</span><span class="p">,</span><span class="mf">17.7778</span><span class="p">,</span><span class="mf">20.0</span><span class="p">]</span>
 </pre></div>
 </div>
 <p><code class="docutils literal"><span class="pre">range()</span></code>: This method can be used to find where the objective function (the biomass) lies inside a range.
 To see for which points the biomass lies between <code class="docutils literal"><span class="pre">0.3</span></code> and <code class="docutils literal"><span class="pre">0.7</span></code> type:</p>
 <div class="highlight-julia"><div class="highlight"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">range</span><span class="p">(</span><span class="n">robust_sol</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">)</span>
-<span class="mi">2</span><span class="o">-</span><span class="n">element</span> <span class="n">Array</span><span class="p">{</span><span class="n">Tuple</span><span class="p">{</span><span class="kt">Int64</span><span class="p">},</span><span class="mi">1</span><span class="p">}:</span>
- <span class="p">(</span><span class="mi">5</span><span class="p">,)</span>
+<span class="mi">3</span><span class="o">-</span><span class="n">element</span> <span class="n">Array</span><span class="p">{</span><span class="n">Tuple</span><span class="p">{</span><span class="kt">Int64</span><span class="p">},</span><span class="mi">1</span><span class="p">}:</span>
  <span class="p">(</span><span class="mi">6</span><span class="p">,)</span>
+ <span class="p">(</span><span class="mi">7</span><span class="p">,)</span>
+ <span class="p">(</span><span class="mi">8</span><span class="p">,)</span>
 </pre></div>
 </div>
-<p>so when <code class="docutils literal"><span class="pre">&quot;ACONTb&quot;</span></code> is fixed at either 5 or 6, the biomass will have a flux in that range</p>
-<p><code class="docutils literal"><span class="pre">getindex()</span></code>: To view the biomass flux at point 5:</p>
-<div class="highlight-julia"><div class="highlight"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">robust_sol</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span>
-<span class="mf">0.6070588806643656</span>
+<p>so when <code class="docutils literal"><span class="pre">&quot;ACONTb&quot;</span></code> is fixed at either 6, 7 or 8, the biomass will have a flux in that range</p>
+<p><code class="docutils literal"><span class="pre">getindex()</span></code>: To view the biomass flux at point 6:</p>
+<div class="highlight-julia"><div class="highlight"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">robust_sol</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span>
+<span class="mf">0.6295425429111932</span>
 </pre></div>
 </div>
 <p>and to plot (if <code class="docutils literal"><span class="pre">Plots.jl</span></code> is installed):</p>
-<div class="highlight-julia"><div class="highlight"><pre><span></span><span class="n">plots</span><span class="p">(</span><span class="n">robust_sol</span><span class="p">[:])</span>
+<div class="highlight-julia"><div class="highlight"><pre><span></span><span class="n">plot</span><span class="p">(</span><span class="n">robust_sol</span><span class="o">.</span><span class="n">ranges</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">robust_sol</span><span class="p">[:])</span>
 </pre></div>
 </div>
 <div class="figure">
@@ -483,13 +530,6 @@ To see for which points the biomass lies between <code class="docutils literal">
  <span class="mf">0.0</span>
 </pre></div>
 </div>
-<p>To plot the 3D surface for <code class="docutils literal"><span class="pre">&quot;ACONTb&quot;</span></code> and <code class="docutils literal"><span class="pre">&quot;EX_akg_e&quot;</span></code> while <code class="docutils literal"><span class="pre">&quot;PGL&quot;</span></code> is fixed at point <code class="docutils literal"><span class="pre">6</span></code>:</p>
-<div class="highlight-julia"><div class="highlight"><pre><span></span><span class="n">surface</span><span class="p">(</span><span class="n">robust_sol</span><span class="p">[:,:,</span><span class="mi">6</span><span class="p">])</span>
-</pre></div>
-</div>
-<div class="figure">
-<img alt="https://raw.githubusercontent.com/isebarn/CBM/master/docs/_build/html/_static/5_22_76_13.png" src="https://raw.githubusercontent.com/isebarn/CBM/master/docs/_build/html/_static/5_22_76_13.png" />
-</div>
 </div>
 </div>
 </div>
@@ -500,7 +540,8 @@ To see for which points the biomass lies between <code class="docutils literal">
 </pre></div>
 </div>
 <p>By default, those metabolites with a positive lower bound are filtered out of the results</p>
-<p><strong>Example</strong></p>
+<div class="section" id="id10">
+<h3>Example<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-julia"><div class="highlight"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">idx</span> <span class="o">=</span> <span class="n">find_deadend_metabolites</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
 <span class="mi">5</span><span class="o">-</span><span class="n">element</span> <span class="n">Array</span><span class="p">{</span><span class="kt">Int64</span><span class="p">,</span><span class="mi">1</span><span class="p">}:</span>
  <span class="mi">30</span>
@@ -511,14 +552,16 @@ To see for which points the biomass lies between <code class="docutils literal">
 </pre></div>
 </div>
 </div>
+</div>
 <div class="section" id="find-essential-genes">
-<span id="id6"></span><h2>Find Essential Genes<a class="headerlink" href="#find-essential-genes" title="Permalink to this headline">¶</a></h2>
+<span id="id11"></span><h2>Find Essential Genes<a class="headerlink" href="#find-essential-genes" title="Permalink to this headline">¶</a></h2>
 <p>Return a list of those genes, which would, if knocked out, bring the objective flux beneath that
 specified by <code class="docutils literal"><span class="pre">min_growth</span></code></p>
 <div class="highlight-julia"><div class="highlight"><pre><span></span><span class="n">essential</span> <span class="o">=</span> <span class="n">find_essential_genes</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">min_growth</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><strong>Example</strong></p>
+<div class="section" id="id12">
+<h3>Example<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
 <p>Find those genes that would bring biomass production beneath 0.01:</p>
 <div class="highlight-julia"><div class="highlight"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">find_essential_genes</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="mf">0.01</span><span class="p">)</span>
 <span class="mi">2</span><span class="o">-</span><span class="n">element</span> <span class="n">Array</span><span class="p">{</span><span class="n">String</span><span class="p">,</span><span class="mi">1</span><span class="p">}:</span>
@@ -535,8 +578,9 @@ specified by <code class="docutils literal"><span class="pre">min_growth</span><
 </pre></div>
 </div>
 </div>
+</div>
 <div class="section" id="find-exchange-reactions">
-<span id="id7"></span><h2>Find Exchange Reactions<a class="headerlink" href="#find-exchange-reactions" title="Permalink to this headline">¶</a></h2>
+<span id="id13"></span><h2>Find Exchange Reactions<a class="headerlink" href="#find-exchange-reactions" title="Permalink to this headline">¶</a></h2>
 <p>Return either the indices or names of the exchange reactions in the model:</p>
 <div class="highlight-julia"><div class="highlight"><pre><span></span><span class="n">find_exchange_reactions</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="p">[</span><span class="n">output</span> <span class="o">=</span> <span class="s">&quot;index&quot;</span><span class="p">])</span>
 </pre></div>
@@ -544,7 +588,8 @@ specified by <code class="docutils literal"><span class="pre">min_growth</span><
 <ul class="simple">
 <li><code class="docutils literal"><span class="pre">output</span></code> can be either <code class="docutils literal"><span class="pre">index</span></code> or <code class="docutils literal"><span class="pre">name</span></code></li>
 </ul>
-<p><strong>Example</strong>:</p>
+<div class="section" id="id14">
+<h3>Example<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-julia"><div class="highlight"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">find_exchange_reactions</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s">&quot;name&quot;</span><span class="p">)</span>
 <span class="mi">20</span><span class="o">-</span><span class="n">element</span> <span class="n">Array</span><span class="p">{</span><span class="n">String</span><span class="p">,</span><span class="mi">1</span><span class="p">}:</span>
  <span class="s">&quot;EX_ac_e&quot;</span>
@@ -570,8 +615,9 @@ specified by <code class="docutils literal"><span class="pre">min_growth</span><
 </pre></div>
 </div>
 </div>
+</div>
 <div class="section" id="find-reactions-from-gene">
-<span id="id8"></span><h2>Find Reactions From Gene<a class="headerlink" href="#find-reactions-from-gene" title="Permalink to this headline">¶</a></h2>
+<span id="id15"></span><h2>Find Reactions From Gene<a class="headerlink" href="#find-reactions-from-gene" title="Permalink to this headline">¶</a></h2>
 <p>Return the indices of those reactions affected by a specified <code class="docutils literal"><span class="pre">gene</span></code>, specified by name or index, and output can be either &#8220;index&#8221; or &#8220;name&#8221;:</p>
 <div class="highlight-julia"><div class="highlight"><pre><span></span><span class="n">find_reactions_from_gene</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">gene</span><span class="p">,</span> <span class="p">[</span><span class="n">output</span> <span class="o">=</span> <span class="s">&quot;index&quot;</span><span class="p">])</span>
 </pre></div>
@@ -579,7 +625,8 @@ specified by <code class="docutils literal"><span class="pre">min_growth</span><
 <ul class="simple">
 <li><code class="docutils literal"><span class="pre">output</span></code> can be either <code class="docutils literal"><span class="pre">index</span></code> or <code class="docutils literal"><span class="pre">name</span></code></li>
 </ul>
-<p><strong>Example</strong></p>
+<div class="section" id="id16">
+<h3>Example<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
 <p>To find the indices of those reactions affected by gene &#8220;s0001&#8221;:</p>
 <div class="highlight-julia"><div class="highlight"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">find_reactions_from_gene</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s">&quot;s0001&quot;</span><span class="p">,</span> <span class="s">&quot;index&quot;</span><span class="p">)</span>
 <span class="mi">5</span><span class="o">-</span><span class="n">element</span> <span class="n">Array</span><span class="p">{</span><span class="kt">Int64</span><span class="p">,</span><span class="mi">1</span><span class="p">}:</span>
@@ -590,7 +637,9 @@ specified by <code class="docutils literal"><span class="pre">min_growth</span><
  <span class="mi">70</span>
 </pre></div>
 </div>
-<p><strong>Example</strong></p>
+</div>
+<div class="section" id="id17">
+<h3>Example<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
 <p>Find the names of the reactions affected by gene number 3 in model.genes:</p>
 <div class="highlight-julia"><div class="highlight"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">find_reactions_from_gene</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="s">&quot;name&quot;</span><span class="p">)</span>
 <span class="mi">5</span><span class="o">-</span><span class="n">element</span> <span class="n">Array</span><span class="p">{</span><span class="n">String</span><span class="p">,</span><span class="mi">1</span><span class="p">}:</span>
@@ -602,8 +651,9 @@ specified by <code class="docutils literal"><span class="pre">min_growth</span><
 </pre></div>
 </div>
 </div>
+</div>
 <div class="section" id="find-reactions-from-metabolite">
-<span id="id9"></span><h2>Find Reactions From Metabolite<a class="headerlink" href="#find-reactions-from-metabolite" title="Permalink to this headline">¶</a></h2>
+<span id="id18"></span><h2>Find Reactions From Metabolite<a class="headerlink" href="#find-reactions-from-metabolite" title="Permalink to this headline">¶</a></h2>
 <p>Find those reactions a specified metabolite appears in, the metabolite either specified by its name
 as it appears in model.mets, or by its index:</p>
 <div class="highlight-julia"><div class="highlight"><pre><span></span><span class="n">find_reactions_from_metabolite</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">metabolite</span><span class="p">,</span> <span class="p">[</span><span class="n">output</span> <span class="o">=</span> <span class="s">&quot;index&quot;</span><span class="p">])</span>
@@ -612,7 +662,8 @@ as it appears in model.mets, or by its index:</p>
 <ul class="simple">
 <li><code class="docutils literal"><span class="pre">output</span></code> can be either <code class="docutils literal"><span class="pre">index</span></code> or <code class="docutils literal"><span class="pre">name</span></code> or <code class="docutils literal"><span class="pre">formula</span></code></li>
 </ul>
-<p><strong>Example</strong></p>
+<div class="section" id="id19">
+<h3>Example<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
 <p>To find the indices of those reactions where &#8220;cit_c&#8221; appears:</p>
 <div class="highlight-julia"><div class="highlight"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">find_reactions_from_metabolite</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s">&quot;cit_c&quot;</span><span class="p">)</span>
 <span class="mi">2</span><span class="o">-</span><span class="n">element</span> <span class="n">Array</span><span class="p">{</span><span class="kt">Int64</span><span class="p">,</span><span class="mi">1</span><span class="p">}:</span>
@@ -621,8 +672,9 @@ as it appears in model.mets, or by its index:</p>
 </pre></div>
 </div>
 </div>
+</div>
 <div class="section" id="gene-deletion">
-<span id="id10"></span><h2>Gene Deletion<a class="headerlink" href="#gene-deletion" title="Permalink to this headline">¶</a></h2>
+<span id="id20"></span><h2>Gene Deletion<a class="headerlink" href="#gene-deletion" title="Permalink to this headline">¶</a></h2>
 <p>Perform single- or double-gene deletion on the model, or the n-th gene deletion:</p>
 <div class="highlight-julia"><div class="highlight"><pre><span></span><span class="n">gene_deletion</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
 </pre></div>
@@ -674,13 +726,15 @@ as it appears in model.mets, or by its index:</p>
 </ul>
 </div>
 <div class="section" id="knockout-genes">
-<span id="id11"></span><h2>Knockout Genes<a class="headerlink" href="#knockout-genes" title="Permalink to this headline">¶</a></h2>
+<span id="id21"></span><h2>Knockout Genes<a class="headerlink" href="#knockout-genes" title="Permalink to this headline">¶</a></h2>
 <p>Perform fba after knocking out a set of genes, specified either by indices or their names.</p>
 <p>Return a GeneKnockout type with fields <code class="docutils literal"><span class="pre">growth</span></code>, <code class="docutils literal"><span class="pre">flux</span></code>, <code class="docutils literal"><span class="pre">disabled</span></code> and <code class="docutils literal"><span class="pre">affected</span></code>:</p>
 <div class="highlight-julia"><div class="highlight"><pre><span></span><span class="n">knockout_genes</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">gene_index</span><span class="p">)</span>
 <span class="n">knockout_genes</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">gene_name</span><span class="p">)</span>
 </pre></div>
 </div>
+<div class="section" id="id22">
+<h3>Example<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h3>
 <p>To view the effect of knocking out genes  ,&#8221;b1849&#8221; (gene 4), &#8220;b3731&#8221; (gene 16) and &#8220;b0115&#8221; (gene 99):</p>
 <div class="highlight-julia"><div class="highlight"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">knockout_genes</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="p">[</span><span class="s">&quot;b1849&quot;</span><span class="p">,</span> <span class="s">&quot;b3731&quot;</span><span class="p">,</span> <span class="s">&quot;b0115&quot;</span><span class="p">])</span>
 
@@ -704,14 +758,17 @@ as it appears in model.mets, or by its index:</p>
 <li><code class="docutils literal"><span class="pre">affected</span></code> is a <code class="docutils literal"><span class="pre">Dict()</span></code>, where the keys are the gene names and values are arrays of the reactions that are affected but not necessarily knocked out by that gene</li>
 </ul>
 </div>
+</div>
 <div class="section" id="knockout-reactions">
-<span id="id12"></span><h2>Knockout Reactions<a class="headerlink" href="#knockout-reactions" title="Permalink to this headline">¶</a></h2>
+<span id="id23"></span><h2>Knockout Reactions<a class="headerlink" href="#knockout-reactions" title="Permalink to this headline">¶</a></h2>
 <p>An algorithm that attempts to return those genes that can be knocked out to disable a specified set of reactions</p>
 <p>The reactions can be specified as a single reaction by name or index, or as an array of multiple names or indices:</p>
 <div class="highlight-julia"><div class="highlight"><pre><span></span><span class="n">knockout_reactions</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">reaction</span><span class="p">)</span>
 <span class="n">knockout_reactions</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">reactions</span><span class="p">)</span>
 </pre></div>
 </div>
+<div class="section" id="id24">
+<h3>Example<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h3>
 <p>See if &#8220;ACONTb&#8221; (reaction 5) can be disabled:</p>
 <div class="highlight-julia"><div class="highlight"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">knockout_reactions</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
 <span class="mi">1</span><span class="o">-</span><span class="n">element</span> <span class="n">Array</span><span class="p">{</span><span class="n">Array</span><span class="p">,</span><span class="mi">1</span><span class="p">}:</span>
@@ -720,12 +777,15 @@ as it appears in model.mets, or by its index:</p>
 </div>
 <p>So knocking out genes 8 and 7 will disable reaction 5</p>
 </div>
+</div>
 <div class="section" id="print-reaction-formula">
-<span id="id13"></span><h2>Print Reaction Formula<a class="headerlink" href="#print-reaction-formula" title="Permalink to this headline">¶</a></h2>
+<span id="id25"></span><h2>Print Reaction Formula<a class="headerlink" href="#print-reaction-formula" title="Permalink to this headline">¶</a></h2>
 <p>Print the formula for a specified reaction specified by name or string:</p>
 <div class="highlight-julia"><div class="highlight"><pre><span></span><span class="n">print_reaction_formula</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">reaction</span><span class="p">)</span>
 </pre></div>
 </div>
+<div class="section" id="id26">
+<h3>Example<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h3>
 <p>To print the formula for &#8220;ACONTb&#8221; (reaction 5):</p>
 <div class="highlight-julia"><div class="highlight"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">print_reaction_formula</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="s">&quot;ACONTb&quot;</span><span class="p">)</span>
         <span class="mf">1.0</span> <span class="n">acon_C_c</span> <span class="o">+</span> <span class="mf">1.0</span> <span class="n">h2o_c</span>  <span class="o">-&gt;</span> <span class="mf">1.0</span> <span class="n">icit_c</span>
@@ -737,12 +797,15 @@ as it appears in model.mets, or by its index:</p>
 </pre></div>
 </div>
 </div>
+</div>
 <div class="section" id="reaction-info">
-<span id="id14"></span><h2>Reaction Info<a class="headerlink" href="#reaction-info" title="Permalink to this headline">¶</a></h2>
+<span id="id27"></span><h2>Reaction Info<a class="headerlink" href="#reaction-info" title="Permalink to this headline">¶</a></h2>
 <p>Print out the information for a reaction specified by name or string:</p>
 <div class="highlight-julia"><div class="highlight"><pre><span></span><span class="n">reaction_info</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">reaction</span><span class="p">)</span>
 </pre></div>
 </div>
+<div class="section" id="id28">
+<h3>Example<a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h3>
 <p>View reaction information for &#8220;ACONTb&#8221; (reaction 5)</p>
 <div class="highlight-julia"><div class="highlight"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">reaction_info</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s">&quot;ACONTb&quot;</span><span class="p">)</span> <span class="c"># or reaction_info(model, 5)</span>
 
@@ -762,6 +825,7 @@ as it appears in model.mets, or by its index:</p>
 <span class="o">----------------------------------</span>
 <span class="n">b3115</span>  <span class="o">||</span>  <span class="n">b2296</span>  <span class="o">||</span>  <span class="n">b1849</span>
 </pre></div>
+</div>
 </div>
 </div>
 </div>

@@ -16,9 +16,9 @@ A model can be loaded from a *.json*, a *.mat* file or from a table (csv/tsv) us
 	load_matlab(filename; fix = true, model_key = "", x...)
 	load_table(filename, [delimiter = ',', fix = true])
 
-**Note** The parameter ``fix`` is always set to true by default, this runs the method ``fix_model()`` which calls the following methods::
+**Note** The parameter ``fix`` is always set to true by default, this runs the method ``fix_model()`` which calls the following methods
 
-* ``fix_empty_fields() `` which fills up fields that were not in the loaded file
+* ``fix_empty_fields()`` which fills up fields that were not in the loaded file
 * ``fix_extra_dicts()`` fills up extra dictionaries so their length matches 
 * ``fix_gene_rules()`` which tries to find all *flaws* in gene reaction rules
 * ``fix_genes()`` removes genes that dont appear in any gene reaction rule
@@ -137,6 +137,7 @@ With 8 columns, with the column contents as:
 #. reaction gene rules
 #. reaction subsystem
 #. reaction formula
+
 	**Note:** that if the ``<=``, ``=`` and ``=>`` are not wrapped with spacing, they wont be detected, so make sure they have spaces around them.
 
 A line from ecoli_rxns.csv may look like::
@@ -159,7 +160,7 @@ A line from ecoli_mets.csv may look like::
 	coa_c,C21H32N7O16P3S,Coenzyme A
 
 e_coli_genes.csv
-"""""""""""""""
+""""""""""""""""
 
 With 2 columns, with the column contents as:
 
@@ -304,4 +305,92 @@ Separated by commas, ``,``.
 However, if overwriting is desired, do::
 
 	export_table(model, "./ecoli/ecoli"; ',', true)
+
+IO Tools
+--------
+
+CBM has a few tools indented for IO operation for the users convenience.
+
+``load_model()`` 
+================
+
+
+
+``load_model`` is simply a wrapper for ``load_json()`` and ``load_matlab()``.::
+
+	model = load_model(filename [,fix = true])
+
+Example
+"""""""
+
+Load ``e_coli_core`` (which we know is in ``.json``)::
+
+	julia> load_model("/home/david/Julia/Models/e_coli_core")
+	           rxns :     95 Array{String,1}
+	           mets :     72 Array{String,1}
+	          genes :    137 Array{String,1}
+	              S :   6840 SparseMatrixCSC{Float64,Int64}
+	             lb :     95 Array{Float64,1}
+	             ub :     95 Array{Float64,1}
+	              c :     95 Array{Float64,1}
+	              b :     72 Array{Float64,1}
+	         csense :      3 Dict{String,Array{Any,1}}
+	   rxn_gene_mat :  13015 SparseMatrixCSC{Float64,Int64}
+	       rxn_name :     95 Array{String,1}
+	      rxn_rules :     95 Array{String,1}
+	  rxn_subsystem :     95 Array{String,1}
+	      rxn_extra :      3 Dict{String,Array{Any,1}}
+	    met_formula :     72 Array{String,1}
+	       met_name :     72 Array{String,1}
+	      met_extra :      2 Dict{String,Array{Any,1}}
+	      gene_name :    137 Array{String,1}
+	     gene_extra :      1 Dict{String,Array{Any,1}}
+	    description :     11     String
+
+``open_mat_file``
+=================
+
+Return a dictionary with the variables from a ``.mat`` file::
+
+	dict = open_mat_file(filename)
+
+Example
+"""""""
+
+Lets open up the ``.mat`` file ``variables.mat`` which we know contains the variables ``var_a``
+and ``var_b``
+
+	julia> open_mat_file("/home/david/variables.mat")
+	Dict{String,Any} with 2 entries:
+	  "var_a" => "[1,2,3,4]"
+	  "var_b" => "hello"
+
+``save_mat_file``
+=================
+
+Saves variables to a ``.mat`` file::
+
+	save_mat_file(filename; [args...])
+
+Using this is not entirely intuitive so I will provide an example
+
+Example
+"""""""
+
+Lets create the variables ``a`` and ``b``::
+
+	julia> a = [1,2,3,4]
+	4-element Array{Int64,1}:
+	 1
+	 2
+	 3
+	 4
+
+	julia> b = "hello"
+	"hello"
+
+And then we save them to the file ``/home/david/variables.mat`` as ``var_a`` and ``var_b``::
+
+	julia> save_mat_file("/home/david/variables.mat", var_a = a, var_b = b)
+
 
