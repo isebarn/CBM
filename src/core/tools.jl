@@ -847,8 +847,8 @@ function save_mat_file(filename::String; args...)
     varvals = [] 
 
     for (nm, val) in args 
-        push!(varnames, string(nm))       
-        push!(varvals, string(val))       
+        push!(varnames, string(nm))
+        push!(varvals, val)
     end
 
 

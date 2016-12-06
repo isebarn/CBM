@@ -93,20 +93,6 @@ function test_change_objective(model)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 function test_change_reaction_bounds(model)
 	play_model = deepcopy(model)
 	safe_model = deepcopy(model)
@@ -405,8 +391,8 @@ end
 function test_gene_deletion(model)
     single_gene = open_mat_file(Pkg.dir() * "/CBM/test/test_vars/sngl_gene.mat")
 
-    matsol = eval(parse(single_gene["sol"]))
-    genes = eval(parse(single_gene["genelist"]))
+    matsol = single_gene["sol"]
+    genes = single_gene["genelist"]
 
 
     sol = gene_deletion(model,1).g_f 
@@ -448,4 +434,15 @@ function test_gene_deletion(model)
     double_gene = open_mat_file(Pkg.dir() * "/CBM/test/test_vars/dbl_gene.mat")["ss"]
 
     @test !any(abs(double_gene - double_matrix) .> 1e-3)
+end 
+function test_robustness_analysis(model)
+    matsol = open_mat_file(Pkg.dir() * "/CBM/test/test_vars/robustness.mat")
+    single = matsol["single"]
+    double = matsol["double"]
+
+    sol = robustness_analysis(model, [8]).result 
+    @test_approx_eq sol single
+
+    sol = robustness_analysis(model, [5,8]).result'
+    @test_approx_eq sol double
 end 
