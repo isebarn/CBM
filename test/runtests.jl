@@ -402,3 +402,50 @@ function test_solvers(model)
         test_lp(setup_clp(model), model)
     end 
 end
+function test_gene_deletion(model)
+    single_gene = open_mat_file(Pkg.dir() * "/CBM/test/test_vars/sngl_gene.mat")
+
+    matsol = eval(parse(single_gene["sol"]))
+    genes = eval(parse(single_gene["genelist"]))
+
+
+    sol = gene_deletion(model,1).g_f 
+
+    @test sum(matsol) - sum(collect(values(sol))) < 1e-6
+
+    solution_order = [] 
+
+    for gene in genes 
+        push!(solution_order, sol[[gene]])
+    end 
+
+    @test !any(abs(matsol - solution_order) .> 1e-3)
+
+    double_matrix = zeros(Float64, length(genes), length(genes))
+
+
+    sol = gene_deletion(model,2).g_f
+
+    for i in 1:length(genes)
+        for j in i+1:length(genes)
+            if haskey(sol, [genes[i], genes[j]])
+                double_matrix[i,j] = sol[[genes[i], genes[j]]]
+            elseif haskey(sol, [genes[j], genes[i]])
+                double_matrix[i,j] = sol[[genes[j], genes[i]]]
+            else 
+                warn("something wrong")
+                break 
+            end 
+        end 
+    end 
+
+    double_matrix += double_matrix' 
+
+    for i in 1:length(genes)
+        double_matrix[i,i] = sol[[genes[i]]]
+    end 
+
+    double_gene = open_mat_file(Pkg.dir() * "/CBM/test/test_vars/dbl_gene.mat")["ss"]
+
+    @test !any(abs(double_gene - double_matrix) .> 1e-3)
+end 
