@@ -355,8 +355,15 @@ function gene_deletion(model::Model, n::Number)
         # 10% of total
         # 6: all the solver stuff
         # calculate fba for every combination of disabled reactions
-        rxn_flow_dict = analyze_list_of_blocked_reaction_lp(lp, unique_rxns)
-        
+        tic()
+        if length(procs()) != 1
+            println(123)
+            rxn_flow_dict = PCBM.pgd(model, unique_rxns)
+            rxn_flow_dict = merge(rxn_flow_dict...)
+        else 
+            rxn_flow_dict = analyze_list_of_blocked_reaction_lp(lp, unique_rxns)
+        end 
+        toc()
         # 7: Unioning dictionaries
         # find the union of the rxn_combo_dict and former loops
         intersects = intersect(collect(keys(rxn_combo_dict)), collect(keys(r_g_dict)))

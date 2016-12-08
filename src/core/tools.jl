@@ -254,7 +254,7 @@ end
 # sorts the blocked reactions lexiographically
 # to minimize solver calls
 function analyze_list_of_blocked_reaction_lp(lp, rxns)
-    progress_meter = ProgressMeter.Progress(length(rxns), 0.5, "\n\u1b[1FFVA:", 50)
+    #progress_meter = ProgressMeter.Progress(length(rxns), 0.5, "\n\u1b[1FFVA:", 50)
     combos = sort(rxns, lt=lexless)
     num_combos = length(combos)
 
@@ -285,7 +285,7 @@ function analyze_list_of_blocked_reaction_lp(lp, rxns)
         end 
         
         flow[i] = answer_lp(lp)
-        next!(progress_meter)
+        #next!(progress_meter)
     end
 
     for e in disable 

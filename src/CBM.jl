@@ -138,8 +138,6 @@ include("core/fba.jl")
     export solver_status
 
 include("core/simulations.jl")
-    export fast_cc
-    export fast_core
     export find_blocked_reactions
     export synthetic_lethal_genes
     export robustness_analysis
@@ -155,6 +153,10 @@ include("core/simulations.jl")
     export print_medium
     export print_reaction_formula
     export reaction_info
+
+include("core/reconstruction.jl")
+    export fast_cc
+    export fast_core
 
 # must bring PCBM into the scope of CBM
 include("core/multicore.jl")
@@ -182,25 +184,23 @@ include("core/modification.jl")
     export remove_reaction
 
 include("core/tests.jl")
-
-function test_module()
-    model = load_json(Pkg.dir() * "/Cobra/Models/e_coli_core.json")
-    lp = setup_lp(model)
-    test_add_reaction(model)
-    test_change_objective(model)
-    test_change_reaction_bounds(model)
-    test_fba(model)
-    test_find_blocked_reactions(model)
-    test_find_deadend_metabolites(model)
-    test_find_exchange_reactions(model)
-    test_find_reactions_from_gene(model)
-    test_find_reactions_from_metabolite(model)
-    test_remove_reaction(model)
-    test_lp(lp, model)
-    test_solvers(model)
-end 
-
-export test_module
+    export test_add_reaction
+    export test_change_objective
+    export test_change_reaction_bounds
+    export test_fba
+    export test_find_blocked_reactions
+    export test_find_deadend_metabolites
+    export test_find_exchange_reactions
+    export test_find_reactions_from_gene
+    export test_find_reactions_from_metabolite
+    export test_fva
+    export test_gene_deletion
+    export test_remove_reaction
+    export test_lp
+    export test_robustness_analysis
+    export test_fast_cc
+    export test_fast_core
+    export test_solvers
 
 # print errrors that arent method refefinition
 outerr = String(readavailable(err_rd))

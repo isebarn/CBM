@@ -1,7 +1,3 @@
-using CBM
-using Base.Test
-
-
 function test_add_reaction(model)
     value1 = 1.31592;
 	value2 = 21.2434;
@@ -91,20 +87,6 @@ function test_change_objective(model)
 	@test_approx_eq sum(safe_model.c) sum(change_objective(model, [5,18], [0.5, 1.0]).c)
 	@test_approx_eq sum(safe_model.c) sum(change_objective(model, [5,18], [0.5, 1.0]).c)	
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 function test_change_reaction_bounds(model)
@@ -209,6 +191,93 @@ function test_find_reactions_from_metabolite(model::Model)
 
 	@test index == value
 end
+function test_fva(model::Model)
+
+    # this is a necessary fix 
+    # the ecoli_core.mat model 
+    # which the /CBM/test/test_vars/fva_test.mat
+    # values test values are calculated
+    # from has these two values swapped 
+    # relative to the e_coli_core.json model 
+    # so we must do that aswell
+    # in addition, the ecoli_core.mat has 
+    # the upper limit for ATPM at 1000 while 
+    # e_coli_core.json has it at 8.39
+    tmp = deepcopy(model)
+    tmp.S.rowval[111] = 42
+    tmp.S.rowval[112] = 44
+    tmp.ub[11] = 1000
+
+    fva_test = open_mat_file(Pkg.dir() * "/CBM/test/test_vars/fva_test.mat")
+
+    minF0 = fva_test["minF0"]
+    maxF0 = fva_test["maxF0"]
+    
+    minF90 = fva_test["minF90"]
+    maxF90 = fva_test["maxF90"]
+    
+    minF100 = fva_test["minF100"]
+    maxF100 = fva_test["maxF100"]
+
+    minF, maxF = fva(tmp, 0)
+    @test_approx_eq minF minF0
+    @test_approx_eq maxF maxF0
+
+    minF, maxF = fva(tmp, 0.9)
+    @test_approx_eq_eps minF minF90 1e-3
+    @test_approx_eq_eps maxF maxF90 1e-3
+
+    minF, maxF = fva(tmp, 1)
+    @test_approx_eq_eps minF minF100 1e-3
+    @test_approx_eq_eps maxF maxF100 1e-3
+end 
+function test_gene_deletion(model)
+    single_gene = open_mat_file(Pkg.dir() * "/CBM/test/test_vars/sngl_gene.mat")
+
+    matsol = single_gene["sol"]
+    genes = single_gene["genelist"]
+
+
+    sol = gene_deletion(model,1).g_f 
+
+    @test sum(matsol) - sum(collect(values(sol))) < 1e-6
+
+    solution_order = [] 
+
+    for gene in genes 
+        push!(solution_order, sol[[gene]])
+    end 
+
+    @test !any(abs(matsol - solution_order) .> 1e-3)
+
+    double_matrix = zeros(Float64, length(genes), length(genes))
+
+
+    sol = gene_deletion(model,2).g_f
+
+    for i in 1:length(genes)
+        for j in i+1:length(genes)
+            if haskey(sol, [genes[i], genes[j]])
+                double_matrix[i,j] = sol[[genes[i], genes[j]]]
+            elseif haskey(sol, [genes[j], genes[i]])
+                double_matrix[i,j] = sol[[genes[j], genes[i]]]
+            else 
+                warn("something wrong")
+                break 
+            end 
+        end 
+    end 
+
+    double_matrix += double_matrix' 
+
+    for i in 1:length(genes)
+        double_matrix[i,i] = sol[[genes[i]]]
+    end 
+
+    double_gene = open_mat_file(Pkg.dir() * "/CBM/test/test_vars/dbl_gene.mat")["ss"]
+
+    @test !any(abs(double_gene - double_matrix) .> 1e-3)
+end 
 function test_remove_reaction(model)
     eps = 1e-2
 
@@ -385,6 +454,34 @@ function test_lp(lp, model)
     @test_approx_eq_eps answer_lp(lp) fba(tmp).obj tol
 end
 
+function test_robustness_analysis(model)
+    matsol = open_mat_file(Pkg.dir() * "/CBM/test/test_vars/robustness.mat")
+    single = matsol["single"]
+    double = matsol["double"]
+
+    sol = robustness_analysis(model, [8]).result 
+    @test_approx_eq sol single
+
+    sol = robustness_analysis(model, [5,8]).result'
+    @test_approx_eq sol double
+end 
+function test_fast_cc()
+    testfile = open_mat_file(Pkg.dir() * "/CBM/test/test_vars/fastcctest.mat")
+    A = testfile["testA"]
+
+    tmp = load_matlab(Pkg.dir() * "/CBM/test/test_vars/consistRecon1.mat")
+
+    @test A == fast_cc(tmp, 1e-3)
+end
+function test_fast_core()
+    testfile = open_mat_file(Pkg.dir() * "/CBM/test/test_vars/fastcoretest.mat")
+    C = testfile["testC"]
+    A = testfile["testA"]
+
+    tmp = load_matlab(Pkg.dir() * "/CBM/test/test_vars/consistRecon1.mat")
+
+    @test A == fast_core(C, tmp, 1e-3)
+end
 function test_solvers(model)
     supported_solvers = ["GLPK", "CPLEX", "Gurobi", "Clp"]
     available_solvers = map(x -> any(x .== readdir(Pkg.dir())), supported_solvers)
