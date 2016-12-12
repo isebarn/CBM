@@ -310,11 +310,13 @@ function gene_deletion(model::Model, n::Number)
             rules = rule_list[rxns_affected[index]]
             convert_rule_to_boolean(combo, rules)
 
+            # TEST speedup big rules 
+            rules = map(x -> length(x) > 1000 ? compressor(x) : x, rules)
+
             converted_rules[index] = rules
         end 
         conv_rule_list = deepcopy(converted_rules)
         converted_rules = vcat(converted_rules...)
-
         
         # 19% of looptime 
         # 3: Evaluating every true/false statement
@@ -322,13 +324,15 @@ function gene_deletion(model::Model, n::Number)
         new_truth_table = Dict(zip(converted_rules, fill(true, length(converted_rules))))
         rules_to_test = setdiff(collect(keys(new_truth_table)), collect(keys(truth_table)))
         truth_table = merge(new_truth_table, truth_table)
+
         for key in rules_to_test
             try 
             truth_table[key] = eval(parse(key))
-        catch 
-            println(key)
-        end 
+            catch 
+                println(key)
+            end 
         end
+
         
         # 31% of looptime
         # 4: Finding disabled reactions and connecting to gene knockouts
@@ -355,15 +359,13 @@ function gene_deletion(model::Model, n::Number)
         # 10% of total
         # 6: all the solver stuff
         # calculate fba for every combination of disabled reactions
-        tic()
         if length(procs()) != 1
-            println(123)
+            println("Multiple cores active. Using parallel...")
             rxn_flow_dict = PCBM.pgd(model, unique_rxns)
             rxn_flow_dict = merge(rxn_flow_dict...)
         else 
             rxn_flow_dict = analyze_list_of_blocked_reaction_lp(lp, unique_rxns)
         end 
-        toc()
         # 7: Unioning dictionaries
         # find the union of the rxn_combo_dict and former loops
         intersects = intersect(collect(keys(rxn_combo_dict)), collect(keys(r_g_dict)))
@@ -393,6 +395,44 @@ function gene_deletion(model::Model, n::Number)
     end
 
     return GeneDeletion(r_g_dict, r_f_dict, c_f_dict)
+end 
+
+function compressor(rule)
+    rule = replace(rule, "( true )", "true")
+    rule = replace(rule, "( false )", "false")
+
+    b = length(rule)
+
+    while b != 0
+        rule = replace(rule, "true && true", "true")
+        a = length(rule)
+        b = a == b ? 0 : a 
+    end 
+
+    b = length(rule)
+    while b != 0
+        rule = replace(rule, "true || true || true", "true || true")
+        a = length(rule)
+        b = a == b ? 0 : a 
+    end 
+
+    b = length(rule)
+    while b != 0
+        rule = replace(rule, "false && true", "false")
+        rule = replace(rule, "true && false", "false")
+        a = length(rule)
+        b = a == b ? 0 : a 
+    end 
+
+    b = length(rule)
+    while b != 0
+        rule = replace(rule, "|| false || false ||", "|| false ||")
+        rule = replace(rule, "true && false", "false")
+        a = length(rule)
+        b = a == b ? 0 : a 
+    end 
+
+    return rule
 end 
 
 # -------------------------------------------------------------------
