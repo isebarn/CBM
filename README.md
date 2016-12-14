@@ -80,6 +80,17 @@ FBAsolution:
    success::  Optimal
       info::  SolverInfo("glpk","GLP_OPT")
 ```
+## Benchmarks 
+
+Running benchmark tests on ``flux variability``, ``single gene deletion`` and ``double gene deletion`` on the °°``iJO1366`` model demonstrates the performance capabilities of ``CBM.jl`` in comparison with ``COBRApy`` and the ``COBRA Toolbox``
+
+|                     Simulation | CBM.jl           | COBRApy      | COBRA Toolbox      | Fast FVA      |
+|-------------------------------|-----------------:|-----------------:|------------------------:|-----------------:|
+| flux variablity analysis |              4.22 |   11.36          |         13.69             |     3.65           |
+| single gene deletion     |              2.14 |              4.33 |                          87 | N/A                | 
+ double gene deletion     |  319              |              365 |     >3600                | N/A                |
+
+
 
 **Note**
 Note: The CBM.jl package is currently under development. Please report all problems to dia2@hi.is.
