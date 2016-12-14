@@ -28,7 +28,7 @@ You can load the example model, ``e_coli_core`` which comes with the package by 
 
 ```julia
 using Cobra
-model = load_json(Pkg.dir() * "/Cobra/Models/e_coli_core.json")
+model = load_model(Pkg.dir() * "/Cobra/Models/e_coli_core.json")
 ```
 
 So your screen should read something like
