@@ -82,7 +82,7 @@ FBAsolution:
 ```
 ## Benchmarks 
 
-Running benchmark tests on ``flux variability``, ``single gene deletion`` and ``double gene deletion`` on the °°``iJO1366`` model demonstrates the performance capabilities of ``CBM.jl`` in comparison with ``COBRApy`` and the ``COBRA Toolbox``
+Running benchmark tests on ``flux variability``, ``single gene deletion`` and ``double gene deletion`` on the ``iJO1366`` model demonstrates the performance capabilities of ``CBM.jl`` in comparison with ``COBRApy`` and the ``COBRA Toolbox``
 
 |                     Simulation | CBM.jl           | COBRApy      | COBRA Toolbox      | Fast FVA      |
 |-------------------------------|-----------------:|-----------------:|------------------------:|-----------------:|
