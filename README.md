@@ -44,7 +44,7 @@ So your screen should read something like
 |__/                   |  x86_64-linux-gnu
 
 julia> using CBM
-julia> model = load_json(Pkg.dir() * "/CBM/Models/e_coli_core.json")
+julia> model = load_model(Pkg.dir() * "/CBM/Models/e_coli_core.json")
 
            rxns :     95 Array{String,1}
            mets :     72 Array{String,1}
