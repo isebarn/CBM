@@ -1,4 +1,4 @@
-# CBM.jl
+﻿# CBM.jl
 
 [![Build Status](https://travis-ci.org/isebarn/CBM.svg?branch=master)](https://travis-ci.org/isebarn/CBM)
 
@@ -27,8 +27,8 @@ In addition to Julia, you will also want to install a optimization solver. Free 
 You can load the example model, ``e_coli_core`` which comes with the package by calling
 
 ```julia
-using Cobra
-model = load_model(Pkg.dir() * "/Cobra/Models/e_coli_core.json")
+using CBM
+model = load_model(Pkg.dir() * "/CBM/Models/e_coli_core.json")
 ```
 
 So your screen should read something like
